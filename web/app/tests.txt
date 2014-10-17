@@ -1,0 +1,42 @@
+Startup
+
+1) git pull
+2) mysql -u root < design/latest.sql
+3) artisan du
+4) artisan db:seed
+
+USER TESTS
+
+  REGISTER
+
+    register a user
+      - make sure validation email receive
+      - make sure can validate account
+      - make sure can login
+
+
+MODULE TESTS
+
+  MEDICAL
+
+    list
+      - make sure can list all
+
+    create
+      - make sure deducted
+      - check amount validation
+
+    edit amount
+      - make sure deducted is updated
+
+    cancel
+      - make sure deducted is refunded
+
+    create -> reject
+      - make sure amount is refunded
+
+    create -> approve
+      - make sure amount is deducted
+
+    edit staff entitlement override
+    edit medical benefits type entitlement override

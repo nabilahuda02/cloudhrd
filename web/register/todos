@@ -1,0 +1,5 @@
+config
+    - with coupon
+    - wihtout coupon
+    - per user
+    - minimum users
