@@ -6,7 +6,7 @@
         <div class="page-header">
             @include('medicals.menu')
             @if(isset($entitlement_user))
-                <h3>Manage {{Helper::userName($entitlement_user->id)}}'s Entitlements</h3>
+                <h3>Manage {{User::fullName($entitlement_user->id)}}'s Entitlements</h3>
             @else
                 <h3>Manage Entitlements</h3>
             @endif

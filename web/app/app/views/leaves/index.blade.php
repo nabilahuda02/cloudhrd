@@ -1,7 +1,6 @@
 @extends('layouts.module')
 @section('content')
 <div class="col-md-10 col-sm-8">
-  
   @include('html.notifications')
 	<div class="col-md-12">
 		<div class="page-header">
@@ -9,7 +8,7 @@
 			<h3>Leaves</h3>
 		</div>
     	@include('leaves.entitlementtable')
-		{{ Asset::push('js','app/tables.js')}}
+		
 		<table data-path="leaves" class="DT table table-striped table-bordered">
 			<thead>
 				<tr>

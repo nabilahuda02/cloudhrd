@@ -1,9 +1,7 @@
 @extends('layouts.module')
 @section('content')
 <div class="col-md-10 col-sm-8">
-	
 	@include('html.notifications')
-	{{ Asset::push('js','app/tables.js')}}
 	<div class="col-md-12">
 		<div class="page-header">
 			@include('medicals.menu')

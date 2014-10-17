@@ -25,7 +25,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     ],
 	];
 
-	protected $fillable = ['email', 'verified', 'password', 'unit_id', 'is_admin', 'email_password'];
+	protected $fillable = ['email', 'verified', 'password', 'unit_id', 'is_admin'];
 
 	/**
 	 * The database table used by the model.
@@ -215,7 +215,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
   public static function fullName($uid) {
     $user = static::findOrFail($uid);
-    return $user->profile->first_name . ' ' . $user->profile->last_name;
+    return ucwords($user->profile->first_name . (($user->profile->last_name) ? ' ' . $user->profile->last_name : ''));
   }
 
   public function __construct(array $attributes = array())

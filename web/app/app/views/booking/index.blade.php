@@ -11,7 +11,7 @@
 			<h4>Room Booking Histories</h4>
 			<div class="clearfix"></div>
 		</div>
-		{{ Asset::push('js','app/tables.js')}}
+		
 		<table data-path="room-bookings" class="DT table table-vertical-center table-striped margin-none">
 			<thead>
 				<tr>

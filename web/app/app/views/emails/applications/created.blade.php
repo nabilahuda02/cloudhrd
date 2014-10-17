@@ -1,7 +1,7 @@
 @extends('emails.layout')
 @section('content')
 
-<h2>Hi {{ Helper::userName($recepient->id) }},</h2>
+<h2>Hi {{ User::fullName($recepient->id) }},</h2>
 <br>
 <p class="lead">A new application was created that needs your attention:</p>
 

@@ -11,7 +11,6 @@
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th class="text-center">#</th>
           <th class="text-center">Module Name</th>
           <th class="text-center">Module Verifier</th>
           <th class="text-center">Module Approver</th>
@@ -23,14 +22,13 @@
         @if(count($modules) > 0)
         @foreach($modules as $i => $module)
           <tr>
-            <td class="text-center">{{ $i + 1 }}</td>
             <td class="text-center">{{ $module->name }}</td>
             <td class="text-center">{{ $module->verifierName() }}</td>
             <td class="text-center">{{ $module->approverName() }}</td>
             <td class="text-center">
               <ul>
               @foreach($module->users as $usr)
-                <li>{{ Helper::userName($usr->id) }}</li>
+                <li>{{ User::fullName($usr->id) }}</li>
               @endforeach
               </ul>
             </td>

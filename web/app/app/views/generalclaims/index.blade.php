@@ -1,20 +1,4 @@
 @extends('layouts.module')
-@section('style')
-<style>
-	.approved{
-		border-left:5px solid #8bbf61;
-	}
-	.rejected{
-		border-left:5px solid #bd362f;
-	}
-	.pending{
-		border-left:5px solid #ececec;
-	}
-	.canceled{
-			border-left:5px solid #424242;
-	}
-</style>
-@stop
 @section('content')
 <div class="col-md-10 col-sm-8">
 	@include('html.notifications')
@@ -22,8 +6,7 @@
 		<div class="page-header">
 			@include('generalclaims.menu')
 			<h3>General Claims</h3>
-		</div>
-		{{ Asset::push('js','app/tables.js')}}
+		
 		<table data-path="general-claims" class="DT table table-bordered table-striped">
 			<thead>
 				<tr>
@@ -66,6 +49,4 @@
 	</div>
 	@endif
 </div>
-@stop
-@section('script')
 @stop

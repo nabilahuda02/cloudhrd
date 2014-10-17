@@ -1,7 +1,7 @@
 <div data-id="{{$comment->id}}" class="comment-wrapper">
   <dt>
     <img class="user_avatar" src="{{ $comment->user->avatar() }}" alt="">
-    <span class="text-primary">{{Helper::userName($comment->user->id)}}</span> wrote:
+    <span class="text-primary">{{User::fullName($comment->user->id)}}</span> wrote:
   </dt>
   <dd>
     {{$comment->comment}}

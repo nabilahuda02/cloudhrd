@@ -23,7 +23,7 @@
                     <td class="text-center">{{ $unit->name }}</td>
                     <td class="text-center">{{ $unit->getParentName() }}</td>
                     <td class="text-center">
-                        {{ Helper::userName($unit->user->id) }}
+                        {{ User::fullName($unit->user->id) }}
                     </td>
                     <td class="text-center">
                         <div class="btn-group btn-group-xs ">

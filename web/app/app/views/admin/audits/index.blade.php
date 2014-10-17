@@ -1,14 +1,11 @@
 @extends('layouts.module')
 @section('content')
 <div class="col-md-10 col-sm-8">
-  
   @include('html.notifications')
-
   <div class="col-md-12">
     <div class="page-header">
       <h3>Audits</h3>
     </div>
-    {{ Asset::push('js','app/tables.js')}}
     <table data-path="audits" class="DT table table-bordered table-striped">
       <thead>
         <tr>
@@ -27,7 +24,6 @@
   </div>
 </div>
 @stop
-
 @section('script')
 <script>
     $('table.DT').on( 'click', '.viewauditdetails', function () {

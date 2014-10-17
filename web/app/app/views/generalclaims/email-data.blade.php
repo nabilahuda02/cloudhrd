@@ -2,7 +2,7 @@
     <dt>Reference</dt>
     <dd>{{ $item->ref }}</dd>
     <dt>User</dt>
-    <dd>{{ Helper::userName($item->user_id) }}</dd>
+    <dd>{{ User::fullName($item->user_id) }}</dd>
     <dt>Title</dt>
     <dd>{{ $item->title }}</dd>
     <dt>Entries</dt>

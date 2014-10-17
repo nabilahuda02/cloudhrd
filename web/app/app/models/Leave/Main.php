@@ -349,7 +349,7 @@ class Leave__Main extends \Eloquent {
 
       Mail::send('emails.applications.created', compact('item', 'type', 'recepient', 'actions'), function($message) use ($item, $recepient)
       {
-        $message->to($recepient->email, Helper::userName($recepient->id))->subject('Leave Awaiting Verification: ' . $item->ref);
+        $message->to($recepient->email, User::fullName($recepient->id))->subject('Leave Awaiting Verification: ' . $item->ref);
       });
     }
   }
@@ -394,7 +394,7 @@ class Leave__Main extends \Eloquent {
 
       Mail::send('emails.applications.verified', compact('item', 'type', 'recepient', 'actions'), function($message) use ($item, $recepient)
       {
-        $message->to($recepient->email, Helper::userName($recepient->id))->subject('Leave Awaiting Approval: ' . $item->ref);
+        $message->to($recepient->email, User::fullName($recepient->id))->subject('Leave Awaiting Approval: ' . $item->ref);
       });
     }
   }
@@ -406,7 +406,7 @@ class Leave__Main extends \Eloquent {
 
     Mail::send('emails.applications.approved', compact('item', 'type'), function($message) use ($item)
     {
-      $message->to($item->user->email, Helper::userName($item->user_id))->subject('Leave Approved: ' . $item->ref);
+      $message->to($item->user->email, User::fullName($item->user_id))->subject('Leave Approved: ' . $item->ref);
     });
   }
 
@@ -417,7 +417,7 @@ class Leave__Main extends \Eloquent {
 
     Mail::send('emails.applications.rejected', compact('item', 'type'), function($message) use ($item)
     {
-      $message->to($item->user->email, Helper::userName($item->user_id))->subject('Leave Rejected: ' . $item->ref);
+      $message->to($item->user->email, User::fullName($item->user_id))->subject('Leave Rejected: ' . $item->ref);
     });
   }
 

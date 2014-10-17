@@ -25,7 +25,8 @@
                 ->id('newLoginFormPass')
                 ->required() }}
         </div>
-        <button type="submit" class="btn btn-blue btn-block">Login</button>
+        <hr>
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
         {{Former::close()}}
     </section>
 @stop

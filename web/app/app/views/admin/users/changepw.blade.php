@@ -12,7 +12,7 @@
             -> rules(['name' => 'required'])
             -> method('POST') }}
             {{ Former::text('User')
-            ->value(Helper::userName($currentuser->id))
+            ->value(User::fullName($currentuser->id))
             ->disabled()
             ->readonly() }}
             {{ Former::password('password')

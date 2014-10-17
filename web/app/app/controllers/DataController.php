@@ -236,7 +236,7 @@ class DataController extends BaseController
       -> join('user_profiles', 'user_profiles.user_id', '=', 'users.id')
       -> orderBy('audits.updated_at', 'desc');
     return Datatables::of($audits)
-      ->add_column('action', "<button class='btn btn-primary viewauditdetails' data-auditdata='{{json_encode(\$data)}}'><i class='fa fa-eye'></i></button>")
+      ->add_column('action', "<button class='btn btn-primary btn-xs viewauditdetails' data-auditdata='{{json_encode(\$data)}}'><i class='fa fa-eye'></i></button>")
       ->remove_column('id')
       ->remove_column('data')
       ->remove_column('auditable_type')

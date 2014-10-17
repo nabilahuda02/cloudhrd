@@ -53,11 +53,6 @@ class AuthController extends BaseController
 
     $user = new User();
     $user->email = $data['email'];
-
-    // if(trim($data['email_password'])) {
-    //   $user->email_password = trim($data['email_password']);
-    // }
-
     $user->password = Hash::make($data['password']);
     $user->unit_id = 1;
     $user->verify_token = md5(Hash::make(time() . $user->password));

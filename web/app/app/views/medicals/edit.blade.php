@@ -27,7 +27,7 @@
 
       {{ Former::text('user_id')
         -> label('Employee')
-        -> value(Helper::userName($medical->user_id))
+        -> value(User::fullName($medical->user_id))
         -> readonly() }}
 
       {{ Former::text('status_name')

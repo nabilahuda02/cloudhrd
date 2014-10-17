@@ -66,5 +66,3 @@
 		</li>
 	</ul>
 </div>
-{{Asset::push('js','app/jquery.avatar.js')}}
-{{Asset::push('js','app/eventcalendar.js')}}

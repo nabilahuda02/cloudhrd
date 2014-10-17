@@ -3,7 +3,7 @@
   <dd>{{ $item->ref }}</dd>
 
   <dt>User</dt>
-  <dd>{{ Helper::userName($item->user_id) }}</dd>
+  <dd>{{ User::fullName($item->user_id) }}</dd>
 
   <dt>Type</dt>
   <dd>{{ $item->type->name }}</dd>

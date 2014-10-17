@@ -26,7 +26,7 @@
 
         {{ Former::text('user_id')
           -> label('Employee')
-          -> value(Helper::userName($claim->user_id))
+          -> value(User::fullName($claim->user_id))
           -> readonly()
           -> disabled() }}
 

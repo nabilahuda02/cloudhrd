@@ -333,7 +333,7 @@ class GeneralClaim__Main extends Eloquent
       ];
       Mail::send('emails.applications.created', compact('item', 'type', 'recepient', 'actions'), function($message) use ($item, $recepient)
       {
-          $message->to($recepient->email, Helper::userName($recepient->id))->subject('General Claim Awaiting Verifiction: ' . $item->ref);
+          $message->to($recepient->email, User::fullName($recepient->id))->subject('General Claim Awaiting Verifiction: ' . $item->ref);
       });
     }
   }
@@ -376,7 +376,7 @@ class GeneralClaim__Main extends Eloquent
       ];
       Mail::send('emails.applications.verified', compact('item', 'type', 'recepient', 'actions'), function($message) use ($item, $recepient)
       {
-          $message->to($recepient->email, Helper::userName($recepient->id))->subject('General Claim Awaiting Approval: ' . $item->ref);
+          $message->to($recepient->email, User::fullName($recepient->id))->subject('General Claim Awaiting Approval: ' . $item->ref);
       });
     }
   }
@@ -388,7 +388,7 @@ class GeneralClaim__Main extends Eloquent
 
     Mail::send('emails.applications.approved', compact('item', 'type'), function($message) use ($item)
     {
-      $message->to($item->user->email, Helper::userName($item->user_id))->subject('General Claim Approved: ' . $item->ref);
+      $message->to($item->user->email, User::fullName($item->user_id))->subject('General Claim Approved: ' . $item->ref);
     });
   }
 
@@ -399,7 +399,7 @@ class GeneralClaim__Main extends Eloquent
 
     Mail::send('emails.applications.rejected', compact('item', 'type'), function($message) use ($item)
     {
-      $message->to($item->user->email, Helper::userName($item->user_id))->subject('General Claim Rejected: ' . $item->ref);
+      $message->to($item->user->email, User::fullName($item->user_id))->subject('General Claim Rejected: ' . $item->ref);
     });
   }
 }

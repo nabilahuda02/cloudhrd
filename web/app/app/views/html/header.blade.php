@@ -18,7 +18,6 @@
 		        </div>
 		        <button class="btn btn-blue" type="button"><i class="fa fa-search"></i></button>
 		    	<div id="search-results"></div>
-			  	{{Asset::push('js','app/search.js')}}
 				<div class="clearfix"></div>
 			</div>
 		</div>

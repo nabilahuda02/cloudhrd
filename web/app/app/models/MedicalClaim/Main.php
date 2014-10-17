@@ -327,7 +327,7 @@ class MedicalClaim__Main extends \Eloquent {
       ];
       Mail::send('emails.applications.created', compact('item', 'type', 'recepient', 'actions'), function($message) use ($item, $recepient)
       {
-          $message->to($recepient->email, Helper::userName($recepient->id))->subject('Medical Claim Awaiting Verification: ' . $item->ref);
+          $message->to($recepient->email, User::fullName($recepient->id))->subject('Medical Claim Awaiting Verification: ' . $item->ref);
       });
     }
   }
@@ -370,7 +370,7 @@ class MedicalClaim__Main extends \Eloquent {
       ];
       Mail::send('emails.applications.verified', compact('item', 'type', 'recepient', 'actions'), function($message) use ($item, $recepient)
       {
-          $message->to($recepient->email, Helper::userName($recepient->id))->subject('Medical Claim Awaiting Approval: ' . $item->ref);
+          $message->to($recepient->email, User::fullName($recepient->id))->subject('Medical Claim Awaiting Approval: ' . $item->ref);
       });
     }
   }
@@ -382,7 +382,7 @@ class MedicalClaim__Main extends \Eloquent {
 
     Mail::send('emails.applications.approved', compact('item', 'type'), function($message) use ($item)
     {
-      $message->to($item->user->email, Helper::userName($item->user_id))->subject('Medical Claim Approved: ' . $item->ref);
+      $message->to($item->user->email, User::fullName($item->user_id))->subject('Medical Claim Approved: ' . $item->ref);
     });
   }
 
@@ -393,7 +393,7 @@ class MedicalClaim__Main extends \Eloquent {
 
     Mail::send('emails.applications.rejected', compact('item', 'type'), function($message) use ($item)
     {
-      $message->to($item->user->email, Helper::userName($item->user_id))->subject('Medical Claim Rejected: ' . $item->ref);
+      $message->to($item->user->email, User::fullName($item->user_id))->subject('Medical Claim Rejected: ' . $item->ref);
     });
   }
 

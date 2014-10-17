@@ -155,7 +155,6 @@
 @stop
 
 @section('script')
-	{{Asset::push('js','app/duplicator/duplicator.js')}}
 	{{Asset::push('js','app/imagebulletin.js')}}
 	{{Asset::push('js','app/wall.js')}}
 @stop

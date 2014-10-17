@@ -1,5 +1,4 @@
 (function(){
-
     $('#profile_contacts').duplicator({
       row: ".row",
       remotes: {
