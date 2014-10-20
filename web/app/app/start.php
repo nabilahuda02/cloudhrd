@@ -16,6 +16,10 @@ if (!App::runningInConsole()) {
     $app->master_user = Master__User::find($config->id);
     $app->domain = $app->master_user->domain .'.'. $domain;
     $app->user_locale = json_decode($app->master_user->locale);
+    $app->user_locale->php_long_date = substr(strchr($app->user_locale->long_date, '__'), 2);
+    $app->user_locale->php_short_date = substr(strchr($app->user_locale->short_date, '__'), 2);
+    $app->user_locale->php_time = ($app->user_locale->time_format === '12h') ? 'g:i a' : 'H:i';
+    \Log::info(json_encode($app->user_locale));
     View::share('user_locale', $app->user_locale);
     if($token = Input::get('token')) {
         if($ltoken = Master__LoginToken::where('token', $token)->first()) {

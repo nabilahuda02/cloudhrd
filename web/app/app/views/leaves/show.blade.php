@@ -12,6 +12,11 @@
         -> rules(['name' => 'required'])
         -> method('POST') }}
         {{ Former::hidden('_method', 'PUT') }}
+        {{ Former::text('created_at')
+        -> label('Created At')
+        -> value(Helper::timestamp($leave->created_at))
+        -> readonly()
+        -> disabled() }}
         {{ Former::text('ref')
         -> label('Reference')
         -> value($leave->ref)
@@ -75,7 +80,7 @@ return new Date(d);
 });
 var dp = $("#datepicker").multiDatesPicker({
 altField: '#dates',
-dateFormat: "dd-mm-yy",
+dateFormat: app_locale.short_date,
 disabled: true,
 addDates: dates
 });

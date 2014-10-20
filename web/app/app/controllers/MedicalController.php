@@ -34,6 +34,7 @@ class MedicalController extends \BaseController {
 
 		$data = Input::all();
 		$data['upload_hash'] = md5(microtime());
+		$data['treatment_date'] = Helper::short_date_to_mysql($data['treatment_date']);
 		$rules = MedicalClaim__Main::$rules;
 
 		if(!isset($data['user_id']) || (isset($data['user_id']) && !in_array($data['user_id'], Auth::user()->getDownline(MedicalClaim__Main::$moduleId)))) {
@@ -108,6 +109,7 @@ class MedicalController extends \BaseController {
 		$medical = MedicalClaim__Main::findOrFail($id);
 
 		$data = Input::all();
+		$data['treatment_date'] = Helper::short_date_to_mysql($data['treatment_date']);
 
 		/* update status */
 		if(isset($data['_status']) && isset($data['status_id']) && (
@@ -141,11 +143,11 @@ class MedicalController extends \BaseController {
 
 		$medical->update($data);
 
-    $medical->audits()->create([
-    	'ref' => $medical->ref,
-      'type' => 2,
-      'data' => $medical->toArray()
-    ]);
+	    $medical->audits()->create([
+	    	'ref' => $medical->ref,
+	      'type' => 2,
+	      'data' => $medical->toArray()
+	    ]);
 
 		Session::flash('NotifySuccess', 'Claim Updated Successfully');
 

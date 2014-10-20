@@ -58,11 +58,9 @@ class LeaveController extends \BaseController {
 	    $leave->save();
 
 		foreach ($data['dates'] as $date) {
-			$dates = explode('-', $date);
-			$date = ($dates[2] . '-' . $dates[1] . '-' .  $dates[0]);
 			$leaveDate = new Leave__Date();
 			$leaveDate->leave_id = $leave->id;
-			$leaveDate->date = $date;
+			$leaveDate->date = Helper::short_date_to_mysql($date);
 			$leaveDate->save();
 		}
 
@@ -176,11 +174,9 @@ class LeaveController extends \BaseController {
 		Leave__Date::where('leave_id', $leave->id)->delete();
 
 		foreach ($data['dates'] as $date) {
-			$dates = explode('-', $date);
-			$date = ($dates[2] . '-' . $dates[1] . '-' .  $dates[0]);
 			$leaveDate = new Leave__Date();
 			$leaveDate->leave_id = $leave->id;
-			$leaveDate->date = $date;
+			$leaveDate->date = Helper::short_date_to_mysql($date);
 			$leaveDate->save();
 		}
 

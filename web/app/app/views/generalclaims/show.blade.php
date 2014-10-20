@@ -18,6 +18,12 @@
             -> rules(['name' => 'required'])
             -> method('POST') }}
 
+        {{ Former::text('created_at')
+          -> label('Created At')
+          -> value(Helper::timestamp($claim->created_at))
+          -> readonly()
+          -> disabled() }}
+
         {{ Former::text('ref')
           -> label('Reference')
           -> value($claim->ref)

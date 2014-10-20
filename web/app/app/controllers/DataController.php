@@ -7,13 +7,16 @@ class DataController extends BaseController
     /**
      * Status, Reference Number, Type, Duration, Action
      */
-    $leaves = DB::table('leaves')->select(['leaves.id', 'status.name as "status_name"', 'ref', 'leave_types.name', 'total'])
+    $leaves = DB::table('leaves')->select(['leaves.id', 'status.name as "status_name"', 'ref', 'leaves.created_at',  'leave_types.name', 'total'])
       -> where('user_id', Auth::user()->id)
       -> orderBy('leaves.ref', 'desc')
       -> join('status', 'status.id', '=', 'leaves.status_id')
       -> join('leave_types', 'leave_types.id', '=', 'leaves.leave_type_id');
     return Datatables::of($leaves)
       ->add_column('action', "{{View::make('leaves.actions-table', compact('id'))->render()}}")
+      ->edit_column('created_at', function($data){
+        return Helper::timestamp($data->created_at);
+      })
       ->remove_column('id')
       ->make();
   }
@@ -25,7 +28,7 @@ class DataController extends BaseController
      */
     $downline = Auth::user()->getDownline(Leave__Main::$moduleId);
     if(count($downline) > 0) {
-      $leaves = DB::table('leaves')->select(['leaves.id','status.name as "status_name"',  'user_profiles.first_name', 'ref', 'leave_types.name', 'total'])
+      $leaves = DB::table('leaves')->select(['leaves.id','status.name as "status_name"',  'user_profiles.first_name', 'leaves.created_at',  'ref', 'leave_types.name', 'total'])
         -> whereIn('leaves.user_id', $downline)
         -> orderBy('leaves.ref', 'desc')
         -> join('users', 'users.id', '=', 'leaves.user_id')
@@ -37,6 +40,9 @@ class DataController extends BaseController
       }
     return Datatables::of($leaves)
       ->add_column('action', "{{View::make('leaves.actions-table', compact('id'))->render()}}")
+      ->edit_column('created_at', function($data){
+        return Helper::timestamp($data->created_at);
+      })
       ->remove_column('id')
       ->make();
   }
@@ -50,6 +56,7 @@ class DataController extends BaseController
     $medical_claims = DB::table('medical_claims')->select(
       [ 'medical_claims.id', 
         'status.name as "status_name"', 
+        'medical_claims.created_at',
         'ref', 
         'medical_claim_types.name', 
         'total'])
@@ -61,6 +68,9 @@ class DataController extends BaseController
       ->add_column('action', "{{View::make('medicals.actions-table', compact('id'))->render()}}")
       ->edit_column('total', function($data){
         return Helper::currency_format($data->total);
+      })
+      ->edit_column('created_at', function($data){
+        return Helper::timestamp($data->created_at);
       })
       ->remove_column('id')
       ->make();
@@ -76,6 +86,7 @@ class DataController extends BaseController
       $medical_claims = DB::table('medical_claims')->select(
       [ 'medical_claims.id', 
         'status.name as "status_name"', 
+        'medical_claims.created_at',
         'user_profiles.first_name',
         'ref', 
         'medical_claim_types.name', 
@@ -99,6 +110,9 @@ class DataController extends BaseController
       ->add_column('action', "{{View::make('medicals.actions-table', compact('id'))->render()}}")
       ->edit_column('total', function($data){
         return Helper::currency_format($data->total);
+      })
+      ->edit_column('created_at', function($data){
+        return Helper::timestamp($data->created_at);
       })
       ->remove_column('id')
       ->make();

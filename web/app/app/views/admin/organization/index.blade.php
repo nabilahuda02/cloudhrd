@@ -10,8 +10,9 @@
             {{ Former::email('support_email')
                 ->label('Support Email')
                 ->required() }}
+            <hr>
             <div class="form-group required" id="currency-format">
-                <label class="control-label col-lg-2 col-sm-4">Localization<sup>*</sup></label>
+                <label class="control-label col-lg-2 col-sm-4">Currency Localization<sup>*</sup></label>
                 <div class="col-lg-10 col-sm-8">
                     <div class="row">
                         <div class="col-sm-4">
@@ -43,6 +44,58 @@
                                 <input type="radio" name="symbol_location" value="after" id="after" {{($locale->symbol_location === 'after' ? 'checked' : '')}}> After
                             </label>
                         </div>
+                    </div>
+                    <div class="help-block">
+                        <b>Sample Output: <span id="sample-output"></span></b>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group required">
+                <label class="control-label col-lg-2 col-sm-4">Date Localization<sup>*</sup></label>
+                <div class="col-lg-10 col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <b>Long Date</b>
+                            <div class="clearfix"></div>
+                            <label for="MM d, yy__F j, Y" class="radio">
+                                <input type="radio" name="long_date" value="MM d, yy__F j, Y" id="MM d, yy__F j, Y" {{($locale->long_date === 'MM d, yy__F j, Y' ? 'checked' : '')}}> December 31, 2014
+                            </label>
+                            <label for="d MM yy__d M Y" class="radio">
+                                <input type="radio" name="long_date" value="d MM yy__d M Y" id="d MM yy__d M Y" {{($locale->long_date === 'd MM yy__d M Y' ? 'checked' : '')}}> 31 December 2014
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            <b>Short Date</b>
+                            <div class="clearfix"></div>
+                            <label for="mm/dd/yy__m/d/Y" class="radio">
+                                <input type="radio" name="short_date" value="mm/dd/yy__m/d/Y" id="mm/dd/yy__m/d/Y" {{($locale->short_date === 'mm/dd/yy__m/d/Y' ? 'checked' : '')}}> 12/31/2014
+                            </label>
+                            <label for="dd-mm-yy__d-m-Y" class="radio">
+                                <input type="radio" name="short_date" value="dd-mm-yy__d-m-Y" id="dd-mm-yy__d-m-Y" {{($locale->short_date === 'dd-mm-yy__d-m-Y' ? 'checked' : '')}}> 31-12-2014
+                            </label>
+                            <label for="yy-mm-dd__Y-m-d" class="radio">
+                                <input type="radio" name="short_date" value="yy-mm-dd__Y-m-d" id="yy-mm-dd__Y-m-d" {{($locale->short_date === 'yy-mm-dd__Y-m-d' ? 'checked' : '')}}> 2014-12-31
+                            </label>
+                        </div>
+                        <div class="col-sm-4">
+                            <b>Time Format</b>
+                            <div class="clearfix"></div>
+                            <label for="12h" class="radio">
+                                <input type="radio" name="time_format" value="12h" id="12h" {{($locale->time_format === '12h' ? 'checked' : '')}}> 12 Hours
+                            </label>
+                            <label for="24h" class="radio">
+                                <input type="radio" name="time_format" value="24h" id="24h" {{($locale->time_format === '24h' ? 'checked' : '')}}> 24 Hours
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group required">
+                <label class="control-label col-lg-2 col-sm-4">Distance Localization<sup>*</sup></label>
+                <div class="col-lg-10 col-sm-8">
+                    <div class="row">
                         <div class="col-sm-4">
                             <b>Distance</b>
                             <div class="clearfix"></div>
@@ -53,9 +106,6 @@
                                 <input type="radio" name="distance" value="mi" id="mi" {{($locale->distance === 'mi' ? 'checked' : '')}}> Miles
                             </label>
                         </div>
-                    </div>
-                    <div class="help-block">
-                        <b>Sample Output: <span id="sample-output"></span></b>
                     </div>
                 </div>
             </div>

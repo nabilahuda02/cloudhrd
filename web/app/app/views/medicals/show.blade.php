@@ -13,6 +13,12 @@
         -> rules(['name' => 'required'])
         -> method('POST') }}
 
+      {{ Former::text('created_at')
+        -> label('Created At')
+        -> value(Helper::timestamp($medical->created_at))
+        -> readonly()
+        -> disabled() }}
+
       {{ Former::text('ref')
         -> label('Reference')
         -> value($medical->ref)

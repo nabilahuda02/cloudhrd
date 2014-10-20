@@ -92,151 +92,63 @@
     </div>
 </div>
 <template id="claimform">
+<br>
+<br>
 {{ Former::horizontal_open()
--> id('entryform') }}
-{{ Former::date('receipt_date')
--> label('Receipt Date')
--> value(date('Y-m-d'))
--> required() }}
-{{ Former::text('receipt_number')
--> label('Receipt Number')
--> required() }}
-{{ Former::text('description')
--> id('form_title')
--> required() }}
+    -> id('entryform') }}
 {{ Former::select('claim_type_id')
--> id('form_type')
--> label('Type')
--> required()
--> options(GeneralClaim__Type::all()->lists('name', 'id'))
--> placeholder('Choose a claim type') }}
-@foreach(GeneralClaim__Type::whereNotNull('unit')->get() as $type)
+    -> id('form_type')
+    -> label('Type')
+    -> required()
+    -> options(GeneralClaim__Type::all()->lists('name', 'id'))
+    -> placeholder('Choose a claim type') }}
+{{ Former::input('receipt_date')
+    -> data_type('date')
+    -> value(Helper::today_short_date())
+    -> label('Date')
+    -> required() }}
+{{ Former::text('receipt_number')
+    -> label('Receipt Number')
+    -> required() }}
+{{ Former::text('description')
+    -> id('form_title')
+    -> required() }}
+@foreach(GeneralClaim__Type::where('unit', '!=', '')->get() as $type)
 {{ Former::number('quantity[]')
--> step(1 / pow(10, app()->user_locale->decimal_places))
--> class('form-control quantities')
--> id('form_quantity_' . $type->id)
--> label('Quantity (' . $type->unit . ')')
--> data_unitprice($type->unit_price)
--> placeholder('0.00')
--> help('RM ' . $type->unit_price . ' / ' . $type->unit) }}
+    -> step(1 / pow(10, app()->user_locale->decimal_places))
+    -> class('form-control quantities')
+    -> id('form_quantity_' . $type->id)
+    -> label('Quantity (' . $type->unit . ')')
+    -> data_unitprice($type->unit_price)
+    -> help($user_locale->currency_symbol . ' ' . $type->unit_price . ' / ' . $type->unit) }}
 @endforeach
 {{ Former::number('amount')
--> step(1 / pow(10, app()->user_locale->decimal_places))
--> id('form_amount')
--> required()
--> readonly()
--> placeholder('0.00') }}
+    -> step(1 / pow(10, app()->user_locale->decimal_places))
+    -> id('form_amount')
+    -> required()
+    -> readonly() }}
 {{ Former::close() }}
 </template>
-@stop
-@section('script')
-@include('generalclaims.actions-scripts')
 <script>
-    var targettbody = $('#targettbody');
-    var calculateTotal = function() {
-        var total = 0;
-        $('.amount_col').each(function(){
-            total += Math.round(parseFloat($(this).text()) * 100) / 100;
-        });
-        $('#value').val(total.toFixed(2));
-    };
-    $(document).on('click', '.removerow', function(){
-        var target = $(this);
-        bootbox.confirm('Are your sure you want to remove this row?', function(val){
-            if(val) {
-                target.parents('tr').remove();
-                calculateTotal();
-            }
-        })
-    });
     var createNewRow = function(data) {
         if(data) {
             data.quantity = data.quantity.filter(function(val){
                 return val;
             }).pop() || 0;
-            data.amount = (Math.round(parseFloat(data.amount) * 100) / 100).toFixed(2);
-            data.quantity = (Math.round(parseFloat(data.quantity || 0) * 100) / 100).toFixed(2);
+            data.amount = (Math.round(parseFloat(data.amount) * divisor) / divisor).toFixed(decimal_places);
+            data.quantity = (Math.round(parseFloat(data.quantity || 0) * divisor) / divisor).toFixed(decimal_places);
             var types = {
                 @foreach(GeneralClaim__Type::all()->lists('name', 'id') as $id => $type)
-                '{{$id}}': '{{$type}}',
+    '{{$id}}': '{{$type}}',
                 @endforeach
             }
             targettbody.append('<tr><td><input type="hidden" name="entries[]" value=\'' + JSON.stringify(data) + '\' />' + data.receipt_date + '</td><td>' + data.receipt_number + '</td><td>' + types[data.claim_type_id] + '</td><td>' + data.description + '</td><td class="amount_col">' + data.amount + '</td><td><button type="button" class="removerow"><span class="glyphicon glyphicon-trash"></span></button></td></tr>');
             calculateTotal();
         }
     };
-    bootbox.form = function(template, callback) {
-        var modal = bootbox.confirm(template, function(res){
-            if(!res) {
-                callback(null);
-            }
-        });
-        attachUploader();
-        var form = $('form', modal).on('submit', function(e){
-            e.preventDefault();
-            return false;
-        });
-        $('[data-bb-handler="confirm"]').on('click', function(e){
-            var isValid = true;
-            $('input,textarea,select', form).each(function(index, field){
-                if(!field.checkValidity()) {
-                    $(field).trigger('invalid');
-                    isValid = false;
-                }
-            });
-            if(isValid) {
-                callback(form.serializeJSON());
-                return;
-            }
-            e.preventDefault();
-            return false;
-        });
-    }
-    $(document).on('click', '#newrow', function() {
-        bootbox.form($('#claimform').html(), createNewRow);
-        
-        var amountRow = $('#form_amount').parents('.form-group');
-        var amountInput = $('input', amountRow);
-        var resetForm = function() {
-            $('.quantities').each(function(idx, quantity){
-                $(quantity).parents('.form-group').hide();
-            });
-            amountRow.hide();
-            amountInput.attr({
-                readonly: true
-            }).val('');
-        }
-        $('#form_type').change(function(){
-            var sel = $(this);
-            var type = sel.val();
-            resetForm();
-            if(type) {
-                amountRow.show();
-                if($('#form_quantity_' + type).length) {
-                    var quantityRow = $('#form_quantity_' + type)
-                    .parents('.form-group')
-                    .show();
-                    var quantityInput = $('input', quantityRow)
-                    .attr('required', true)
-                    .keyup(function(e){
-                        var target = $(this);
-                        var val = parseFloat(target.val());
-                        if(!val || isNaN(val)) {
-                            amountInput.val(0);
-                            this.checkValidity();
-                            e.preventDefault();
-                            return false;
-                        }
-                        amountInput.val((Math.round(val * parseFloat(quantityInput.data('unitprice')) * 100) / 100).toFixed(2))
-                    });
-                } else {
-                    $('.quantities').removeAttr('required');
-                    amountInput.removeAttr('readonly');
-                }
-            } else {
-                amountRow.hide();
-            }
-        }).trigger('change');
-});
 </script>
+{{Asset::push('js', 'app/general_claims.js')}}
+@stop
+@section('script')
+    @include('generalclaims.actions-scripts')
 @stop

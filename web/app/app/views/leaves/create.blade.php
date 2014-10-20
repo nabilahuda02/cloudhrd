@@ -52,24 +52,24 @@
 
 @section('script')
 	<script>
-	var leaveTypes = {
-		@foreach($types as $type)
-		{{$type->id}} : {
-			future: {{($type->future) ? 'true' : 'false'}},
-			past: {{($type->past) ? 'true' : 'false'}}
-		},
-		@endforeach
-	};
-	   var yyyymmdd = function(date) {
-	   var yyyy = date.getFullYear().toString();
-	   var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-	   var dd  = date.getDate().toString();
-	   return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]); // padding
-	  };
-	  var disabledData = {{ json_encode(Leave__BlockedDate::select(['date', 'name'])->lists('name', 'date')) }};
+		var leaveTypes = {
+			@foreach($types as $type)
+			{{$type->id}} : {
+				future: {{($type->future) ? 'true' : 'false'}},
+				past: {{($type->past) ? 'true' : 'false'}}
+			},
+			@endforeach
+		};
+		var yyyymmdd = function(date) {
+			var yyyy = date.getFullYear().toString();
+			var mm = (date.getMonth()+1).toString(); 
+			var dd  = date.getDate().toString();
+			return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]); 
+		};
+		var disabledData = {{ json_encode(Leave__BlockedDate::select(['date', 'name'])->lists('name', 'date')) }};
 		var options = {
 			altField: '#dates',
-			dateFormat: "dd-mm-yy",
+			dateFormat: app_locale.short_date,
 			beforeShowDay: function(date){
 				var disabled = disabledData[yyyymmdd(date)];
 				if(disabled) {

@@ -28,6 +28,14 @@ var tbl;
     //         .val('Submitting...')
     //         .text('Submitting...');
     // });
+    // 
+
+    window.init_datepicker = function(){
+        $('input[data-type=date]').datepicker({
+            dateFormat: app_locale.short_date
+        });
+    }
+    init_datepicker();
 
     var search = $('#searchinput');
     var result = $('#search-results');

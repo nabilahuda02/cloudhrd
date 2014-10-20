@@ -397,4 +397,9 @@ class MedicalClaim__Main extends \Eloquent {
     return Helper::currency_format($value, false);
   }
 
+  public function getTreatmentDateAttribute($date)
+  {
+    return Helper::mysql_to_short_date($date);
+  }
+
 }

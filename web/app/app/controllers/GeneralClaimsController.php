@@ -64,6 +64,7 @@ class GeneralClaimsController extends \BaseController {
 		foreach ($data['entries'] as $entryJson) {
 			$entry = json_decode($entryJson, true);
 			$entry['claim_id'] = $claim->id;
+			$entry['receipt_date'] = Helper::short_date_to_mysql($entry['receipt_date']);
 			GeneralClaim__Entry::create($entry);
 		}
 
@@ -143,11 +144,20 @@ class GeneralClaimsController extends \BaseController {
 
 		Session::flash('NotifySuccess', 'Claim Updated Successfully');
 		$claim->update($data);
-    $claim->audits()->create([
-    	'ref' => $claim->ref,
-      'type' => 2,
-      'data' => $claim->toArray()
-    ]);
+
+		GeneralClaim__Entry::where('claim_id', $claim->id)->delete();
+		foreach ($data['entries'] as $entryJson) {
+			$entry = json_decode($entryJson, true);
+			$entry['claim_id'] = $claim->id;
+			$entry['receipt_date'] = Helper::short_date_to_mysql($entry['receipt_date']);
+			GeneralClaim__Entry::create($entry);
+		}
+
+	    $claim->audits()->create([
+	    	'ref' => $claim->ref,
+	      'type' => 2,
+	      'data' => $claim->toArray()
+	    ]);
 
 		return Redirect::route('claims.index');
 	}

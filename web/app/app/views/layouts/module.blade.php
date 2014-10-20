@@ -10,6 +10,8 @@
 		@if($locale = app()->user_locale)
         <script>
         	var app_locale = {{json_encode($locale)}};
+            app_locale.long_date = app_locale.long_date.split('__').shift();
+            app_locale.short_date = app_locale.short_date.split('__').shift();
             function currency_format(number) {
             	var decimals = {{$locale->decimal_places}};
             	var dec_point = '{{$locale->decimal_separator}}';

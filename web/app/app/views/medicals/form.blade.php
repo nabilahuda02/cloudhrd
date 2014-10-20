@@ -4,9 +4,9 @@
     -> class('form-control col-md-4')
     ->required() }}
 
-{{ Former::date('treatment_date')
-    -> value(date('Y-m-d'))
-    -> max(date('Y-m-d'))
+{{ Former::text('treatment_date')
+    -> data_type('date')
+    -> value(Helper::today_short_date())
     -> required() }}
 
 {{ Former::number('total')

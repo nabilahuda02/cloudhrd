@@ -22,7 +22,7 @@
 		@endif
 		@include('medicals.form')
 		<div class="form-group">
-			<label for="dates" class="control-label col-lg-2 col-sm-4">Upload</label>
+			<label for="upload" class="control-label col-lg-2 col-sm-4">Upload</label>
 			<div class="col-lg-10 col-sm-8">
 				<div class="dropzone" id="upload" data-path="medicalclaim/temp/{{ Helper::noonce() }}"></div>
 			</div>

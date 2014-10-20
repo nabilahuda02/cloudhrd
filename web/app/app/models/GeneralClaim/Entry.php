@@ -22,4 +22,9 @@ class GeneralClaim__Entry extends Eloquent
   {
     return Helper::currency_format($value, false);
   }
+
+  public function getReceiptDateAttribute($value)
+  {
+    return Helper::mysql_to_short_date($value);
+  }
 }

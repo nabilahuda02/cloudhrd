@@ -156,4 +156,37 @@ Class Helper {
         }
         return $number;
 	}
+
+	public static function short_date_to_time($date)
+	{
+		$locale = app()->user_locale;
+		return DateTime::createFromFormat($locale->php_short_date, $date)->format('U');
+	}
+
+	public static function long_date_to_time($date)
+	{
+		$locale = app()->user_locale;
+		return DateTime::createFromFormat($locale->php_long_date, $date)->format('U');
+	}
+
+	public static function timestamp($date)
+	{
+        $locale = app()->user_locale;
+		return date($locale->php_short_date . ' ' . $locale->php_time, strtotime($date));
+	}
+
+	public static function today_short_date()
+	{
+		return date(app()->user_locale->php_short_date);
+	}
+
+	public static function short_date_to_mysql($date)
+	{
+		return date('Y-m-d', Helper::short_date_to_time($date));
+	}
+
+	public static function mysql_to_short_date($date)
+	{
+		return date(app()->user_locale->php_short_date, strtotime($date));
+	}
 }

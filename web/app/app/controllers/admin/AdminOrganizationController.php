@@ -23,6 +23,9 @@ class AdminOrganizationController extends BaseController
             'currency_symbol' => $data['currency_symbol'],
             'symbol_location' => $data['symbol_location'],
             'distance' => $data['distance'],
+            'long_date' => $data['long_date'],
+            'short_date' => $data['short_date'],
+            'time_format' => $data['time_format'],
         ];
         $user->locale = json_encode($locale);
         if($user->save()) {

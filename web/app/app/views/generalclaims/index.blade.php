@@ -12,7 +12,7 @@
 				<tr>
 					<th class="text-center">Status</th>
 					<th class="text-center">Reference No</th>
-					<th class="text-center">Request Date</th>
+					<th class="text-center">Created At</th>
 					<th class="text-center">Title</th>
 					<th class="text-center">Amount</th>
 					<th class="text-center">Action</th>
@@ -36,7 +36,7 @@
 					<th class="text-center">Status</th>
 					<th class="text-center">User</th>
 					<th class="text-center">Reference No</th>
-					<th class="text-center">Request Date</th>
+					<th class="text-center">Created At</th>
 					<th class="text-center">Title</th>
 					<th class="text-center">Amount</th>
 					<th class="text-center">Action</th>

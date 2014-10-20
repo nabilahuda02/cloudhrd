@@ -72,75 +72,75 @@
 @section('script')
 @include('leaves.actions-scripts')
 <script>
-var leaveTypes = {
-@foreach($types as $type)
-{{$type->id}} : {
-future: {{($type->future) ? 'true' : 'false'}},
-past: {{($type->past) ? 'true' : 'false'}}
-},
-@endforeach
-};
-var yyyymmdd = function(date) {
-var yyyy = date.getFullYear().toString();
-var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-var dd  = date.getDate().toString();
-return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]); // padding
-};
-var dates = ["{{ implode('","',$leave->dates->lists('date'))}}"].map(function(d){
-return new Date(d);
-});
-var disabledData = {{ json_encode(Leave__BlockedDate::select(['date', 'name'])->lists('name', 'date')) }};
-var options = {
-altField: '#dates',
-dateFormat: "dd-mm-yy",
-addDates: dates,
-beforeShowDay: function(date){
-var disabled = disabledData[yyyymmdd(date)];
-if(disabled) {
-return [false, 'date-blocked', disabled];
-}
-return [true];
-},
-};
-$(document).on("mouseenter", ".date-blocked", function(){
-var target = $(this);
-if(!target.attr('title')) {
-var weekend = target.siblings('.ui-datepicker-week-end').first();
-var day = $('span', target).text();
-var month = weekend.data('month')+1;
-var date = weekend.data('year') + '-' + (month[1]?month:"0"+month) + '-' + (day[1]?day:"0"+day[0]);
-var disabled = disabledData[date];
-if(disabled) {
-target.tooltip({
-title: disabled,
-container: 'table'
-});
-}
-}
-});
-var dp = $("#datepicker").multiDatesPicker(options);
-$('#leave_type_id').change(function(){
-$('#dates').val('');
-dp.multiDatesPicker('resetDates', 'picked');
-var target = $(this);
-var current = leaveTypes[target.val()];
-if(current) {
-if(current.future === false) {
-options['maxDate'] = new Date;
-} else {
-options['maxDate'] = null;
-}
-if(current.past === false) {
-options['minDate'] = new Date;
-} else {
-options['minDate'] = null;
-}
-dp.datepicker('destroy');
-dp.multiDatesPicker(options);
-}
-});
-setTimeout(function() {
-$('#leave_type_id').trigger('change');
-}, 10);
+    var leaveTypes = {
+        @foreach($types as $type)
+        {{$type->id}} : {
+            future: {{($type->future) ? 'true' : 'false'}},
+            past: {{($type->past) ? 'true' : 'false'}}
+        },
+        @endforeach
+    };
+    var yyyymmdd = function(date) {
+        var yyyy = date.getFullYear().toString();
+        var mm = (date.getMonth()+1).toString();
+        var dd  = date.getDate().toString();
+        return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
+    };
+    var dates = ["{{ implode('","',$leave->dates->lists('date'))}}"].map(function(d){
+        return new Date(d);
+    });
+    var disabledData = {{ json_encode(Leave__BlockedDate::select(['date', 'name'])->lists('name', 'date')) }};
+    var options = {
+        altField: '#dates',
+        dateFormat: app_locale.short_date,
+        addDates: dates,
+        beforeShowDay: function(date){
+            var disabled = disabledData[yyyymmdd(date)];
+            if(disabled) {
+                return [false, 'date-blocked', disabled];
+            }
+            return [true];
+        },
+    };
+    $(document).on("mouseenter", ".date-blocked", function(){
+        var target = $(this);
+        if(!target.attr('title')) {
+            var weekend = target.siblings('.ui-datepicker-week-end').first();
+            var day = $('span', target).text();
+            var month = weekend.data('month')+1;
+            var date = weekend.data('year') + '-' + (month[1]?month:"0"+month) + '-' + (day[1]?day:"0"+day[0]);
+            var disabled = disabledData[date];
+            if(disabled) {
+                target.tooltip({
+                    title: disabled,
+                    container: 'table'
+                });
+            }
+        }
+    });
+    var dp = $("#datepicker").multiDatesPicker(options);
+    $('#leave_type_id').change(function(){
+        $('#dates').val('');
+        dp.multiDatesPicker('resetDates', 'picked');
+        var target = $(this);
+        var current = leaveTypes[target.val()];
+        if(current) {
+            if(current.future === false) {
+                options['maxDate'] = new Date;
+            } else {
+                options['maxDate'] = null;
+            }
+            if(current.past === false) {
+                options['minDate'] = new Date;
+            } else {
+                options['minDate'] = null;
+            }
+            dp.datepicker('destroy');
+            dp.multiDatesPicker(options);
+        }
+    });
+    setTimeout(function() {
+        $('#leave_type_id').trigger('change');
+    }, 10);
 </script>
 @stop

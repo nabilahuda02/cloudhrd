@@ -14,6 +14,7 @@
 				<tr>
 					<th class="text-center">Status</th>
 					<th class="text-center">Reference No</th>
+					<th class="text-center">Created At</th>
 					<th class="text-center">Type</th>
 					<th class="text-center">Duration</th>
 					<th class="text-center">Action</th>
@@ -39,6 +40,7 @@
 			<tr>
 				<th class="text-center">Status</th>
 				<th class="text-center">User</th>
+				<th class="text-center">Created At</th>
 				<th class="text-center">Reference No</th>
 				<th class="text-center">Type</th>
 				<th class="text-center">Duration</th>

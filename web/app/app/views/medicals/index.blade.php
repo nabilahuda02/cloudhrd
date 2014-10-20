@@ -12,6 +12,7 @@
 			<thead>
 				<tr>
 					<th class="text-center">Status</th>
+					<th class="text-center">Created At</th>
 					<th class="text-center">Reference No</th>
 					<th class="text-center">Claim Type</th>
 					<th class="text-center">Amount</th>
@@ -34,6 +35,7 @@
 			<thead>
 				<tr>
 					<th class="text-center">Status</th>
+					<th class="text-center">Created At</th>
 					<th class="text-center">User</th>
 					<th class="text-center">Reference No</th>
 					<th class="text-center">Claim Type</th>
