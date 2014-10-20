@@ -6,7 +6,7 @@
 		<div class="page-header">
 			@include('generalclaims.menu')
 			<h3>General Claims</h3>
-		
+		</div>
 		<table data-path="general-claims" class="DT table table-bordered table-striped">
 			<thead>
 				<tr>

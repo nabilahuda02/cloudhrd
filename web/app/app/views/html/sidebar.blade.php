@@ -32,11 +32,6 @@
 				General Claims
 			</a>
 		</li>
-		<!-- <li class="{{ ($controller === 'Room Booking') ? 'active' : '' }}">
-			<a href="{{ action('booking.index') }}">
-				Room Booking
-			</a>
-		</li> -->
 		@if($user->is_admin)
 			<li class="{{ ($controller === 'User Admin') ? 'active' : '' }}">
 				<a href="{{ action('AdminUserController@index') }}">
@@ -53,6 +48,10 @@
 			<li class="{{ ($controller === 'Audit') ? 'active' : '' }}">
 				<a href="{{ action('AdminAuditController@getIndex') }}">
 					Security Audits</a>
+			</li>
+			<li class="{{ ($controller === 'Organization') ? 'active' : '' }}">
+				<a href="{{ action('AdminOrganizationController@index') }}">
+					Organization</a>
 			</li>
 			<li class="{{ ($controller === 'Subscription') ? 'active' : '' }}">
 				<a href="{{ action('SubscriptionController@getIndex') }}">

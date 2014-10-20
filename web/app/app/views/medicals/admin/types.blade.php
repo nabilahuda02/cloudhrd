@@ -37,7 +37,7 @@
         </div>
     </div>
 </div>
-{{Asset::push('js','app/duplicator/duplicator.js')}}
+
 @stop
 @section('script')
     <script>

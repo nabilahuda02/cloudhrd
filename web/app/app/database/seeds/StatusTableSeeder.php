@@ -5,31 +5,31 @@
 
 class StatusTableSeeder extends Seeder {
 
-  public function run()
-  {
+    public function run()
+    {
 
-    DB::table('status')->truncate();
+        DB::table('status')->truncate();
 
-    $status = new Status();
-    $status->name = 'Pending';
-    $status->save();
+        $status = new Status();
+        $status->name = 'Pending';
+        $status->save();
 
-    $status = new Status();
-    $status->name = 'Verified';
-    $status->save();
+        $status = new Status();
+        $status->name = 'Verified';
+        $status->save();
 
-    $status = new Status();
-    $status->name = 'Approved';
-    $status->save();
+        $status = new Status();
+        $status->name = 'Approved';
+        $status->save();
 
-    $status = new Status();
-    $status->name = 'Rejected';
-    $status->save();
+        $status = new Status();
+        $status->name = 'Rejected';
+        $status->save();
 
-    $status = new Status();
-    $status->name = 'Cancelled';
-    $status->save();
+        $status = new Status();
+        $status->name = 'Cancelled';
+        $status->save();
 
-  }
+    }
 
 }

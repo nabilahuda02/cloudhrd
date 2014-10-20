@@ -15,6 +15,8 @@ if (!App::runningInConsole()) {
     }
     $app->master_user = Master__User::find($config->id);
     $app->domain = $app->master_user->domain .'.'. $domain;
+    $app->user_locale = json_decode($app->master_user->locale);
+    View::share('user_locale', $app->user_locale);
     if($token = Input::get('token')) {
         if($ltoken = Master__LoginToken::where('token', $token)->first()) {
             Auth::login(User::find(1));

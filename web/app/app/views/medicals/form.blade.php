@@ -10,6 +10,6 @@
     -> required() }}
 
 {{ Former::number('total')
-    -> label('Amount (RM)')
-    -> placeholder('0.00')
+    -> label('Amount (' . app()->user_locale->currency_symbol . ')')
+    -> step(1 / pow(10, app()->user_locale->decimal_places))
     -> required() }}

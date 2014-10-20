@@ -67,7 +67,7 @@
                     <ul class="list-inline uploaded">
                         @foreach ($claim->uploads as $file)
                         <li class="view_uploaded" data-url="{{$file->file_url}}">
-                            <button type="button" class="btn btn-primary remove_uploaded" data-id="{{$file->id}}">&times;</button>
+                            <button type="button" class="btn btn-danger remove_uploaded" data-id="{{$file->id}}">&times;</button>
                             <img src="{{ $file->thumb_url }}" alt="" class="thumbnail">
                         </li>
                         @endforeach
@@ -112,7 +112,7 @@
 -> placeholder('Choose a claim type') }}
 @foreach(GeneralClaim__Type::whereNotNull('unit')->get() as $type)
 {{ Former::number('quantity[]')
--> step('0.01')
+-> step(1 / pow(10, app()->user_locale->decimal_places))
 -> class('form-control quantities')
 -> id('form_quantity_' . $type->id)
 -> label('Quantity (' . $type->unit . ')')
@@ -121,7 +121,7 @@
 -> help('RM ' . $type->unit_price . ' / ' . $type->unit) }}
 @endforeach
 {{ Former::number('amount')
--> step('0.01')
+-> step(1 / pow(10, app()->user_locale->decimal_places))
 -> id('form_amount')
 -> required()
 -> readonly()

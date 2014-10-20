@@ -77,11 +77,6 @@ class MedicalClaim__Main extends \Eloquent {
     $this->save();
   }
 
-  public function clinic()
-  {
-    return $this->hasOne('MedicalClaim__PanelClinic', 'id', 'medical_claim_panel_clinic_id');
-  }
-
   public static function sparkData()
   {
     $users = Auth::user()
@@ -395,6 +390,11 @@ class MedicalClaim__Main extends \Eloquent {
     {
       $message->to($item->user->email, User::fullName($item->user_id))->subject('Medical Claim Rejected: ' . $item->ref);
     });
+  }
+
+  public function getTotalAttribute($value)
+  {
+    return Helper::currency_format($value, false);
   }
 
 }

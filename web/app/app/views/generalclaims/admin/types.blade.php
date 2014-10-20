@@ -17,6 +17,7 @@
                 </div>
                 <div class="col-md-3">
                     {{ Former::number('unit_price')
+                    -> step(1 / pow(10, app()->user_locale->decimal_places))
                     -> label('Unit Price') }}
                 </div>
                 <div class="col-md-3">
@@ -31,7 +32,7 @@
         </div>
     </div>
 </div>
-{{Asset::push('js','app/duplicator/duplicator.js')}}
+
 @stop
 @section('script')
 <script>

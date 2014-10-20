@@ -5,33 +5,27 @@
 
 class GeneralClaimsTableSeeder extends Seeder {
 
-	public function run()
-	{
+    public function run()
+    {
 
-    DB::table('general_claims')->truncate();
-    DB::table('general_claim_types')->truncate();
-    DB::table('general_claim_entries')->truncate();
+        DB::table('general_claims')->truncate();
+        DB::table('general_claim_types')->truncate();
+        DB::table('general_claim_entries')->truncate();
 
-    // $travel = new GeneralClaim__Type();
-    // $travel->name = 'Travel';
-    // $travel->unit_price = '0.70';
-    // $travel->unit = 'KM';
-    // $travel->save();
+        $travel = new GeneralClaim__Type();
+        $travel->name = 'Travel';
+        $travel->unit_price = '1.20';
+        $travel->unit = 'Mi';
+        $travel->save();
 
-    // $parking = new GeneralClaim__Type();
-    // $parking->name = 'Parking';
-    // $parking->unit_price = '3.00';
-    // $parking->unit = 'Day';
-    // $parking->save();
+        $office = new GeneralClaim__Type();
+        $office->name = 'Office Supplies';
+        $office->save();
 
-    // $office = new GeneralClaim__Type();
-    // $office->name = 'Office Supplies';
-    // $office->save();
+        $office = new GeneralClaim__Type();
+        $office->name = 'Office Upkeep';
+        $office->save();
 
-    // $entertainment = new GeneralClaim__Type();
-    // $entertainment->name = 'Entertainment';
-    // $entertainment->save();
-
-  }
+    }
 
 }

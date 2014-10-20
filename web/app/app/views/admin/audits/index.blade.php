@@ -48,8 +48,6 @@
         'user_id': {{json_encode(UserProfile::all()->lists('first_name', 'user_id'))}},
         'status_id': {{json_encode(Status::all()->lists('name', 'id'))}},
         'medical_claim_type_id' : {{json_encode(MedicalClaim__Type::all()->lists('name', 'id'))}},
-        'medical_claim_panel_clinic_id' : {{json_encode(MedicalClaim__PanelClinic::all()->lists('name', 'id'))}},
-        'room_booking_room_id' : {{json_encode(RoomBooking__Room::all()->lists('name', 'id'))}},
         'unit_id' : {{json_encode(UserUnit::all()->lists('name', 'id'))}},
         'is_admin': {0: 'False', 1: 'True'},
         'verified': {0: 'False', 1: 'True'}
@@ -88,9 +86,6 @@
               break;
             case 'GeneralClaim__Main':
               path = 'claims';
-              break;
-            case 'RoomBooking__Main':
-              path = 'booking';
               break;
             case 'User':
               path = 'useradmin';

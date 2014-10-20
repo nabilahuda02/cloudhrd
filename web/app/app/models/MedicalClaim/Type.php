@@ -99,4 +99,9 @@ class MedicalClaim__Type extends \Eloquent
     return explode(',', $this->colors);
   }
 
+  public function getDefaultEntitlementAttribute($value)
+  {
+    return Helper::currency_format($value, false);
+  }
+
 }

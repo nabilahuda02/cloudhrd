@@ -5,7 +5,7 @@ class DynamicDatabase
     public static function boot($host)
     {
         $config = Cache::remember('config.' . $host, 10, function() use ($host) {
-            return DB::connection('mysql_register')->table('users')->where('domain', '=', $host)->first();
+            return Master__User::where('domain', '=', $host)->first();
         });
         if(!$config) {
             return false;
@@ -35,4 +35,14 @@ class DynamicDatabase
         }
         return $config;
     }
+
+    public static function flush_cache()
+    {
+        $host = app()->master_user->domain;
+        Cache::forget('config.' . $host);
+        app()->master_user = Cache::remember('config.' . $host, 10, function() use ($host) {
+            return Master__User::where('domain', '=', $host)->first();
+        });
+    }
+
 }

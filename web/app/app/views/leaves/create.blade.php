@@ -12,12 +12,13 @@
 			@include('leaves.menu')
 			<h3>Leave Application Form</h3>
 		</div>
+
 		@include('leaves.entitlementtable')
 		{{ Former::horizontal_open(action('LeaveController@store'))
 			-> id('MyForm')
 			-> rules(['name' => 'required'])
 			-> method('POST') }}
-
+		{{Former::hidden('noonce', Helper::noonce())}}
 		@if(count(Auth::user()->getDownline(Leave__Main::$moduleId)) > 0)
 			{{ Former::select('user_id')
 			    -> label('For User')
@@ -31,7 +32,7 @@
 		<div class="form-group">
 			<label for="dates" class="control-label col-lg-2 col-sm-4">Upload</label>
 			<div class="col-lg-10 col-sm-8">
-				<div class="dropzone" id="upload" data-path="leave/temp/{{ csrf_token() }}"></div>
+				<div class="dropzone" id="upload" data-path="leave/temp/{{ Helper::noonce() }}"></div>
 			</div>
 		</div>
 

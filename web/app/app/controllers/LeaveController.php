@@ -66,7 +66,7 @@ class LeaveController extends \BaseController {
 			$leaveDate->save();
 		}
 
-		$token = Input::get('_token');
+		$token = Input::get('noonce');
 		Upload::where('imageable_type', $token)->update([
 			'imageable_type' => 'Leave__Main',
 			'imageable_id'   => $leave->id

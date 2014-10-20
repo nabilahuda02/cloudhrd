@@ -52,8 +52,14 @@ class GeneralClaimsController extends \BaseController {
 		
 		$claim = GeneralClaim__Main::create($main);
 
-    $claim->ref = 'GC-' . $claim->id;
-    $claim->save();
+	    $claim->ref = 'GC-' . $claim->id;
+	    $claim->save();
+
+		$token = Input::get('noonce');
+		Upload::where('imageable_type', $token)->update([
+			'imageable_type' => 'GeneralClaim__Main',
+			'imageable_id'   => $claim->id
+		]);
 
 		foreach ($data['entries'] as $entryJson) {
 			$entry = json_decode($entryJson, true);

@@ -16,6 +16,14 @@ Class Helper {
 		return date('Y-m-d', $date);
 	}
 
+	protected static $noonce;
+	public static function noonce()
+	{
+		if(!self::$noonce)
+			self::$noonce = uniqid();
+		return self::$noonce;
+	}
+
 	static $_cache = [];
 
 	static $_scripts = ['/app/app.js'];
@@ -135,5 +143,17 @@ Class Helper {
 		if(Route::currentRouteAction() === $route)
 			return $true;
 		return $false;
+	}
+
+	public static function currency_format($number, $not_for_input = true)
+	{
+		$locale = app()->user_locale;
+        $number = number_format($number, $locale->decimal_places, $locale->decimal_separator, ($not_for_input ? $locale->thousand_separator : ''));
+        if($not_for_input) {
+	        if($locale->symbol_location === 'before')
+				return $locale->currency_symbol . ' ' . $number;
+			return $number . ' ' . $locale->currency_symbol;
+        }
+        return $number;
 	}
 }

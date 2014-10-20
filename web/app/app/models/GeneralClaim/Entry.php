@@ -17,4 +17,9 @@ class GeneralClaim__Entry extends Eloquent
   {
     return $this->hasOne('GeneralClaim__Type', 'id', 'claim_type_id');
   }
+
+  public function getAmountAttribute($value)
+  {
+    return Helper::currency_format($value, false);
+  }
 }

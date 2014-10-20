@@ -14,15 +14,26 @@ $('.donut-charts .widget-body')
         'background-color': response.colors[1],
         color: 'white'
       });
-      $('.entitlement > div', parent).text(response.entitlement);
-      $('.utilized > div', parent).text(response.utilized);
-      $('.balance > div', parent).text(response.balance);
+      var formatter = function(value){ return value };
+      if(target.data('path').indexOf('medical') > -1) {
+        $('.entitlement > div', parent).text(currency_format(response.entitlement));
+        $('.utilized > div', parent).text(currency_format(response.utilized));
+        $('.balance > div', parent).text(currency_format(response.balance));
+        formatter = function(value) {
+          return currency_format(value);
+        }
+      } else {
+        $('.entitlement > div', parent).text(response.entitlement);
+        $('.utilized > div', parent).text(response.utilized);
+        $('.balance > div', parent).text(response.balance);
+      }
       Morris.Donut({
         element: target[0].id,
         data: [
           {label: "Utilized", value: response.utilized},
           {label: "Balance", value: response.balance}
         ],
+        formatter: formatter,
         colors: response.colors
       });
       $('.legend-inner').fadeIn();

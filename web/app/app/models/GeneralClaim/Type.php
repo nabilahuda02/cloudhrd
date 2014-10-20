@@ -10,4 +10,9 @@ class GeneralClaim__Type extends Eloquent
   public static $rules = [
     'name' => 'required'
   ];
+
+  public function getUnitPriceAttribute($value)
+  {
+    return Helper::currency_format($value, false);
+  }
 }

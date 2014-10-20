@@ -16,7 +16,7 @@ class LeavesTableSeeder extends Seeder {
         $leaveConfigs = [
             [
                 'name' => 'Annual Leave',
-                'default_entitlement' => 10,
+                'default_entitlement' => 21,
                 'future' => true,
                 'past' => false,
                 'colors' => '#9f661c,#f39c30',
@@ -25,7 +25,7 @@ class LeavesTableSeeder extends Seeder {
             ],
             [
                 'name' => 'Medical Leave',
-                'default_entitlement' => 10,
+                'default_entitlement' => 30,
                 'future' => false,
                 'past' => true,
                 'colors' => '#5b4a85,#967adc',

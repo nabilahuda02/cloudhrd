@@ -66,9 +66,7 @@ Route::group(['before' => 'auth'], function(){
    */
   Route::group(['before' => 'administers_medical'], function(){
     Route::resource('medicaltype', 'AdminMedicalClaimTypeController');
-    Route::resource('medicalpanelclinic', 'AdminMedicalClaimPanelClinicController');
     Route::get('/medical/admin/types', 'MedicalController@getAdminTypes');
-    Route::get('/medical/admin/panel-clinics', 'MedicalController@getAdminPanelClinics');
     Route::get('/medical/admin/entitlements', 'MedicalController@getAdminEntitlement');
     Route::get('/medical/admin/entitlement/{user_id}', 'MedicalController@getAdminShowUserEntitlemnt');
     Route::post('/medical/admin/entitlement/{user_id}', 'MedicalController@postAdminShowUserEntitlemnt');
@@ -118,6 +116,7 @@ Route::group(['before' => 'auth'], function(){
     Route::get('/useradmin/change-password/{user_id}', 'AdminUserController@getChangePassword');
     Route::post('/useradmin/change-password/{user_id}', 'AdminUserController@postChangePassword');
     Route::controller('/useradminprofile', 'AdminUserProfileController');
+    Route::resource('/organization', 'AdminOrganizationController');
   });
 
   Route::controller('ajax','AjaxController');
@@ -165,4 +164,5 @@ Route::get('email_action/{hash}', function($hash) {
 
   return 'Application status updated.';
 });
+
 

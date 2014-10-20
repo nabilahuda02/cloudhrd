@@ -12,8 +12,7 @@
 		"maatwebsite/excel": "1.*",
 		"codesleeve/asset-pipeline": "2.*",
 		"oyejorge/less.php": "1.*",
-		"itsgoingd/clockwork": "1.*",
-		"zulfajuniadi/tinyrest": "0.0.1"
+		"itsgoingd/clockwork": "1.*"
 	},
 	"autoload": {
 		"classmap": [

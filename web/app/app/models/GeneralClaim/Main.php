@@ -402,4 +402,9 @@ class GeneralClaim__Main extends Eloquent
       $message->to($item->user->email, User::fullName($item->user_id))->subject('General Claim Rejected: ' . $item->ref);
     });
   }
+
+  public function getValueAttribute($value)
+  {
+    return Helper::currency_format($value, false);
+  }
 }

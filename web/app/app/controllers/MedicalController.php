@@ -56,7 +56,7 @@ class MedicalController extends \BaseController {
 	    $medical->ref = 'MC-' . $medical->id;
 	    $medical->save();
 
-		$token = Input::get('_token');
+		$token = Input::get('noonce');
 		Upload::where('imageable_type', $token)->update([
 			'imageable_type' => 'MedicalClaim__Main',
 			'imageable_id'   => $medical->id
@@ -236,8 +236,7 @@ class MedicalController extends \BaseController {
 			 ["medical_from_date"]=> string(10) "2014-07-01" 
 			 ["medical_to_date"]=> string(0) "" 
 			 ["create_from_date"]=> string(0) "" 
-			 ["create_to_date"]=> string(0) "" 
-			 ["medical_claim_panel_clinic_id"]=> string(0) "" 
+			 ["create_to_date"]=> string(0) ""
 			 ["tabulate_by"]=> string(0) ""
 		 */
 		

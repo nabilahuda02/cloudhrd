@@ -59,6 +59,9 @@ class DataController extends BaseController
       -> join('medical_claim_types', 'medical_claim_types.id', '=', 'medical_claims.medical_claim_type_id');
     return Datatables::of($medical_claims)
       ->add_column('action', "{{View::make('medicals.actions-table', compact('id'))->render()}}")
+      ->edit_column('total', function($data){
+        return Helper::currency_format($data->total);
+      })
       ->remove_column('id')
       ->make();
   }
@@ -90,11 +93,13 @@ class DataController extends BaseController
             'user_id', 
             'ref', 
             'medical_claim_type_id', 
-            'medical_claim_panel_clinic_id',
             'total']);
       }
     return Datatables::of($medical_claims)
       ->add_column('action', "{{View::make('medicals.actions-table', compact('id'))->render()}}")
+      ->edit_column('total', function($data){
+        return Helper::currency_format($data->total);
+      })
       ->remove_column('id')
       ->make();
   }
@@ -116,6 +121,9 @@ class DataController extends BaseController
       -> join('status', 'status.id', '=', 'general_claims.status_id');
     return Datatables::of($general_claims)
       ->add_column('action', "{{View::make('generalclaims.actions-table', compact('id'))->render()}}")
+      ->edit_column('value', function($data){
+        return Helper::currency_format($data->value);
+      })
       ->remove_column('id')
       ->make();
   }
@@ -152,6 +160,9 @@ class DataController extends BaseController
       }
     return Datatables::of($general_claims)
       ->add_column('action', "{{View::make('generalclaims.actions-table', compact('id'))->render()}}")
+      ->edit_column('value', function($data){
+        return Helper::currency_format($data->value);
+      })
       ->remove_column('id')
       ->make();
   }
