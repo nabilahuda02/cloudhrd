@@ -1,6 +1,6 @@
+Dropzone.autoDiscover = false;
 function attachUploader() {
     var path = $('div#upload').data('path');
-    Dropzone.autoDiscover = false;
     new Dropzone("div#upload", {
         url: '/upload/do/' + path,
         maxFilesize: 10,
