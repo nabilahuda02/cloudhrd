@@ -1,6 +1,7 @@
 //= require jquery
 //= require lodash/dist/lodash.min
 //= require jqueryui/jquery-ui.min
+//= require backbone/backbone
 //= require bootstrap/dist/js/bootstrap.min
 //= require dropzone/downloads/dropzone.min
 //= require raphael/raphael-min
@@ -14,15 +15,19 @@
 //= require app/jquery.avatar.js
 //= require_self
 
+Dropzone.autoDiscover = false;
+
 ;
+var tbl;
+
 (function() {
 
-    $('button[type=submit],input[type=submit]').click(function() {
-        var btn = $(this)
-        btn.button('loading')
-            .val('Submitting...')
-            .text('Submitting...');
-    });
+    // $('button[type=submit],input[type=submit]').click(function() {
+    //     var btn = $(this)
+    //     btn.button('loading')
+    //         .val('Submitting...')
+    //         .text('Submitting...');
+    // });
 
     var search = $('#searchinput');
     var result = $('#search-results');
@@ -51,7 +56,6 @@
     });
 
     if($('.DT').length > 0) {
-        var tbl;
         $('.DT').each(function(){
           var target = $(this);
           tbl = target.DataTable({
