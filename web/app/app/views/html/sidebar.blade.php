@@ -9,11 +9,11 @@
 				@endif
 			</div>
 		</div>
-		<h4 class="text-center" style="text-transform:uppercase;">{{ $user->profile->first_name }}</h4>
+		<h4 class="text-center hover-show-hidden" style="text-transform:uppercase;">{{ $user->profile->first_name }} <a class="is-hidden" href=""><span class="fa fa-cog"></span></a></h4>
 		<hr style="margin-top:12px;">
 	</div>
 	<ul class="nav nav-pills nav-stacked">
-		<li class="bg-blue border-top-none {{ ($controller === 'My Wall') ? 'active' : '' }}">
+		<li class="bg-blue border-top-none {{ ($controller === 'Public Wall') ? 'active' : '' }}">
 			<a href="{{ action('WallController@getIndex') }}">
 				Wall
 			</a>
@@ -33,30 +33,35 @@
 			</a>
 		</li>
 		@if($user->is_admin)
-			<li class="{{ ($controller === 'User Admin') ? 'active' : '' }}">
-				<a href="{{ action('AdminUserController@index') }}">
-					Manage User</a>
-			</li>
-			<li class="{{ ($controller === 'Unit Admin') ? 'active' : '' }}">
-				<a href="{{ action('AdminUnitController@index') }}">
-					Manage Units</a>
-			</li>
-			<li class="{{ ($controller === 'Module Admin') ? 'active' : '' }}">
-				<a href="{{ action('AdminModuleController@index') }}">
-					Manage Modules</a>
-			</li>
-			<li class="{{ ($controller === 'Audit') ? 'active' : '' }}">
-				<a href="{{ action('AdminAuditController@getIndex') }}">
-					Security Audits</a>
-			</li>
-			<li class="{{ ($controller === 'Organization') ? 'active' : '' }}">
-				<a href="{{ action('AdminOrganizationController@index') }}">
-					Organization</a>
-			</li>
-			<li class="{{ ($controller === 'Subscription') ? 'active' : '' }}">
-				<a href="{{ action('SubscriptionController@getIndex') }}">
-					Subscription</a>
-			</li>
+		<li>
+			<a href="#admin_menu" class="" data-toggle="collapse">Administrator <span class="fa fa-raquo"></span></a>
+			<ul class="collapse list-unstyled" id="admin_menu">
+				<li class="{{ ($controller === 'User Admin') ? 'active' : '' }}">
+					<a href="{{ action('AdminUserController@index') }}">
+						Manage User</a>
+				</li>
+				<li class="{{ ($controller === 'Unit Admin') ? 'active' : '' }}">
+					<a href="{{ action('AdminUnitController@index') }}">
+						Manage Units</a>
+				</li>
+				<li class="{{ ($controller === 'Module Admin') ? 'active' : '' }}">
+					<a href="{{ action('AdminModuleController@index') }}">
+						Manage Modules</a>
+				</li>
+				<li class="{{ ($controller === 'Audit') ? 'active' : '' }}">
+					<a href="{{ action('AdminAuditController@getIndex') }}">
+						Security Audits</a>
+				</li>
+				<li class="{{ ($controller === 'Organization') ? 'active' : '' }}">
+					<a href="{{ action('AdminOrganizationController@index') }}">
+						Organization</a>
+				</li>
+				<li class="{{ ($controller === 'Subscription') ? 'active' : '' }}">
+					<a href="{{ action('SubscriptionController@getIndex') }}">
+						Subscription</a>
+				</li>
+			</ul>
+		</li>
 		@endif
 		<li class="border-bottom-none">
 			<a href="{{ action('AuthController@getLogout') }}">

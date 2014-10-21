@@ -4,6 +4,11 @@ class ShareComment extends \Eloquent {
 
   // Add your validation rules here
   public static $rules = [];
+  protected $fillable = [
+    'user_id', 
+    'share_id', 
+    'comment'
+  ];
 
   public function user()
   {

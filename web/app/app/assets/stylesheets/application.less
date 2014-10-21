@@ -7,6 +7,7 @@
  *= require fullcalendar/dist/fullcalendar.min
  *= require jqueryui/themes/flick/jquery-ui.min.css
  *= require bootstrap
+ *= require wall
  *= require_self
  */
 
@@ -229,4 +230,29 @@ button.bootbox-close-button.close {
 .ui-datepicker .ui-datepicker-prev, 
 .ui-datepicker .ui-datepicker-next {
     margin-top: 2px;
+}
+
+
+#admin_menu li a {
+    margin-left: 20px;
+    padding: 10px 0px 10px 12px;
+    display:block;
+}
+
+#admin_menu li a:hover {
+    background-color: #eee;
+    text-decoration: none
+}
+
+.hover-show-hidden {
+    .is-hidden {
+        opacity: 0;
+        -o-transition: opacity 300ms;
+        -moz-transition: opacity 300ms;
+        -webkit-transition: opacity 300ms;
+        transition: opacity 300ms;
+    }
+    &:hover .is-hidden {
+        opacity: 1
+    }
 }

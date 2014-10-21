@@ -166,3 +166,10 @@ Route::get('email_action/{hash}', function($hash) {
 });
 
 
+Route::get('test', function(){
+  return Share::with('comments', 'user', 'user.profile' , 'comments.user', 'comments.user.profile')
+                ->orderBy('created_at', 'desc')
+                ->take(4)
+                ->get()
+                ->toJson();
+});
