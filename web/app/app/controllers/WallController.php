@@ -22,7 +22,7 @@ class WallController extends \BaseController {
         	$heartbeat = time();
             while (true) {
             	$new_data = Share::with('comments', 'user', 'user.profile' , 'comments.user', 'comments.user.profile')
-            		->orderBy('created_at', 'desc')
+            		->orderBy('updated_at', 'desc')
             		->take($length)
             		->get()
             		->toJson();
@@ -64,6 +64,7 @@ class WallController extends \BaseController {
 			$data['share_id'] = $share_id;
 			$comment = ShareComment::create($data);
 			$comment->save();
+			$share->touch();
 			return $comment;
 		}
 		return;
@@ -84,6 +85,7 @@ class WallController extends \BaseController {
 		if($comment = ShareComment::find($id)) {
 			if($comment->user_id === Auth::user()->id) {
 				$comment->delete();
+				Share::find($comment->share_id)->delete();
 			}
 		}
 	}
