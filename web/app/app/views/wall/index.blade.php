@@ -1,6 +1,5 @@
 @extends('layouts.module')
 @section('content')
-{{Asset::push('js','app/wall.new.js')}}
 <div class="col-md-10 col-sm-8" id="wall">
 	<div class="row">
 		<div class="col-sm-12 col-md-9">
