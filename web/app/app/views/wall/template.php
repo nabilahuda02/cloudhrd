@@ -7,10 +7,10 @@
             <span class="pull-right text-muted">
                 <i class="fa fa-clock-o"></i>
                 <%= moment(item.created_at).fromNow() %>
-                <% if(item.user_id === <?=$user->id?>){ %><a data-shareid="<%= item.id %>" class="remove-share"> | <span class="fa fa-trash"></span></a><% } %>
+                <% if(item.user_id === <?=$user->id?> || <?=$user->is_admin ? 'true' : 'false'?>){ %><a data-shareid="<%= item.id %>" class="remove-share"> | <span class="fa fa-trash"></span></a><% } %>
                 <a class="pin-share">| <i data-shareid="<%= item.id %>" class="fa fa-thumb-tack <% if(_.pluck(item.pins, 'user_id').indexOf(<?=$user->id?>) > -1){ %>active<% } %>"></i></a>
             </span>
-            <%= (item.user.profile.first_name + (item.user.profile.last_name ?  ' ' + item.user.profile.last_name : '')) %> <% if(item.user.is_admin < 3){ %><span class="label label-danger">Admin</span><% } %>
+            <%= (item.user.profile.first_name + (item.user.profile.last_name ?  ' ' + item.user.profile.last_name : '')) %> <% if(item.user.is_admin){ %><span class="label label-danger">Admin</span><% } %>
         </div>
         <div class="body"><%= nl2br(item.content) %></div>
     </div>
