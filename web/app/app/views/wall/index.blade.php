@@ -59,7 +59,5 @@
 		</div>
 	</div>
 </div>
-<script type="text/template" id="feeds-template">
-	@include('wall.template')
-</script>
+@include('wall.template')
 @stop

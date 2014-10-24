@@ -41,6 +41,11 @@ class Share extends \Eloquent {
       ->orderBy('share_comments.created_at', 'desc');
   }
 
+  public function pins()
+  {
+    return $this->hasMany('UserSharePin');
+  }
+
   public static function upcommingEvents()
   {
     return self::where('type', 'event')

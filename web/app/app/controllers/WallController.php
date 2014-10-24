@@ -13,19 +13,66 @@ class WallController extends \BaseController {
 		return View::make('wall.index',compact('user_image', 'user'));
 	}
 
-	public function getUpdates($length)
+    public function getShares($length)
+    {
+        $response = new Symfony\Component\HttpFoundation\StreamedResponse(function() use ($length) {
+            set_time_limit(660);
+            $old_data = array();
+            $start = time();
+            $heartbeat = time();
+            $user_id = Auth::user()->id;
+            while (true) {
+                $new_data = Share::with('pins', 'user', 'user.profile')
+                    ->select('*', DB::raw("(select count(*) from user_share_pins where user_id = {$user_id} and share_id = shares.id) as is_pinned"))
+                    ->orderBy('is_pinned', 'desc')
+                    ->orderBy('updated_at', 'desc')
+                    ->take($length)
+                    ->get()
+                    ->toJson();
+                if ($old_data !== $new_data) {
+                    echo 'data: ' . $new_data . "\n\n";
+                    ob_flush();
+                    flush();
+                } else if (time() - $heartbeat > 50) {
+                    $heartbeat = time();
+                    echo 'id: ' . uniqid() . "\n\n";
+                    ob_flush();
+                    flush();
+                }
+                if(time() - $start > 600)
+                    exit(0);
+                sleep(1);
+                $old_data = $new_data;
+            }
+        });
+        $response->headers->set('Content-Type', 'text/event-stream');
+        $response->headers->set('X-Accel-Buffering', 'no');
+        return $response;
+    }
+
+	public function getComments($length)
 	{
         $response = new Symfony\Component\HttpFoundation\StreamedResponse(function() use ($length) {
         	set_time_limit(660);
         	$old_data = array();
         	$start = time();
         	$heartbeat = time();
+            $user_id = Auth::user()->id;
             while (true) {
-            	$new_data = Share::with('comments', 'user', 'user.profile' , 'comments.user', 'comments.user.profile')
-            		->orderBy('updated_at', 'desc')
-            		->take($length)
-            		->get()
-            		->toJson();
+                $new_data = [];
+                $ids = Share::select('*', DB::raw("(select count(*) from user_share_pins where user_id = {$user_id} and share_id = shares.id) as is_pinned"))
+                    ->orderBy('is_pinned', 'desc')
+                    ->orderBy('updated_at','desc')
+                    ->take($length)
+                    ->get()
+                    ->lists('id');
+                if(count($ids) > 0) {
+                    $new_data = ShareComment::with('user', 'user.profile')
+                        ->orderBy('created_at', 'desc')
+                        ->whereIn('share_id', $ids)
+                        ->get()
+                        ->toJson();
+                }
                 if ($old_data !== $new_data) {
                     echo 'data: ' . $new_data . "\n\n";
                     ob_flush();
@@ -64,7 +111,7 @@ class WallController extends \BaseController {
 			$data['share_id'] = $share_id;
 			$comment = ShareComment::create($data);
 			$comment->save();
-			$share->touch();
+			// $share->touch();
 			return $comment;
 		}
 		return;
@@ -85,10 +132,31 @@ class WallController extends \BaseController {
 		if($comment = ShareComment::find($id)) {
 			if($comment->user_id === Auth::user()->id) {
 				$comment->delete();
-				Share::find($comment->share_id)->delete();
 			}
 		}
 	}
+
+    public function getSetPin($share_id)
+    {
+        if($share = Share::find($share_id)) {
+            $pin = new UserSharePin();
+            $pin->share_id = $share_id;
+            $pin->user_id = Auth::user()->id;
+            $pin->save();
+        }
+        return;
+    }
+
+    public function getUnsetPin($share_id)
+    {
+        if($share = Share::find($share_id)) {
+            UserSharePin::where('user_id', Auth::user()->id)
+                ->where('share_id', $share_id)
+                ->delete();
+        }
+        return;
+    }
+
 
 	public function __construct()
 	{

@@ -218,6 +218,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     return ucwords($user->profile->first_name . (($user->profile->last_name) ? ' ' . $user->profile->last_name : ''));
   }
 
+  public function leaves()
+  {
+    return $this->hasMany('Leave__Main');
+  }
+
   public function __construct(array $attributes = array())
   {
     if ( ! isset(static::$booted[get_class($this)]))

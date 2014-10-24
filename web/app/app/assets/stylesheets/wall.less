@@ -41,11 +41,23 @@
                     padding: 10px;
                     border-bottom: 1px solid #eee;
                     background-color: #fff;
-                    .remove-share {
-                        cursor: pointer;
-                        color: #999;
-                        &:hover {
+                    span {
+                        a {
+                            cursor: pointer;
+                        }
+                        * {
+                            color: #999;
                             text-decoration: none;
+                        }
+                        .fa-thumb-tack {
+                            transform:  rotate(-45deg);
+                            transition:  transform 0.3s;
+                            &:hover, &.active {
+                                transform:  rotate(0deg);
+                            }
+                            &.active {
+                                color: #555;
+                            }
                         }
                     }
                 }
@@ -118,6 +130,8 @@
                     }
                     &.new-comment {
                         position: relative;
+                        max-height: 200px;
+                        padding-top: 10px;
                         textarea {
                             display: inline-block;
                             vertical-align: top;
@@ -140,7 +154,7 @@
                             left: 92px;
                         }
                     }
-                    &:nth-last-child(4) ~ .comment {
+                    &:nth-last-child(3) ~ .comment {
                         padding-top:10px;
                         max-height: 999px;
                     }
@@ -167,7 +181,7 @@
     }
 }
 
-@media (min-width: 992px) and (max-width: 1200px) {
+@media (min-width: 992px) and (max-width: 1199px) {
     #wall #feeds .feed .comments .comment.new-comment textarea, 
     #wall #feeds .feed .comments .comment .body {
         width: 442px;
