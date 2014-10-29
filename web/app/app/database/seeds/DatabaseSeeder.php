@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder {
         $this->call('MedicalClaimsTablesSeeder');
         $this->call('GeneralClaimsTableSeeder');
         $this->call('LookupFamilyRelationshipTableSeeder');
+        $this->call('TaskTableSeeder');
 
         DB::table('uploads')->truncate();
         DB::table('audits')->truncate();

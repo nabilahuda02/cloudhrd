@@ -18,6 +18,10 @@
 				Wall
 			</a>
 		</li>
+		<li class="{{ ($controller === 'Tasks') ? 'active' : '' }}">
+			<a href="{{ action('TasksController@index') }}">
+				Tasks</a>
+		</li>
 		<li class="{{ ($controller === 'Leaves') ? 'active' : '' }}">
 			<a href="{{ action('LeaveController@index') }}">
 				Leaves</a>

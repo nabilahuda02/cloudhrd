@@ -31,6 +31,13 @@ class ModuleTableSeeder extends Seeder {
         $module->verifier = -2;
         $module->save();
 
+        $module = new Module();
+        $module->id = Task__Main::$moduleId;
+        $module->name = 'Tasks';
+        $module->approver = -1;
+        $module->verifier = -2;
+        $module->save();
+
     }
 
 }

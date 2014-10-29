@@ -7,6 +7,7 @@
  *= require morrisjs/morris
  *= require fullcalendar/dist/fullcalendar.min
  *= require jqueryui/themes/flick/jquery-ui.min.css
+ *= require x-editable/dist/bootstrap3-editable/css/bootstrap-editable
  *= require bootstrap
  *= require wall
  *= require_self
@@ -20,8 +21,31 @@ body.modal-open {
     padding-right: 0px!important;
 }
 
+html, body {
+    min-height: 100vh;
+}
+
 li.active a {
     color: white;
+}
+
+textarea {
+    resize: none
+}
+
+*::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #ccc;
+}
+*:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #ccc;
+   opacity:  1;
+}
+*::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #ccc;
+   opacity:  1;
+}
+*:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #ccc;
 }
 
 .list-group-item {

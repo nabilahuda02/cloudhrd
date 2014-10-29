@@ -47,6 +47,7 @@
         }
         </script>
         @endif
+        @yield('script-head')
 	</head>
 	<body>
 		@include('html.header')

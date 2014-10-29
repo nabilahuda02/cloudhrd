@@ -75,7 +75,9 @@ function nl2br(str, is_xhtml) {
     var commentsCollection = new Backbone.Collection();
     var feedsources = [];
     var currentLength = 4;
+    var noDataTimeout;
     var setEventSourceLength = _.debounce(function(len) {
+        clearTimeout(noDataTimeout);
         $('#load-older').button('loading');
         currentLength = len;
         if(feedsources[0] && feedsources[0].url) {
@@ -110,6 +112,9 @@ function nl2br(str, is_xhtml) {
                 commentsCollection.set(data);
             }
         });
+        noDataTimeout = setTimeout(function() {
+            $('#load-older').text('No Data Found');
+        }, 5000);
     }, 500);
     setEventSourceLength(5);
     var CommentsView = Backbone.View.extend({

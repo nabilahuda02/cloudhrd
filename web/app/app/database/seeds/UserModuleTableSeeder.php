@@ -25,6 +25,11 @@ class UserModuleTableSeeder extends Seeder {
         $module->user_id = 1;
         $module->module_id = GeneralClaim__Main::$moduleId;
         $module->save();
+
+        $module = new UserModule();
+        $module->user_id = 1;
+        $module->module_id = Task__Main::$moduleId;
+        $module->save();
         
     }
 

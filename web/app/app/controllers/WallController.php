@@ -18,7 +18,7 @@ class WallController extends \BaseController {
     {
         $response = new Symfony\Component\HttpFoundation\StreamedResponse(function() use ($length) {
             set_time_limit(660);
-            $old_data = array();
+            $old_data = null;
             $start = time();
             $heartbeat = time();
             $user_id = Auth::user()->id;
@@ -31,6 +31,7 @@ class WallController extends \BaseController {
                     ->get()
                     ->toJson();
                 if ($old_data !== $new_data) {
+                    $old_data = $new_data;
                     echo 'data: ' . $new_data . "\n\n";
                     ob_flush();
                     flush();
@@ -43,7 +44,6 @@ class WallController extends \BaseController {
                 if(time() - $start > 600)
                     exit(0);
                 sleep(1);
-                $old_data = $new_data;
             }
         });
         $response->headers->set('Content-Type', 'text/event-stream');
@@ -55,12 +55,12 @@ class WallController extends \BaseController {
 	{
         $response = new Symfony\Component\HttpFoundation\StreamedResponse(function() use ($length) {
         	set_time_limit(660);
-        	$old_data = array();
+        	$old_data = null;
         	$start = time();
         	$heartbeat = time();
             $user_id = Auth::user()->id;
             while (true) {
-                $new_data = [];
+                $new_data = '[]';
                 $ids = Share::select('*', DB::raw("(select count(*) from user_share_pins where user_id = {$user_id} and share_id = shares.id) as is_pinned"))
                     ->orderBy('is_pinned', 'desc')
                     ->orderBy('updated_at','desc')
@@ -75,6 +75,7 @@ class WallController extends \BaseController {
                         ->toJson();
                 }
                 if ($old_data !== $new_data) {
+                    $old_data = $new_data;
                     echo 'data: ' . $new_data . "\n\n";
                     ob_flush();
                     flush();
@@ -87,7 +88,6 @@ class WallController extends \BaseController {
                 if(time() - $start > 600)
                 	exit(0);
                 sleep(1);
-                $old_data = $new_data;
             }
         });
         $response->headers->set('Content-Type', 'text/event-stream');

@@ -44,7 +44,11 @@ Route::group(['before' => 'auth'], function(){
   Route::resource('leave','LeaveController');
   Route::resource('medical','MedicalController');
   Route::resource('claims','GeneralClaimsController');
-  Route::resource('booking','RoomBookingController');
+  Route::resource('tasks','TasksController');
+
+  Route::resource('task-categories', 'TaskCategoriesController');
+  Route::resource('task-tags', 'TaskTagsController');
+  Route::put('/task-tags/{tag_id}/update-name', 'TaskTagsController@updateName');
   
   /**
    * FIXME: add filters
