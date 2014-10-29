@@ -28,6 +28,11 @@
     "bootbox": "~4.3.0",
     "lodash": "~2.4.1",
     "backbone": "~1.1.2",
-    "animate.css": "~3.2.0"
+    "animate.css": "~3.2.0",
+    "backbone.localstorage": "~1.1.13",
+    "x-editable": "~1.5.1"
+  },
+  "resolutions": {
+    "backbone": "~1.1.2"
   }
 }
