@@ -1,0 +1,71 @@
+@borderColor: #ddd;
+#tasks {
+    a {
+        cursor: pointer;
+    }
+    .task-controls {
+        margin-bottom: 16px;
+        .dropdown-menu {
+            &> div > li > a {
+                display: block;
+                padding: 3px 20px;
+                clear: both;
+                font-weight: normal;
+                line-height: 1.42857143;
+                color: #333;
+                white-space: nowrap;
+                &:hover, &:focus {
+                    text-decoration: none;
+                    color: #FFF;
+                    background-color: #2FA4E7;
+                }
+            }
+            label {
+                font-weight: normal;
+                [type=checkbox] {
+                    margin-right: 4px;
+                }
+            }
+        }
+    }
+    .ui-state-highlight { 
+        height: 38px; 
+        border: 1px dashed #e2e2e2;
+        margin-bottom: 20px;
+    }
+    .ui-sortable:empty {
+        height: 38px;
+        border: 1px dashed #e2e2e2;
+    }
+    .ui-sortable-helper {
+        background-color: white;
+        border: 1px solid @borderColor;
+    }
+    .panel-title {
+        display: inline-block;
+        cursor: pointer
+    }
+    .panel-body {
+        padding: 0px;
+        ul {
+            margin-bottom: 0px;
+            li {
+                padding: 4px 8px;
+                border-bottom:1px solid @borderColor;
+                .feed-avatar {
+                    width: 42px;
+                    float:left;
+                }
+            }
+        }
+    }
+    .panel-footer {
+        padding: 0px;
+        border-top: 0px solid;
+        textarea {
+            border: 0px solid;
+            border-bottom: 1px solid @borderColor;
+            height: 38px;
+        }
+    }
+}
