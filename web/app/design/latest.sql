@@ -6,8 +6,8 @@
 # http://code.google.com/p/sequel-pro/
 #
 # Host: 127.0.0.1 (MySQL 5.6.12)
-# Database: intranet_plate
-# Generation Time: 2014-07-23 14:48:55 +0000
+# Database: cloudhrd_app
+# Generation Time: 2014-11-05 03:06:01 +0000
 # ************************************************************
 
 
@@ -27,16 +27,18 @@ DROP TABLE IF EXISTS `audits`;
 
 CREATE TABLE `audits` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `auditable_id` int(11) DEFAULT NULL,
   `auditable_type` varchar(255) DEFAULT NULL,
   `ref` varchar(128) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   `data` text,
   `type_mask` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_audits_users1_idx` (`user_id`),
+  CONSTRAINT `fk_audits_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -52,14 +54,14 @@ CREATE TABLE `general_claim_entries` (
   `claim_type_id` int(11) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `quantity` decimal(10,2) DEFAULT '0.00',
-  `amount` decimal(10,2) DEFAULT '0.00',
+  `amount` decimal(20,4) DEFAULT '0.0000',
   `accepted` tinyint(4) DEFAULT '0',
   `remarks` text,
   `receipt_date` date DEFAULT NULL,
   `receipt_number` varchar(128) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`claim_id`,`claim_type_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_claim_entries_claims1_idx` (`claim_id`),
   KEY `fk_claim_entries_claim_types1_idx` (`claim_type_id`),
   CONSTRAINT `fk_claim_entries_claims1` FOREIGN KEY (`claim_id`) REFERENCES `general_claims` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -76,7 +78,7 @@ DROP TABLE IF EXISTS `general_claim_types`;
 CREATE TABLE `general_claim_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
-  `unit_price` decimal(10,2) DEFAULT '0.00',
+  `unit_price` decimal(20,4) DEFAULT '0.0000',
   `unit` varchar(45) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -88,10 +90,8 @@ LOCK TABLES `general_claim_types` WRITE;
 
 INSERT INTO `general_claim_types` (`id`, `name`, `unit_price`, `unit`, `created_at`, `updated_at`)
 VALUES
-	(1,'Travel',0.70,'KM','2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(2,'Parking',3.00,'Day','2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(3,'Office Supplies',0.00,NULL,'2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(4,'Entertainment',0.00,NULL,'2014-07-23 14:43:00','2014-07-23 14:43:00');
+	(1,'Travel',0.4500,'Mi','2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(2,'Office Supplies',0.0000,NULL,'2014-07-23 15:25:43','2014-07-23 15:25:43');
 
 /*!40000 ALTER TABLE `general_claim_types` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -107,16 +107,17 @@ CREATE TABLE `general_claims` (
   `user_id` int(11) NOT NULL,
   `ref` varchar(45) DEFAULT NULL,
   `title` varchar(128) DEFAULT NULL,
-  `value` decimal(10,2) DEFAULT NULL,
+  `value` decimal(20,4) DEFAULT '0.0000',
   `remarks` varchar(1000) DEFAULT '',
   `status_id` int(11) NOT NULL DEFAULT '1',
   `upload_hash` varchar(128) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_id`),
-  KEY `fk_claims_users1_idx` (`user_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_general_claims_status1_idx` (`status_id`),
-  KEY `remarks` (`remarks`(255))
+  KEY `remarks` (`remarks`(255)),
+  KEY `fk_general_claims_users1_idx` (`user_id`),
+  CONSTRAINT `fk_general_claims_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -135,16 +136,6 @@ CREATE TABLE `leave_blocked_dates` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `leave_blocked_dates` WRITE;
-/*!40000 ALTER TABLE `leave_blocked_dates` DISABLE KEYS */;
-
-INSERT INTO `leave_blocked_dates` (`id`, `name`, `date`, `created_at`, `updated_at`)
-VALUES
-	(1,'Hari Raya','2014-07-28','2014-07-17 16:31:38','2014-07-17 16:31:38'),
-	(2,'Hari Raya II','2014-07-29','2014-07-17 16:32:12','2014-07-17 16:32:20');
-
-/*!40000 ALTER TABLE `leave_blocked_dates` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table leave_dates
@@ -158,7 +149,7 @@ CREATE TABLE `leave_dates` (
   `date` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`leave_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_leave_dates_leaves1_idx1` (`leave_id`),
   KEY `date` (`date`),
   CONSTRAINT `fk_leave_dates_leaves1` FOREIGN KEY (`leave_id`) REFERENCES `leaves` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
@@ -190,8 +181,8 @@ LOCK TABLES `leave_types` WRITE;
 
 INSERT INTO `leave_types` (`id`, `name`, `default_entitlement`, `future`, `past`, `colors`, `display_calendar`, `display_wall`, `created_at`, `updated_at`)
 VALUES
-	(1,'Annual Leave',10,1,0,'#9f661c,#f39c30',1,1,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(2,'Medical Leave',10,0,1,'#5b4a85,#967adc',0,1,'2014-07-23 14:42:59','2014-07-23 14:42:59');
+	(1,'Annual Leave',15,1,0,'#9f661c,#f39c30',1,1,'2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(2,'Medical Leave',30,0,1,'#5b4a85,#967adc',0,1,'2014-07-23 15:25:43','2014-07-23 15:25:43');
 
 /*!40000 ALTER TABLE `leave_types` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -204,15 +195,17 @@ DROP TABLE IF EXISTS `leave_user_entitlements`;
 
 CREATE TABLE `leave_user_entitlements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `leave_type_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
   `entitlement` int(11) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`,`leave_type_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_leave_user_entitlements_leave_types1_idx` (`leave_type_id`),
-  CONSTRAINT `fk_leave_user_entitlements_leave_types1` FOREIGN KEY (`leave_type_id`) REFERENCES `leave_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_leave_user_entitlements_users1_idx` (`user_id`),
+  CONSTRAINT `fk_leave_user_entitlements_leave_types1` FOREIGN KEY (`leave_type_id`) REFERENCES `leave_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_leave_user_entitlements_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -224,8 +217,8 @@ DROP TABLE IF EXISTS `leaves`;
 
 CREATE TABLE `leaves` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ref` varchar(128) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
+  `ref` varchar(128) DEFAULT NULL,
   `leave_type_id` int(11) NOT NULL,
   `status_id` int(11) NOT NULL DEFAULT '1',
   `remarks` varchar(1000) DEFAULT '',
@@ -233,11 +226,12 @@ CREATE TABLE `leaves` (
   `upload_hash` varchar(128) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_id`,`leave_type_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_leaves_leave_types1_idx` (`leave_type_id`),
-  KEY `fk_leaves_users1_idx` (`user_id`),
   KEY `remarks` (`remarks`(255)),
-  CONSTRAINT `fk_leaves_leave_types1` FOREIGN KEY (`leave_type_id`) REFERENCES `leave_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_leaves_users1_idx` (`user_id`),
+  CONSTRAINT `fk_leaves_leave_types1` FOREIGN KEY (`leave_type_id`) REFERENCES `leave_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_leaves_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -260,42 +254,13 @@ LOCK TABLES `lookup_family_relationships` WRITE;
 
 INSERT INTO `lookup_family_relationships` (`id`, `name`, `created_at`, `updated_at`)
 VALUES
-	(1,'Child','2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(2,'Mother','2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(3,'Father','2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(4,'Husband','2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(5,'Wife','2014-07-23 14:43:00','2014-07-23 14:43:00');
+	(1,'Child','2014-07-23 15:25:44','2014-07-23 15:25:44'),
+	(2,'Mother','2014-07-23 15:25:44','2014-07-23 15:25:44'),
+	(3,'Father','2014-07-23 15:25:44','2014-07-23 15:25:44'),
+	(4,'Husband','2014-07-23 15:25:44','2014-07-23 15:25:44'),
+	(5,'Wife','2014-07-23 15:25:44','2014-07-23 15:25:44');
 
 /*!40000 ALTER TABLE `lookup_family_relationships` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table lookup_timing_slots
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `lookup_timing_slots`;
-
-CREATE TABLE `lookup_timing_slots` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `start` time NOT NULL,
-  `end` time NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `lookup_timing_slots` WRITE;
-/*!40000 ALTER TABLE `lookup_timing_slots` DISABLE KEYS */;
-
-INSERT INTO `lookup_timing_slots` (`id`, `name`, `start`, `end`, `created_at`, `updated_at`)
-VALUES
-	(1,'Morning','09:00:00','10:30:00','2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(2,'Late Morning','11:00:00','12:30:00','2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(3,'Afternoon','14:00:00','15:30:00','2014-07-23 14:43:00','2014-07-23 14:43:00'),
-	(4,'Late Afternoon','16:00:00','17:30:00','2014-07-23 14:43:00','2014-07-23 14:43:00');
-
-/*!40000 ALTER TABLE `lookup_timing_slots` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -312,16 +277,6 @@ CREATE TABLE `medical_claim_panel_clinics` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `medical_claim_panel_clinics` WRITE;
-/*!40000 ALTER TABLE `medical_claim_panel_clinics` DISABLE KEYS */;
-
-INSERT INTO `medical_claim_panel_clinics` (`id`, `name`, `created_at`, `updated_at`)
-VALUES
-	(1,'Klinik Sejahtera','2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(2,'Klinik Sihat','2014-07-23 14:42:59','2014-07-23 14:42:59');
-
-/*!40000 ALTER TABLE `medical_claim_panel_clinics` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table medical_claim_types
@@ -332,7 +287,7 @@ DROP TABLE IF EXISTS `medical_claim_types`;
 CREATE TABLE `medical_claim_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `default_entitlement` decimal(20,2) NOT NULL,
+  `default_entitlement` decimal(20,4) NOT NULL DEFAULT '0.0000',
   `colors` varchar(128) DEFAULT '#696969,#c4c4c4',
   `display_wall` tinyint(4) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -345,8 +300,8 @@ LOCK TABLES `medical_claim_types` WRITE;
 
 INSERT INTO `medical_claim_types` (`id`, `name`, `default_entitlement`, `colors`, `display_wall`, `created_at`, `updated_at`)
 VALUES
-	(1,'Outpatient',600.00,'#246e88,#3bafda',1,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(2,'Dental',200.00,'#516e30,#8cc152',1,'2014-07-23 14:42:59','2014-07-23 14:42:59');
+	(1,'Outpatient',900.0000,'#246e88,#3bafda',1,'2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(2,'Dental',200.0000,'#516e30,#8cc152',1,'2014-07-23 15:25:43','2014-07-23 15:25:43');
 
 /*!40000 ALTER TABLE `medical_claim_types` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -361,11 +316,11 @@ CREATE TABLE `medical_claim_user_entitlements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `medical_claim_type_id` int(11) NOT NULL,
-  `entitlement` decimal(20,2) NOT NULL,
+  `entitlement` decimal(20,4) NOT NULL DEFAULT '0.0000',
   `start_date` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`medical_claim_type_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_medical_claim_user_packages_medical_claim_types1_idx` (`medical_claim_type_id`),
   CONSTRAINT `fk_medical_claim_user_packages_medical_claim_types1` FOREIGN KEY (`medical_claim_type_id`) REFERENCES `medical_claim_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -379,23 +334,22 @@ DROP TABLE IF EXISTS `medical_claims`;
 
 CREATE TABLE `medical_claims` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `ref` varchar(45) DEFAULT NULL,
   `status_id` int(11) NOT NULL DEFAULT '1',
   `medical_claim_type_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
   `treatment_date` date DEFAULT NULL,
-  `total` decimal(20,2) DEFAULT NULL,
-  `medical_claim_panel_clinic_id` int(11) NOT NULL,
+  `total` decimal(20,4) DEFAULT '0.0000',
   `remarks` varchar(1000) DEFAULT '',
   `upload_hash` varchar(128) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`medical_claim_type_id`,`medical_claim_panel_clinic_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_medical_claims_medical_claim_types1_idx` (`medical_claim_type_id`),
-  KEY `fk_medical_claims_medical_claim_panel_clinics1_idx` (`medical_claim_panel_clinic_id`),
   KEY `remarks` (`remarks`(255)),
-  CONSTRAINT `fk_medical_claims_medical_claim_panel_clinics1` FOREIGN KEY (`medical_claim_panel_clinic_id`) REFERENCES `medical_claim_panel_clinics` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_medical_claims_medical_claim_types1` FOREIGN KEY (`medical_claim_type_id`) REFERENCES `medical_claim_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_medical_claims_users1_idx` (`user_id`),
+  CONSTRAINT `fk_medical_claims_medical_claim_types1` FOREIGN KEY (`medical_claim_type_id`) REFERENCES `medical_claim_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_medical_claims_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -410,6 +364,7 @@ CREATE TABLE `modules` (
   `name` varchar(128) DEFAULT NULL,
   `verifier` int(11) DEFAULT NULL,
   `approver` int(11) DEFAULT NULL,
+  `has_config` tinyint(4) DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -418,104 +373,15 @@ CREATE TABLE `modules` (
 LOCK TABLES `modules` WRITE;
 /*!40000 ALTER TABLE `modules` DISABLE KEYS */;
 
-INSERT INTO `modules` (`id`, `name`, `verifier`, `approver`, `created_at`, `updated_at`)
+INSERT INTO `modules` (`id`, `name`, `verifier`, `approver`, `has_config`, `created_at`, `updated_at`)
 VALUES
-	(1,'Leave',-2,-1,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(2,'Medical Claims',-2,-1,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(3,'General Claims',-2,-1,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(4,'Room Bookings',-2,-1,'2014-07-23 14:42:59','2014-07-23 14:42:59');
+	(1,'Leave',-2,-1,1,'2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(2,'Medical Claims',-2,-1,1,'2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(3,'General Claims',-2,-1,1,'2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(4,'Tasks',-2,-1,1,'2014-07-23 15:25:43','2014-07-23 15:25:43');
 
 /*!40000 ALTER TABLE `modules` ENABLE KEYS */;
 UNLOCK TABLES;
-
-
-# Dump of table room_booking_rooms
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `room_booking_rooms`;
-
-CREATE TABLE `room_booking_rooms` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `room_booking_rooms` WRITE;
-/*!40000 ALTER TABLE `room_booking_rooms` DISABLE KEYS */;
-
-INSERT INTO `room_booking_rooms` (`id`, `name`, `created_at`, `updated_at`)
-VALUES
-	(1,'Meeting Room','2014-07-23 14:43:00','2014-07-23 14:43:00');
-
-/*!40000 ALTER TABLE `room_booking_rooms` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table room_booking_timing_slots
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `room_booking_timing_slots`;
-
-CREATE TABLE `room_booking_timing_slots` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `room_booking_id` int(11) NOT NULL,
-  `lookup_timing_slot_id` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`room_booking_id`,`lookup_timing_slot_id`),
-  KEY `fk_room_booking_slots_room_bookings_idx` (`room_booking_id`),
-  KEY `fk_room_booking_slots_lookup_timing_slots1_idx` (`lookup_timing_slot_id`),
-  CONSTRAINT `fk_room_booking_slots_room_bookings` FOREIGN KEY (`room_booking_id`) REFERENCES `room_bookings` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_room_booking_slots_lookup_timing_slots1` FOREIGN KEY (`lookup_timing_slot_id`) REFERENCES `lookup_timing_slots` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `room_booking_timing_slots` WRITE;
-/*!40000 ALTER TABLE `room_booking_timing_slots` DISABLE KEYS */;
-
-INSERT INTO `room_booking_timing_slots` (`id`, `room_booking_id`, `lookup_timing_slot_id`, `created_at`, `updated_at`)
-VALUES
-	(4,3,3,NULL,NULL),
-	(5,4,4,NULL,NULL),
-	(6,5,1,NULL,NULL),
-	(7,6,2,NULL,NULL),
-	(8,7,3,NULL,NULL),
-	(9,8,4,NULL,NULL),
-	(10,9,1,NULL,NULL),
-	(11,10,2,NULL,NULL),
-	(12,11,3,NULL,NULL),
-	(13,12,4,NULL,NULL),
-	(16,1,1,NULL,NULL),
-	(17,2,2,NULL,NULL);
-
-/*!40000 ALTER TABLE `room_booking_timing_slots` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table room_bookings
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `room_bookings`;
-
-CREATE TABLE `room_bookings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ref` varchar(128) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  `room_booking_room_id` int(11) NOT NULL,
-  `booking_date` date DEFAULT NULL,
-  `purpose` varchar(255) DEFAULT NULL,
-  `status_id` int(11) NOT NULL DEFAULT '1',
-  `remarks` varchar(1000) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`room_booking_room_id`),
-  KEY `fk_room_bookings_lookup_rooms1_idx` (`room_booking_room_id`),
-  KEY `remarks` (`remarks`(255)),
-  KEY `purpose` (`purpose`),
-  CONSTRAINT `fk_room_bookings_lookup_rooms1` FOREIGN KEY (`room_booking_room_id`) REFERENCES `room_booking_rooms` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 
 # Dump of table share_comments
@@ -525,12 +391,16 @@ DROP TABLE IF EXISTS `share_comments`;
 
 CREATE TABLE `share_comments` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `share_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `comment` varchar(1000) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `share_id` int(11) NOT NULL,
+  `comment` text,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_share_comments_users1_idx` (`user_id`),
+  KEY `fk_share_comments_shares1_idx` (`share_id`),
+  CONSTRAINT `fk_share_comments_shares1` FOREIGN KEY (`share_id`) REFERENCES `shares` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_share_comments_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -542,22 +412,14 @@ DROP TABLE IF EXISTS `shares`;
 
 CREATE TABLE `shares` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(128) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  `title` varchar(30) DEFAULT NULL,
-  `content` varchar(1000) DEFAULT '',
-  `root_path` varchar(128) DEFAULT NULL,
-  `file_name` varchar(128) DEFAULT NULL,
-  `extension` varchar(45) DEFAULT NULL,
-  `event_date` date DEFAULT NULL,
-  `pinned` tinyint(4) DEFAULT '0',
-  `shareable_type` varchar(128) DEFAULT NULL,
-  `shareable_id` int(11) DEFAULT NULL,
+  `type` varchar(128) NOT NULL,
+  `content` text,
+  `meta` text,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_shares_users1_idx` (`user_id`),
-  KEY `title` (`title`,`content`(255)),
   CONSTRAINT `fk_shares_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -583,14 +445,220 @@ LOCK TABLES `status` WRITE;
 
 INSERT INTO `status` (`id`, `name`, `overide_name`, `created_at`, `updated_at`, `deleted_at`)
 VALUES
-	(1,'Pending',NULL,'2014-07-23 14:42:59','2014-07-23 14:42:59',NULL),
-	(2,'Verified',NULL,'2014-07-23 14:42:59','2014-07-23 14:42:59',NULL),
-	(3,'Approved',NULL,'2014-07-23 14:42:59','2014-07-23 14:42:59',NULL),
-	(4,'Rejected',NULL,'2014-07-23 14:42:59','2014-07-23 14:42:59',NULL),
-	(5,'Cancelled',NULL,'2014-07-23 14:42:59','2014-07-23 14:42:59',NULL);
+	(1,'Pending',NULL,'2014-07-23 15:25:43','2014-07-23 15:25:43',NULL),
+	(2,'Verified',NULL,'2014-07-23 15:25:43','2014-07-23 15:25:43',NULL),
+	(3,'Approved',NULL,'2014-07-23 15:25:43','2014-07-23 15:25:43',NULL),
+	(4,'Rejected',NULL,'2014-07-23 15:25:43','2014-07-23 15:25:43',NULL),
+	(5,'Cancelled',NULL,'2014-07-23 15:25:43','2014-07-23 15:25:43',NULL);
 
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table tag_categories
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `tag_categories`;
+
+CREATE TABLE `tag_categories` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `in_header` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+LOCK TABLES `tag_categories` WRITE;
+/*!40000 ALTER TABLE `tag_categories` DISABLE KEYS */;
+
+INSERT INTO `tag_categories` (`id`, `name`, `in_header`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(1,'Status',1,'2014-07-23 15:25:43','2014-07-23 15:25:43',NULL),
+	(2,'Priority',1,'2014-07-23 15:25:43','2014-07-23 15:25:43',NULL);
+
+/*!40000 ALTER TABLE `tag_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table tag_user_orders
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `tag_user_orders`;
+
+CREATE TABLE `tag_user_orders` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `tag_id` int(10) unsigned NOT NULL,
+  `order` int(2) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_tag_user_orders_users1_idx` (`user_id`),
+  KEY `fk_tag_user_orders_tags1_idx` (`tag_id`),
+  CONSTRAINT `fk_tag_user_orders_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_tag_user_orders_tags1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table tag_user_placements
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `tag_user_placements`;
+
+CREATE TABLE `tag_user_placements` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `tag_id` int(10) unsigned NOT NULL,
+  `name` varchar(128) NOT NULL DEFAULT 'left',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_tag_user_placements_users1_idx` (`user_id`),
+  KEY `fk_tag_user_placements_tags1_idx` (`tag_id`),
+  CONSTRAINT `fk_tag_user_placements_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_tag_user_placements_tags1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table tags
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `tags`;
+
+CREATE TABLE `tags` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tag_category_id` int(10) unsigned NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `label` varchar(128) DEFAULT 'default',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_tags_tag_categories1_idx` (`tag_category_id`),
+  CONSTRAINT `fk_tags_tag_categories1` FOREIGN KEY (`tag_category_id`) REFERENCES `tag_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+LOCK TABLES `tags` WRITE;
+/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
+
+INSERT INTO `tags` (`id`, `tag_category_id`, `name`, `label`, `created_at`, `updated_at`)
+VALUES
+	(1,1,'New','warning','2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(2,1,'Doing','info','2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(3,1,'Done','success','2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(4,2,'High','danger','2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(5,2,'Low','info','2014-07-23 15:25:43','2014-07-23 15:25:43');
+
+/*!40000 ALTER TABLE `tags` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table todo_followers
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `todo_followers`;
+
+CREATE TABLE `todo_followers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `todo_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_users_todos_todos1_idx` (`todo_id`),
+  KEY `fk_users_todos_users1_idx` (`user_id`),
+  CONSTRAINT `fk_users_todos_todos1` FOREIGN KEY (`todo_id`) REFERENCES `todos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_users_todos_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table todo_histories
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `todo_histories`;
+
+CREATE TABLE `todo_histories` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `todo_id` int(10) unsigned NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_todo_histories_todos1_idx` (`todo_id`),
+  KEY `fk_todo_histories_users1_idx` (`user_id`),
+  CONSTRAINT `fk_todo_histories_todos1` FOREIGN KEY (`todo_id`) REFERENCES `todos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_todo_histories_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table todo_orders
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `todo_orders`;
+
+CREATE TABLE `todo_orders` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `todo_id` int(10) unsigned NOT NULL,
+  `tag_category_id` int(10) unsigned NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `order` int(11) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_todo_orders_tag_categories1_idx` (`tag_category_id`),
+  KEY `fk_todo_orders_users1_idx` (`user_id`),
+  KEY `fk_todo_orders_todos1_idx` (`todo_id`),
+  CONSTRAINT `fk_todo_orders_tag_categories1` FOREIGN KEY (`tag_category_id`) REFERENCES `tag_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_todo_orders_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_todo_orders_todos1` FOREIGN KEY (`todo_id`) REFERENCES `todos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table todo_tags
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `todo_tags`;
+
+CREATE TABLE `todo_tags` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `todo_id` int(10) unsigned NOT NULL,
+  `tag_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_todos_tags_tags1_idx` (`tag_id`),
+  KEY `fk_todos_tags_todos1_idx` (`todo_id`),
+  CONSTRAINT `fk_todos_tags_tags1` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_todos_tags_todos1` FOREIGN KEY (`todo_id`) REFERENCES `todos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table todos
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `todos`;
+
+CREATE TABLE `todos` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `owner_id` int(11) NOT NULL,
+  `description` text,
+  `archived` tinyint(1) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_todos_users1_idx` (`owner_id`),
+  CONSTRAINT `fk_todos_users1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 
 # Dump of table uploads
@@ -627,7 +695,7 @@ CREATE TABLE `user_modules` (
   `module_id` int(11) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_id`,`module_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_users_has_modules_modules1_idx` (`module_id`),
   KEY `fk_users_has_modules_users1_idx` (`user_id`),
   CONSTRAINT `fk_users_has_modules_modules1` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -639,10 +707,10 @@ LOCK TABLES `user_modules` WRITE;
 
 INSERT INTO `user_modules` (`id`, `user_id`, `module_id`, `created_at`, `updated_at`)
 VALUES
-	(1,3,1,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(2,3,2,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(3,3,3,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(4,3,4,'2014-07-23 14:42:59','2014-07-23 14:42:59');
+	(1,1,1,'2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(2,1,2,'2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(3,1,3,'2014-07-23 15:25:43','2014-07-23 15:25:43'),
+	(4,1,4,'2014-07-23 15:25:43','2014-07-23 15:25:43');
 
 /*!40000 ALTER TABLE `user_modules` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -660,7 +728,7 @@ CREATE TABLE `user_profile_contacts` (
   `number` varchar(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_profile_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_user_profile_contacts_user_profiles1_idx` (`user_profile_id`),
   CONSTRAINT `fk_user_profile_contacts_user_profiles1` FOREIGN KEY (`user_profile_id`) REFERENCES `user_profiles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -681,7 +749,7 @@ CREATE TABLE `user_profile_education_histories` (
   `end_date` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_profile_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_user_profile_education_histories_user_profiles1_idx` (`user_profile_id`),
   CONSTRAINT `fk_user_profile_education_histories_user_profiles1` FOREIGN KEY (`user_profile_id`) REFERENCES `user_profiles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -702,7 +770,7 @@ CREATE TABLE `user_profile_emergency_contacts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_profile_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_user_profile_emergency_contacts_user_profiles1_idx` (`user_profile_id`),
   CONSTRAINT `fk_user_profile_emergency_contacts_user_profiles1` FOREIGN KEY (`user_profile_id`) REFERENCES `user_profiles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -723,7 +791,7 @@ CREATE TABLE `user_profile_employment_histories` (
   `position` varchar(128) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_profile_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_user_profile_employement_histories_user_profiles1_idx` (`user_profile_id`),
   CONSTRAINT `fk_user_profile_employement_histories_user_profiles1` FOREIGN KEY (`user_profile_id`) REFERENCES `user_profiles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -743,7 +811,7 @@ CREATE TABLE `user_profile_family_members` (
   `dob` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_profile_id`,`lookup_family_relationship_id`),
+  PRIMARY KEY (`id`,`lookup_family_relationship_id`),
   KEY `fk_user_profile_family_members_user_profiles1_idx` (`user_profile_id`),
   KEY `fk_user_profile_family_members_lookup_family_relationships1_idx` (`lookup_family_relationship_id`),
   CONSTRAINT `fk_user_profile_family_members_lookup_family_relationships1` FOREIGN KEY (`lookup_family_relationship_id`) REFERENCES `lookup_family_relationships` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -766,7 +834,7 @@ CREATE TABLE `user_profiles` (
   `address` text,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`user_id`),
+  PRIMARY KEY (`id`),
   KEY `fk_user_profiles_users1_idx` (`user_id`),
   CONSTRAINT `fk_user_profiles_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -776,13 +844,30 @@ LOCK TABLES `user_profiles` WRITE;
 
 INSERT INTO `user_profiles` (`id`, `user_id`, `first_name`, `last_name`, `user_image`, `address`, `created_at`, `updated_at`)
 VALUES
-	(1,1,'admin',NULL,'http://api.randomuser.me/portraits/men/1.jpg',NULL,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(2,2,'user',NULL,'/profile/af21c514b79412dd33fbfd6ae37e453e/original.png',NULL,'2014-07-23 14:42:59','2014-07-23 14:45:51'),
-	(3,3,'module owner',NULL,'http://api.randomuser.me/portraits/men/3.jpg',NULL,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(4,4,'unit head',NULL,'http://api.randomuser.me/portraits/men/4.jpg',NULL,'2014-07-23 14:42:59','2014-07-23 14:42:59');
+	(1,1,'admin',NULL,'http://api.randomuser.me/portraits/men/1.jpg',NULL,'2014-07-23 15:25:43','2014-07-23 15:25:43');
 
 /*!40000 ALTER TABLE `user_profiles` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table user_share_pins
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `user_share_pins`;
+
+CREATE TABLE `user_share_pins` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `share_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_share_user_pins_users1_idx` (`user_id`),
+  KEY `fk_share_user_pins_shares1_idx` (`share_id`),
+  CONSTRAINT `fk_share_user_pins_shares1` FOREIGN KEY (`share_id`) REFERENCES `shares` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_share_user_pins_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 
 # Dump of table user_units
@@ -810,7 +895,7 @@ LOCK TABLES `user_units` WRITE;
 
 INSERT INTO `user_units` (`id`, `name`, `user_id`, `parent_id`, `lft`, `rgt`, `depth`, `created_at`, `updated_at`)
 VALUES
-	(1,'main',4,NULL,1,2,0,'2014-07-23 14:42:59','2014-07-23 14:42:59');
+	(1,'main',4,NULL,1,4,0,'2014-07-23 15:25:43','2014-08-15 08:27:49');
 
 /*!40000 ALTER TABLE `user_units` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -826,7 +911,6 @@ CREATE TABLE `users` (
   `unit_id` int(11) NOT NULL,
   `email` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL,
-  `email_password` varchar(255) DEFAULT NULL,
   `gender` int(11) DEFAULT NULL,
   `is_admin` tinyint(4) NOT NULL DEFAULT '0',
   `verified` tinyint(4) DEFAULT '0',
@@ -835,21 +919,19 @@ CREATE TABLE `users` (
   `leave_package_id` int(11) DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`,`unit_id`),
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
-  KEY `fk_users_units1_idx` (`unit_id`),
-  CONSTRAINT `fk_users_units1` FOREIGN KEY (`unit_id`) REFERENCES `user_units` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_users_user_units1_idx` (`unit_id`),
+  CONSTRAINT `fk_users_user_units1` FOREIGN KEY (`unit_id`) REFERENCES `user_units` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
-INSERT INTO `users` (`id`, `unit_id`, `email`, `password`, `email_password`, `gender`, `is_admin`, `verified`, `verify_token`, `remember_token`, `leave_package_id`, `created_at`, `updated_at`)
+INSERT INTO `users` (`id`, `unit_id`, `email`, `password`, `gender`, `is_admin`, `verified`, `verify_token`, `remember_token`, `leave_package_id`, `created_at`, `updated_at`, `deleted_at`)
 VALUES
-	(1,1,'admin','$2y$10$9E2SHlFZbHrQeveJLttGvu34z5nvnhMedzzvhskVeLaXQh3yMARRO','KKNA1h23',NULL,1,1,NULL,NULL,1,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(2,1,'user','$2y$10$vGiVJqMs7U4jvtuBBhGmWubeLJUh7TcbAe/7o3KD3usHcfnm8Ecb2','d1OaddZE',NULL,0,1,NULL,NULL,1,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(3,1,'mo','$2y$10$ZRbWgelTPscyJaTg85j9oO2iBOpqXGCAlqrPpaxb7IfJydZ4uI5aW','VneS8NNV',NULL,0,1,NULL,NULL,1,'2014-07-23 14:42:59','2014-07-23 14:42:59'),
-	(4,1,'uh','$2y$10$VfN6BTGx3.s5jjIxZnWx9OXXMGVUlvzlOibYvBtX.XgUS0DuWJB.W','usse9Yye',NULL,0,1,NULL,NULL,1,'2014-07-23 14:42:59','2014-07-23 14:42:59');
+	(1,0,'admin@intranet.boxedge.com','$2y$10$f7Ot8H3LzMn2QvNLYOrOOe9eWLl64tT.c4SS/yDwLM0EgtLevMS8i',NULL,1,1,NULL,'kYjnzQTyfEwBlsF84h6Xq1fzGhTQ8DfIyi8j6hnsgjAnVrvPQpqAoztAokdX',1,'2014-07-23 15:25:43','2014-08-15 08:16:10',NULL);
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
