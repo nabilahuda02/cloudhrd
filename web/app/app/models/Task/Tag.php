@@ -33,4 +33,8 @@ class Task__Tag extends \Eloquent
     public function orders() {
         return $this->hasMany('Task__TagUserOrder', 'tag_id');
     }
+
+    public function tasks() {
+        return $this->belongsToMany('Task__Main', 'todo_tags', 'tag_id', 'todo_id');
+    }
 }

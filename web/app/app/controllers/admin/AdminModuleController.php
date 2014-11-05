@@ -9,7 +9,7 @@ class AdminModuleController extends \BaseController {
    */
   public function index()
   {
-    $modules = Module::all();
+    $modules = Module::where('has_config', 1)->get();
     return View::make('admin.modules.index', compact('modules'));
   }
 

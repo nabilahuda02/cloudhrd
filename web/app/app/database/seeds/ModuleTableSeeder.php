@@ -36,6 +36,7 @@ class ModuleTableSeeder extends Seeder {
         $module->name = 'Tasks';
         $module->approver = -1;
         $module->verifier = -2;
+        $module->has_config = 0;
         $module->save();
 
     }

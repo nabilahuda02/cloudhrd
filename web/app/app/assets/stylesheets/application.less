@@ -1,5 +1,6 @@
 /**
  *= require animate.css/animate.min
+ *= require feedback
  *= require font-awesome/css/font-awesome.min
  *= require datatables/media/css/jquery.dataTables.min
  *= require datatables
@@ -25,8 +26,14 @@ html, body {
     min-height: 100vh;
 }
 
-li.active a {
-    color: white;
+li.active {
+    a {
+      color: white;
+      background-color: #2fa4e7;
+    }
+    &:hover a {
+        background-color: #178acc!important;
+    }
 }
 
 textarea {

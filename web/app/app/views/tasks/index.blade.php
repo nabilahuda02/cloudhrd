@@ -16,15 +16,17 @@
                 <div id="group-menu"></div>
                 <li class="divider"></li>
                 <li id="new-group"><a>Create New Grouping</a></li>
+                <li id="new-heading"><a>Create New Tag</a></li>
+                <li id="del-group"><a>Delete <span class="group-name"></span> Group</a></li>
                 <li class="divider"></li>
-                <li>
+                <!-- <li>
                     <a>
                         <label for="control-mine">
                             <input id="control-mine" type="checkbox">
                             Only mine
                         </label>
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a>
                         <label for="control-archived">
@@ -45,7 +47,7 @@
     </script>
     <script type="text/template" id="task-heading-template"><div data-tagid="<%- this.model.id %>" class="panel panel-<%- this.model.get('label') %>">
         <div class="panel-heading">
-            <h4 class="panel-title" data-type="text" data-pk="<%- this.model.get('id') %>" data-name="name" data-url="/task-tags/<%- this.model.get('id') %>/update-name"><%- this.model.get('name') %></h4>
+            <h4 class="panel-title" data-type="taskheading" data-value='{"name":"<%- this.model.get('name') %>","label":"<%- this.model.get('label') %>"}' data-pk="<%- this.model.get('id') %>" data-name="taskheading" data-url="/task-tags/<%- this.model.get('id') %>/update-name"><%- this.model.get('name') %></h4>
         </div>
         <div class="panel-body"><ul class="list-unstyled inner-task"></ul></div>
         <div class="panel-footer input-group">
@@ -55,57 +57,14 @@
             </span>
         </div>
     </div></script>
-    <script type="text/template" id="task"><li><img src="/profile/e46eedce7623f5eb78927caa55611e8d/original.png" class="feed-avatar hidden-sm hidden-xs">item 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates qui blanditiis fugit, numquam nobis amet a aperiam repudiandae officia maxime, quo delectus cum excepturi impedit nesciunt eum, provident adipisci cupiditate?
-            <div class="clearfix"></div></li></script>
+    <script type="text/template" id="task-template"><img src="<%- model.owner.profile.user_image %>" class="feed-avatar hidden-sm hidden-xs">
+        <%- model.description %> 
+        <% model.tags.forEach(function(tag){ if(tag.tag_category_id !== currentCategoryId) { %> <span class="label label-<%-tag.label%>">
+                <span title="<%- tag.category.name %>: <%- tag.name %>" data-toggle="tooltip" data-placement="top" class="has-tooltip"><%- tag.name.charAt(0) %></span></span><% }}); %>
+        <% if(model.archived) { %><span class="unarchive label label-warning"><a title="Click to unarchive" data-toggle="tooltip" data-placement="top" class="has-tooltip">A</a></span><% } else { %>
+            <span class="archive label label-success"><a title="Click to archive" data-toggle="tooltip" data-placement="top" class="has-tooltip">A</a></span>
+        <% } %>
+        <div class="clearfix"></div></script>
 </div>
-<!-- <div class="col-md-10 col-sm-8" id="tasks">
-    <div class="row task-headings">
-        <div class="col-sm-6"><div class="panel panel-danger">
-            <div class="panel-heading">
-                <h4 class="panel-title">Title</h4>
-            </div>
-            <div class="panel-body"><ul class="list-unstyled inner-task"></ul></div>
-            <div class="panel-footer">
-                <textarea class="form-control new-input" rows="1" placeholder="Create New"></textarea>
-                <div class="pull-right">
-                    <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-plus"></span></button>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div><div class="panel panel-warning">
-        <div class="panel-heading">
-            <h4 class="panel-title">Title</h4>
-        </div>
-        <div class="panel-body"><ul class="list-unstyled inner-task">
-            <li><img src="/profile/e46eedce7623f5eb78927caa55611e8d/original.png" class="feed-avatar hidden-sm hidden-xs">
-                item 2
-                <div class="clearfix"></div></li>
-                <li><img src="/profile/e46eedce7623f5eb78927caa55611e8d/original.png" class="feed-avatar hidden-sm hidden-xs">
-                    item 3
-                    <div class="clearfix"></div></li></ul>
-                </div>
-            </div><div class="panel panel-warning">
-            <div class="panel-heading">
-                <h4 class="panel-title">Title</h4>
-            </div>
-        <div class="panel-body"><ul class="list-unstyled inner-task"></ul>
-    </div>
-</div></div>
-<div class="col-sm-6"><div class="panel panel-success">
-    <div class="panel-heading">
-        <h4 class="panel-title">Title</h4>
-    </div>
-<div class="panel-body"><ul class="list-unstyled inner-task"></ul>
-</div>
-</div></div>
-<div class="col-sm-6"><div class="panel panel-warning">
-<div class="panel-heading">
-<h4 class="panel-title">Title</h4>
-</div>
-<div class="panel-body"><ul class="list-unstyled inner-task"></ul>
-</div>
-</div></div>
-</div>
-</div> -->
 @include('tasks.template')
 @stop

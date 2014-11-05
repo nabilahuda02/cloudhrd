@@ -14,6 +14,7 @@
 //= require datatables
 //= require app/duplicator/duplicator
 //= require app/jquery.avatar.js
+//= require app/lib/feedback
 //= require_self
 
 Dropzone.autoDiscover = false;
@@ -73,5 +74,23 @@ var tbl;
           });
         });;
     };
+
+    new Feedback({
+        url: '/wall/feedback'
+    });
+
+    $('.feedback-btn')
+        .removeClass('feedback-bottom-right')
+        .addClass('feedback-bottom-left btn-danger btn')
+        .hover(function(){
+            $('.feedback-btn').animate({
+                left: '5px'
+            })
+        }, function(){
+            $('.feedback-btn').animate({
+                left: '-122px'
+            })
+        })
+        .append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fa fa-exclamation-triangle"></span> ');
 
 }).call(this);

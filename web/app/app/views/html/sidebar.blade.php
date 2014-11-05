@@ -9,7 +9,7 @@
 				@endif
 			</div>
 		</div>
-		<h4 class="text-center hover-show-hidden" style="text-transform:uppercase;">{{ $user->profile->first_name }} <a class="is-hidden" href=""><span class="fa fa-cog"></span></a></h4>
+		<h4 class="text-center hover-show-hidden" style="text-transform:uppercase;">{{ $user->profile->first_name }} <a class="is-hidden" href="/wall/profile"><span class="fa fa-cog"></span></a></h4>
 		<hr style="margin-top:12px;">
 	</div>
 	<ul class="nav nav-pills nav-stacked">
@@ -37,9 +37,9 @@
 			</a>
 		</li>
 		@if($user->is_admin)
-		<li>
+		<li class="">
 			<a href="#admin_menu" class="" data-toggle="collapse">Administrator <span class="fa fa-raquo"></span></a>
-			<ul class="collapse list-unstyled" id="admin_menu">
+			<ul class="collapse list-unstyled @if(in_array($controller, ['Unit Admin', 'User Admin', 'Module Admin', 'Audit', 'Organization', 'Subscription'])) in @endif" id="admin_menu">
 				<li class="{{ ($controller === 'User Admin') ? 'active' : '' }}">
 					<a href="{{ action('AdminUserController@index') }}">
 						Manage User</a>

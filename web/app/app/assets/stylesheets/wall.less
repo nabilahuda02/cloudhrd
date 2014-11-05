@@ -179,6 +179,40 @@
             }
         }
     }
+    #todos {
+        .panel-body {
+            padding: 0px;
+            text-align: left;
+            ul {
+                margin-bottom: 0px;
+                li {
+                    padding: 4px 8px;
+                    border-bottom:1px solid #ddd;
+                    .feed-avatar {
+                        width: 42px;
+                        float:left;
+                        margin-right: 4px;
+                        border-radius: 50%;
+                    }
+                    .label {
+                        margin-right: 1px;
+                        a {
+                            color: white;
+                            text-decoration: none
+                        }
+                    }
+                    .unarchive, .archive {
+                        display: none;
+                    }
+                    &:hover {
+                        .unarchive, .archive {
+                            display: inline;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {

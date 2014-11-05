@@ -9,6 +9,7 @@ class TaskTableSeeder extends Seeder {
     {
         DB::table('todo_followers')->truncate();
         DB::table('todo_histories')->truncate();
+        DB::table('todo_orders')->truncate();
         DB::table('todo_tags')->truncate();
         DB::table('tags')->truncate();
         DB::table('tag_categories')->truncate();

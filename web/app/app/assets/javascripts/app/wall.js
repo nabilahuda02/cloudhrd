@@ -114,7 +114,7 @@ function nl2br(str, is_xhtml) {
         });
         noDataTimeout = setTimeout(function() {
             $('#load-older').text('No Data Found');
-        }, 5000);
+        }, 1500);
     }, 500);
     setEventSourceLength(5);
     var CommentsView = Backbone.View.extend({
@@ -236,4 +236,36 @@ function nl2br(str, is_xhtml) {
             this.render();
         }
     }))({el: '#feeds .inner'});
+
+    var todos = new (Backbone.View.extend({
+        template: _.template($('#task-template').text()),
+        render: _.debounce(function() {
+            this.$todoEl.html('');
+            this.collection.toJSON().filter(function(model){
+                return model.archived === 0;
+            }).forEach(function(model){
+                this.$todoEl.append(this.template({
+                    model: model
+                }))
+            }.bind(this));
+            // console.log(this.collection.length)
+        }, 17),
+        collection: (new Backbone.Collection()),
+        initialize: function() {
+            this.$todoEl = $('#todo-el', this.$el);
+            $.eventsource({
+                url: "/task/stream",
+                dataType: "json",
+                message: function(data) {
+                    this.collection.set(data, {
+                        delete: false
+                    })
+                }.bind(this)
+            });
+            this.listenTo(this.collection, 'all', this.render.bind(this));
+        }
+    }))({
+        el: '#todos'
+    });
+
 }.call(this));

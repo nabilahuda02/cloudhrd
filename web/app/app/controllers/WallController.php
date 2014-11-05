@@ -112,7 +112,6 @@ class WallController extends \BaseController {
 			$data['share_id'] = $share_id;
 			$comment = ShareComment::create($data);
 			$comment->save();
-			// $share->touch();
 			return $comment;
 		}
 		return;
@@ -158,6 +157,63 @@ class WallController extends \BaseController {
         return;
     }
 
+    public function getProfile()
+    {
+        $currentuser = Auth::user();
+        return View::make('profiles.form', compact('currentuser'));
+    }
+
+    public function getChangePassword()
+    {
+        $currentuser = Auth::user();
+        return View::make('wall.change_pw', compact('currentuser'));
+    }
+
+    public function postChangePassword()
+    {
+        $currentuser = Auth::user();
+        $validator = Validator::make($data = Input::all(), User::$validation_rules['changepw']);
+        if ($validator->fails())
+        {
+            Session::flash('NotifyDanger', 'Password successfully unsuccessful');
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+        Session::flash('NotifySuccess', 'Password successfully updated');
+        $currentuser->password = Hash::make($data['password']);
+        return Redirect::back();
+    }
+
+    public function postFeedback()
+    {
+        /**
+         * Datetime
+         * User Reporter
+         * User Details
+         * Organization Details
+         */
+        $user = Auth::user();
+        $report = ['issue' => '', 'image' => ''];
+        $data = Input::get('data');
+        $data = json_decode($data);
+        $report['issue'] = $data[0]->Issue;
+        if(isset($data[1])) {
+            $report['image'] = $data[1];
+        }
+
+        $feedback = new Master__Feedback();
+        $feedback->user_id = $_ENV['cloudhrd']->id;
+        $feedback->description = $data[0]->Issue;
+        $feedback->server_params = json_encode($_SERVER);
+        $feedback->session_params = json_encode(Session::all());
+        $feedback->user_details = json_encode(Auth::user());
+        $feedback->screenshot = json_encode($data[1]);
+        $feedback->save();
+
+        Mail::send(['html' => 'emails.support'], compact('user', 'report'), function($message) use ($report)
+        {
+            $message->to('zulfajuniadi@gmail.com', 'CloudHRD Support')->subject('Support request: ' . substr($report['issue'], 0, 30));
+        });
+    }
 
 	public function __construct()
 	{

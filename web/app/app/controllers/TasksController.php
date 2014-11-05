@@ -39,56 +39,33 @@ class TasksController extends \BaseController {
 	 */
 	public function store()
 	{
-
 		$data = Input::all();
-		$data['upload_hash'] = md5(microtime());
-		$data['treatment_date'] = Helper::short_date_to_mysql($data['treatment_date']);
-		$rules = MedicalClaim__Main::$rules;
+		$task = new Task__Main();
+		$task->owner_id = Auth::user()->id;
+		$task->description = $data['description'];
+		$task->save();
 
-		if(!isset($data['user_id']) || (isset($data['user_id']) && !in_array($data['user_id'], Auth::user()->getDownline(MedicalClaim__Main::$moduleId)))) {
-			$data['user_id'] = Auth::user()->id;
+		$follower = new Task__Follower();
+		$follower->user_id = Auth::user()->id;
+		$follower->todo_id = $task->id;
+		$follower->save();
+
+		$tags = Task__Tag::groupBy('tag_category_id')->whereNotIn('tag_category_id', [$data['category_id']])->lists('id');
+		array_push($tags, $data['tag_id']);
+		foreach ($tags as $tag_id) {
+			Task__TodoTag::create([
+				'tag_id' => $tag_id,
+				'todo_id' => $task->id
+			]);
 		}
 
-		$rules['total'] = (isset($rules['total']) ? $rules['total'] . '|' : '' ) . 'Numeric|max:' . MedicalClaim__Type::find($data['medical_claim_type_id'])->user_entitlement_balance($data['user_id']);
-
-		$validator = Validator::make($data, $rules);
-
-		if ($validator->fails())
-		{
-			Session::flash('NotifyDanger', 'Error Creating Claim');
-			return Redirect::back()->withErrors($validator)->withInput();
+		foreach (Task__Category::all()->lists('id') as $category_id) {
+			$order = new Task__Order();
+			$order->todo_id = $task->id;
+			$order->tag_category_id = $category_id;
+			$order->user_id = Auth::user()->id;
+			$order->save();
 		}
-
-		Session::flash('NotifySuccess', 'Claim Created Successfully');
-		$medical = MedicalClaim__Main::create($data);
-
-	    $medical->ref = 'MC-' . $medical->id;
-	    $medical->save();
-
-		$token = Input::get('noonce');
-		Upload::where('imageable_type', $token)->update([
-			'imageable_type' => 'MedicalClaim__Main',
-			'imageable_id'   => $medical->id
-		]);
-
-	    $medical->setStatus(1);
-
-		return Redirect::route('medical.index');
-	}
-
-	/**
-	 * Display the specified medical.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$medical = MedicalClaim__Main::findOrFail($id);
-		if(!$medical->canView())
-			return Redirect::action('medical.index');
-
-		return View::make('tasks.show', compact('medical'));
 	}
 
 	/**
@@ -99,52 +76,6 @@ class TasksController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$medical = MedicalClaim__Main::findOrFail($id);
-
-		$data = Input::all();
-		$data['treatment_date'] = Helper::short_date_to_mysql($data['treatment_date']);
-
-		/* update status */
-		if(isset($data['_status']) && isset($data['status_id']) && (
-				$medical->canApprove() || 
-				$medical->canReject()  || 
-				$medical->canCancel()  ||
-				$medical->canVerify())
-		) {
-			$medical->setStatus($data['status_id']);
-			Session::flash('NotifySuccess', 'Status Updated Successfully');
-			return Redirect::action('medical.index');
-		}
-		
-		if(!$medical->canEdit())
-			return Redirect::action('medical.index');
-
-		if(!isset($data['user_id']) || (isset($data['user_id']) && !in_array($data['user_id'], Auth::user()->getDownline(MedicalClaim__Main::$moduleId)))) {
-			$data['user_id'] = Auth::user()->id;
-		}
-
-		$rules = MedicalClaim__Main::$rules;
-		$rules['total'] = (isset($rules['total']) ? $rules['total'] . '|' : '' ) . 'max:' . (MedicalClaim__Type::find($data['medical_claim_type_id'])->user_entitlement_balance($medical->user_id) + $medical['total']);
-
-		$validator = Validator::make($data, $rules);
-
-		if ($validator->fails())
-		{
-			Session::flash('NotifyDanger', 'Error Updating Claim');
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		$medical->update($data);
-
-	    $medical->audits()->create([
-	    	'ref' => $medical->ref,
-	      'type' => 2,
-	      'data' => $medical->toArray()
-	    ]);
-
-		Session::flash('NotifySuccess', 'Claim Updated Successfully');
-
-		return Redirect::action('medical.index');
 	}
 
 	/**
@@ -157,207 +88,93 @@ class TasksController extends \BaseController {
 	{
 		// Session::flash('NotifySuccess', 'Claim Deleted Successfully');
 		// MedicalClaim__Main::destroy($id);
-
 		// return Redirect::action('medical.index');
 	}
 
-	/**
-	 * Administration section
-	 */
-	
-	// public function getAdminTypes()
-	// {
-	// 	return View::make('tasks.admin.types', ['hide_entitlement' => true]);
-	// }
-	
-	// public function getAdminPanelClinics()
-	// {
-	// 	return View::make('tasks.admin.panel-clinics', ['hide_entitlement' => true]);
-	// }
+	public function setTag($task_id, $tag_id)
+	{
+		$task = Task__Main::findOrFail($task_id);
+		$tag_category_id = Task__Tag::findOrFail($tag_id)->tag_category_id;
 
-	// public function getAdminEntitlement()
-	// {
-	// 	return View::make('tasks.admin.userlist', ['hide_entitlement' => true]);
-	// }
+		$tags = $task->tags->filter(function($tag) use ($tag_category_id) {
+			return $tag->tag_category_id !== $tag_category_id;
+		})->map(function($tag){
+			return $tag->id;
+		})->toArray();
+		$tags[] = (int) $tag_id;
+		$task->tags()->sync($tags);
+	}
 
-	// public function getAdminShowUserEntitlemnt($user_id)
-	// {
-	// 	$entitlement_user = User::findOrFail($user_id);
-	// 	return View::make('tasks.admin.userlist', ['hide_entitlement' => true, 'entitlement_user' => $entitlement_user]);
-	// }
+    public function streamTask()
+    {
+        $response = new Symfony\Component\HttpFoundation\StreamedResponse(function() {
+            set_time_limit(660);
+            $old_data = null;
+            $start = time();
+            $heartbeat = time();
+            $user_id = Auth::user()->id;
+            while (true) {
+                $todo_ids = Task__Follower::where('user_id', $user_id)->lists('todo_id');
+                if(count($todo_ids) > 0) {
+                	$new_data = Task__Main::with('orders', 'owner', 'owner.profile', 'followers', 'tags', 'tags.category')
+	            		->whereIn('id', $todo_ids)
+						->get()
+						->toJson();
+				} else {
+					$new_data = '[]';
+				}
+                if ($old_data !== $new_data) {
+                    $old_data = $new_data;
+                    echo 'data: ' . $new_data . "\n\n";
+                    ob_flush();
+                    flush();
+                } else if (time() - $heartbeat > 50) {
+                    $heartbeat = time();
+                    echo 'id: ' . uniqid() . "\n\n";
+                    ob_flush();
+                    flush();
+                }
+                if(time() - $start > 600)
+                    exit(0);
+                sleep(1);
+            }
+        });
+        $response->headers->set('Content-Type', 'text/event-stream');
+        $response->headers->set('X-Accel-Buffering', 'no');
+        return $response;
+    }
 
-	// public function postAdminShowUserEntitlemnt($user_id)
-	// {
-	// 	$entitlement_user = User::findOrFail($user_id);
-	// 	$data = Input::all();
+	public function setOrder($category_id)
+	{
+		$order = Input::get('order');
+		foreach ($order as $index => $task_id) {
+			$order = Task__Order::where('todo_id', $task_id)
+				->where('tag_category_id', $category_id)
+				->where('user_id', Auth::user()->id)
+				->first();
+			if(!$order) {
+				$order = new Task__Order();
+				$order->todo_id = $task_id;
+				$order->tag_category_id = $category_id;
+				$order->user_id = Auth::user()->id;
+			}
+			$order->order = $index;
+			$order->save();
+		}
+		return $category_id;
+	}
 
-	// 	foreach(MedicalClaim__UserEntitlement::where('user_id', $user_id)->get() as $item) {
-	// 		$item->delete();
-	// 	}
+    function setArchived($task_id) {
+        $task = Task__Main::findOrFail($task_id);
+        $task->archived = 1;
+        $task->save();
+    }
 
-	// 	foreach($data['type'] as $type_id => $value) {
-	// 		if(floatval($value) > 0) {
-	// 			$entitlement = new MedicalClaim__UserEntitlement();
-	// 			$entitlement->user_id = $user_id;
-	// 			$entitlement->medical_claim_type_id = $type_id;
-	// 			$entitlement->entitlement = $value;
-	// 			$entitlement->start_date = date('Y-m-01');
-	// 			$entitlement->save();
-	// 		}
-	// 	}
-
-	// 	Session::flash('NotifySuccess', 'Entitlement Overidden');
-	// 	return Redirect::back();
-
-	// }
-
-	// public function getAdminReporting()
-	// {
-	// 	return View::make('tasks.admin.reporting');
-	// }
-
-	// public function postAdminReporting()
-	// {
-	// 	$input = Input::all();
-	// 	$tables = [];
-	// 	$tabulate = $input['tabulate_by'];
-
-	// 	// dd($input);
-	// 	/*
-	// 		 ["unit"]=> string(0) "" 
-	// 		 ["user_id"]=> string(0) "" 
-	// 		 ["status_id"]=> string(0) "" 
-	// 		 ["medical_claim_type_id"]=> string(0) "" 
-	// 		 ["medical_from_date"]=> string(10) "2014-07-01" 
-	// 		 ["medical_to_date"]=> string(0) "" 
-	// 		 ["create_from_date"]=> string(0) "" 
-	// 		 ["create_to_date"]=> string(0) ""
-	// 		 ["tabulate_by"]=> string(0) ""
-	// 	 */
-		
-	// 	$medical_claims = MedicalClaim__Main::join('users', 'users.id', '=', 'medical_claims.user_id');
-	// 	if($tabulate != 'year(medical_claims.treatment_date), month(medical_claims.treatment_date)') {
-	// 		$medical_claims->groupBy('medical_claims.id');
-	// 		$medical_claims->select(
-	// 			'medical_claims.id',
-	// 			'medical_claims.ref',
-	// 			'medical_claims.treatment_date',
-	// 			'medical_claims.user_id',
-	// 			'medical_claims.status_id',
-	// 			'medical_claims.medical_claim_type_id',
-	// 			'medical_claims.total',
-	// 			'users.unit_id'
-	// 		);
-	// 	}
-
-	// 	if($input['unit']) {
-	// 		$medical_claims->where('users.unit_id', $input['unit']);
-	// 	}
-	// 	if($input['user_id']) {
-	// 		$medical_claims->where('user_id', $input['user_id']);
-	// 	}
-	// 	if($input['status_id']) {
-	// 		$medical_claims->where('status_id', $input['status_id']);
-	// 	}
-	// 	if($input['medical_claim_type_id']) {
-	// 		$medical_claims->where('medical_claim_type_id', $input['medical_claim_type_id']);
-	// 	}
-	// 	if($input['create_from_date']) {
-	// 		$medical_claims->where('medical_claims.created_at', '>=', $input['create_from_date']);
-	// 	}
-	// 	if($input['create_to_date']) {
-	// 		$medical_claims->where('medical_claims.created_at', '<=', $input['create_to_date']);
-	// 	}
-	// 	if($input['medical_from_date']) {
-	// 		$medical_claims->where('medical_claims.treatment_date', '>=', $input['medical_from_date']);
-	// 	}
-	// 	if($input['medical_to_date']) {
-	// 		$medical_claims->where('medical_claims.treatment_date', '<=', $input['medical_to_date']);
-	// 	}		
-	// 	if($tabulate) {
-	// 		$groupMedical = clone $medical_claims;
-	// 		$lists_column = $tabulate;
-	// 		if($tabulate === 'users.unit_id')
-	// 			$lists_column = 'unit_id';
-	// 		if($tabulate === 'year(medical_claims.treatment_date), month(medical_claims.treatment_date)') {
-	// 			$groupMedical = $groupMedical
-	// 				->groupBy(DB::raw($tabulate))
-	// 				->get();
-
-	// 			foreach ($groupMedical as $index => $data) {
-	// 				$tempMedical = clone $medical_claims;
-	// 				$tempMedical->groupBy('medical_claims.id');
-	// 				$tempMedical->select(
-	// 					'medical_claims.id',
-	// 					'medical_claims.ref',
-	// 					'medical_claims.treatment_date',
-	// 					'medical_claims.user_id',
-	// 					'medical_claims.status_id',
-	// 					'medical_claims.medical_claim_type_id',
-	// 					'medical_claims.total',
-	// 					'users.unit_id'
-	// 				);
-	// 				$value = explode('-', $data->treatment_date);
-	// 				array_pop($value);
-	// 				$value = implode('-', $value);
-	// 				$tables[] = [
-	// 					'title' => $value,
-	// 					'data'  => $tempMedical
-	// 						-> where('medical_claims.treatment_date', 'like', "$value%")
-	// 						-> get()
-	// 				];
-	// 				unset($tempMedical);
-	// 			}
-	// 		} else {
-	// 			$groupMedical = $groupMedical
-	// 				->groupBy(DB::raw($tabulate))
-	// 				->get()
-	// 				->lists($lists_column);
-	// 			$groupMedical = array_unique($groupMedical);
-	// 			foreach ($groupMedical as $index => $value) {
-	// 				$tempMedical = clone $medical_claims;
-	// 				$title = $value;
-	// 				switch ($tabulate) {
-	// 					case 'medical_claim_type_id':
-	// 						$title = MedicalClaim__Type::find($title)->name;
-	// 						break;
-	// 					case 'status_id':
-	// 						$title = Status::find($title)->name;
-	// 						break;
-	// 					case 'user_id':
-	// 						$title = UserProfile::find($title)->userName();
-	// 						break;
-	// 					case 'users.unit_id':
-	// 						$title = UserUnit::find($title)->name;
-	// 						break;
-	// 				}
-	// 				$tables[] = [
-	// 					'title' => $title,
-	// 					'data'  => $tempMedical
-	// 						-> where($tabulate, $value)
-	// 						-> get()
-	// 				];
-	// 				unset($tempMedical);
-	// 			}
-	// 		}
-	// 	} else {
-	// 		$tables = [[
-	// 			'title' => '',
-	// 			'data' => $medical_claims->get()
-	// 		]];
-	// 	}
-	// 	if(isset($input['download'])) {
-	// 		return Excel::create('MedicalClaim_Report_' . date('Ymd-His') , function($excel) use($tables) {
-	// 			foreach ($tables as $table) {
-	// 		    $excel->sheet($table['title'], function($sheet) use($table) {
-	// 	        	$sheet->loadView('tasks.admin.reporting-table', ['datas' => $table['data']]);
-	// 		    });
-	// 			}
-	// 		})->export('xls');
-	// 	}
-	// 	return View::make('tasks.admin.reporting', compact('tables'))->withInput($input);
-	// }
-
+    function unsetArchived($task_id) {
+        $task = Task__Main::findOrFail($task_id);
+        $task->archived = 0;
+        $task->save();
+    }
 
 	public function __construct()
 	{

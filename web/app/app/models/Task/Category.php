@@ -1,10 +1,12 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 class Task__Category extends \Eloquent 
 {
+    use SoftDeletingTrait;
+
     public $table = 'tag_categories';
     protected $fillable = ['name'];
-
     public static $validation_rules = [
         'create' => [
             'name' => 'required'

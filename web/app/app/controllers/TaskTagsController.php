@@ -54,12 +54,24 @@ class TaskTagsController extends \BaseController {
 		return $category;
 	}
 
+	public function destroy($id)
+	{
+		$tag = Task__Tag::findOrFail($id);
+		$otherTag = Task__Tag::where('tag_category_id', $tag->tag_category_id)->whereNotIn('id', [$tag->id])->first();
+		if($otherTag) {
+			$otherTag->tasks()->attach($tag->tasks->lists('id'));
+			$tag->tasks()->sync([]);
+			$tag->delete();
+		}
+	}
+
 	public function updateName($id)
 	{
 		$tag = Task__Tag::findOrFail($id);
 		$input = Input::all();
-		$tag->name = $input['value'];
+		$tag->name = $input['value']['name'];
+		$tag->label = $input['value']['label'];
 		$tag->save();
-		return $tag;
+		return $input;
 	}
 }

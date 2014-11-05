@@ -30,7 +30,8 @@
     "backbone": "~1.1.2",
     "animate.css": "~3.2.0",
     "backbone.localstorage": "~1.1.13",
-    "x-editable": "~1.5.1"
+    "x-editable": "~1.5.1",
+    "idle.js": "~1.0.0"
   },
   "resolutions": {
     "backbone": "~1.1.2"

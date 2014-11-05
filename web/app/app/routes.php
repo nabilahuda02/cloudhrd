@@ -46,9 +46,16 @@ Route::group(['before' => 'auth'], function(){
   Route::resource('claims','GeneralClaimsController');
   Route::resource('tasks','TasksController');
 
+  Route::get('tasks/{task_id}/set-tag/{tag_id}','TasksController@setTag');
+
   Route::resource('task-categories', 'TaskCategoriesController');
   Route::resource('task-tags', 'TaskTagsController');
   Route::put('/task-tags/{tag_id}/update-name', 'TaskTagsController@updateName');
+  Route::post('/task/set-order/{tag_category_id}', 'TasksController@setOrder');
+  Route::post('/task/{tag_category_id}/set-archived', 'TasksController@setArchived');
+  Route::post('/task/{tag_category_id}/unset-archived', 'TasksController@unsetArchived');
+
+  Route::get('/task/stream', 'TasksController@streamTask');
   
   /**
    * FIXME: add filters
@@ -172,6 +179,6 @@ Route::get('email_action/{hash}', function($hash) {
 
 Route::get('test', function(){
 
-  return Leave__Main::with('type', 'dates', 'user')->get();
+  return var_dump($_ENV);
 
 });

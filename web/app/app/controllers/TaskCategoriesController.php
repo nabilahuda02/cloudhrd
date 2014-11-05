@@ -16,7 +16,19 @@ class TaskCategoriesController extends \BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		return Task__Category::create($data);
+		$category = Task__Category::create($data);
+
+		$tag = new Task__Tag();
+		$tag->name = 'New';
+		$tag->label = 'default';
+		$tag->tag_category_id = $category->id;
+		$tag->save();
+
+		Task__Main::all()->each(function($task) use ($tag) {
+			$task->tags()->save($tag);
+		});
+
+		return $category;
 	}
 
 	/**
@@ -39,5 +51,11 @@ class TaskCategoriesController extends \BaseController {
 		$category->update($data);
 		
 		return $category;
+	}
+
+	public function destroy($id)
+	{
+		$category = Task__Category::findOrFail($id);
+		$category->delete();
 	}
 }
