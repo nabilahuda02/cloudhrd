@@ -74,7 +74,11 @@ class Leave__Type extends Eloquent {
 
   public function getColors()
   {
-    return explode(',', $this->colors);
+    if(stristr($this->colors, ','))
+      return explode(',', $this->colors);
+    $base = new Color($this->colors);
+    $offset = $base->lighten(20);
+    return [$this->colors, '#' . $offset];
   }
 
 }

@@ -73,6 +73,7 @@
     };
     var data = data || {};
     data = $.extend(true, {}, _default, data);
+    var options = data;
  
     var row = $(data.row, target)
       .first()
@@ -212,6 +213,9 @@
         new_row.appendTo(container);
         $('input,select,textarea', new_row).first().focus();
         fn.make_row_controls(new_row);
+        if(options.onAddRow) {
+          options.onAddRow.call(window, new_row);
+        }
       },
       remove_row: function(event, action, instance, row) {
         bootbox.confirm('Are you sure you want to remove this row?', function(res){
@@ -225,6 +229,9 @@
               return fn.remove_remote_row(row_data, remove_row_el);
             }
             remove_row_el();
+            if(options.onRemoveRow) {
+              options.onRemoveRow.call(window, new_row);
+            }
           }
         }) 
       },

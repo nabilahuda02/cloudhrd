@@ -23,8 +23,9 @@
                     </div>
                     <div class="col-md-3">
                         {{ Former::text('colors')
-                        -> label('Colors')
-                        -> placeholder('#696969,#c4c4c4') }}
+                        -> label('Color')
+                        -> placeholder('#696969')
+                        -> style('color:white') }}
                     </div>
                     <div class="col-md-1">
                         <label for="past">Past</label><br>
@@ -54,7 +55,6 @@
     @stop
     @section('script')
     <script>
-
         $('#leave_type_rows').duplicator({
             row: ".row",
             remotes: {
@@ -62,6 +62,19 @@
                 put: '/leavetype',
                 delete: '/leavetype',
                 get: '/leavetype'
+            },
+            onAddRow: function(el) {
+                var input = $('[name=colors]', el);
+                var initial = input.val() || '555555';
+                initial = initial.split(',').shift().replace('#', '');
+                input.css('background-color', '#' + initial);
+                input.colpick({
+                    onSubmit: function(hsl, hex) {
+                        $('[name=colors]', el).val('#' + hex);
+                        input.css('background-color', '#' + hex);
+                        input.colpickHide();
+                    }
+                }).colpickSetColor(initial)
             }
         });
     </script>

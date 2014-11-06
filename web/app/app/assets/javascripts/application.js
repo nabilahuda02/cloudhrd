@@ -15,6 +15,7 @@
 //= require app/duplicator/duplicator
 //= require app/jquery.avatar.js
 //= require app/lib/feedback
+//= require app/lib/colpick
 //= require_self
 
 Dropzone.autoDiscover = false;

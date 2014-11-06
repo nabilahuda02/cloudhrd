@@ -21,8 +21,9 @@
                     </div>
                     <div class="col-md-3">
                         {{ Former::text('colors')
-                        -> placeholder('#696969,#c4c4c4')
-                        -> label('Colors') }}
+                        -> placeholder('#696969')
+                        -> label('Color')
+                        -> style('color:white') }}
                     </div>
                     <div class="col-md-1">
                         <label for="display_wall">Wall</label><br>
@@ -48,6 +49,19 @@
                 put: '/medicaltype',
                 delete: '/medicaltype',
                 get: '/medicaltype'
+            },
+            onAddRow: function(el) {
+                var input = $('[name=colors]', el);
+                var initial = input.val() || '555555';
+                initial = initial.split(',').shift().replace('#', '');
+                input.css('background-color', '#' + initial);
+                input.colpick({
+                    onSubmit: function(hsl, hex) {
+                        $('[name=colors]', el).val('#' + hex);
+                        input.css('background-color', '#' + hex);
+                        input.colpickHide();
+                    }
+                }).colpickSetColor(initial)
             }
         });
     </script>
