@@ -2,7 +2,7 @@
 @section('content')
 <div class="col-md-10 col-sm-8" id="wall">
 	<div class="row">
-		<div class="col-sm-12 col-md-9">
+		<div class="col-sm-12 col-md-8">
 			<div id="new-share">
 				<textarea placeholder="Write something on the public wall and press shift + enter to submit"></textarea>
 				<div class="new-share-actions">
@@ -18,7 +18,7 @@
 			</div>
 			<br>
 		</div>
-		<div class="col-md-3 hidden-sm hidden-xs">
+		<div class="col-md-4 hidden-sm hidden-xs">
 			<!-- <div class="panel panel-primary text-center">
 				<div class="panel-heading">October 2014</div>
 				<div class="panel-body">
