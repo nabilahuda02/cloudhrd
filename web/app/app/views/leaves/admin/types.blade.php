@@ -39,7 +39,7 @@
                         <input id="display_calendar" type="checkbox" name="display_calendar" value="1">
                     </div> -->
                     <div class="col-md-1">
-                        <label for="display_wall">Wall</label><br>
+                        <label for="display_wall">Show</label><br>
                         <input id="display_wall" type="checkbox" name="display_wall" value="1">
                     </div>
                     <div class="clearfix"></div>

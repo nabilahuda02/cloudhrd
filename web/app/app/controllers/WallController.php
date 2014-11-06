@@ -199,7 +199,6 @@ class WallController extends \BaseController {
         if(isset($data[1])) {
             $report['image'] = $data[1];
         }
-
         $feedback = new Master__Feedback();
         $feedback->user_id = $_ENV['cloudhrd']->id;
         $feedback->description = $data[0]->Issue;
@@ -211,7 +210,9 @@ class WallController extends \BaseController {
 
         Mail::send(['html' => 'emails.support'], compact('user', 'report'), function($message) use ($report)
         {
-            $message->to('zulfajuniadi@gmail.com', 'CloudHRD Support')->subject('Support request: ' . substr($report['issue'], 0, 30));
+            $message->to('zulfajuniadi@gmail.com', 'CloudHRD Support')
+                ->replyTo(Auth::user()->email)
+                ->subject('Support request: ' . substr($report['issue'], 0, 30));
         });
     }
 

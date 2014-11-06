@@ -73,7 +73,7 @@
         </div>
         <div class="comment new-comment">
             <img src="<?=$user_image?>" class="feed-avatar hidden-sm hidden-xs">
-            <textarea class="new-comment" data-feedid="<%= item.id %>" placeholder="Write a comment..."></textarea>
+            <textarea class="new-comment" data-feedid="<%= item.id %>" placeholder="Write a reply and shift + enter to submit..."></textarea>
             <div class="clearfix"></div>
         </div>
     </div>
