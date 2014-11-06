@@ -55,7 +55,7 @@
 <script type="text/template" id="feeds-template">
 <% _.each(shares, function(item){ %>
 <div class="feed">
-    <img src="<%= item.user.profile.user_image %>" class="feed-avatar hidden-sm hidden-xs">
+    <img src="<%= (item.user.profile.user_image || '/images/user.jpg') %>" class="feed-avatar hidden-sm hidden-xs">
     <div class="feed-wrap">
         <div class="title">
             <span class="pull-right text-muted">
