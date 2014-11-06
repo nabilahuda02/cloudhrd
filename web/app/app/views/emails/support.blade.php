@@ -19,7 +19,7 @@
             <td>{{ $_ENV['host'] }}.{{  $_ENV['domain'] }}</td>
         </tr>
         <tr>
-            <td>Email</td>
+            <td>Customer Email</td>
             <td>{{ $_ENV['cloudhrd']->email }}</td>
         </tr>
         <tr>

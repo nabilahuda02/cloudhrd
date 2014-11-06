@@ -41,6 +41,7 @@ class AdminUserController extends \BaseController {
 
     Session::flash('NotifySuccess', 'User Created Successfully');
     $data['verified'] = 1;
+    $original_password = $data['password'];
     $data['password'] = Hash::make($data['password']);
     $user = User::create($data);
     $data['user_id'] = $user->id;
@@ -50,6 +51,24 @@ class AdminUserController extends \BaseController {
       'data' => $user->toArray()
     ]);
     UserProfile::create($data);
+
+    /**
+     * Send welcome email
+     * firstname
+     * email
+     * password
+     * domain
+     */
+    
+    Mail::send('emails.welcome', [
+        'firstname' => $user->profile->first_name,
+        'email'     => $user->email,
+        'password'  => $original_password,
+        'domain'    => URL::action('AuthController@getLogin')
+      ], function($message) use ($user)
+    {
+      $message->to($user->email, User::fullName($user->id))->subject('Welcome to CloudHRD, ' . User::fullName($user->id));
+    });
 
     return Redirect::route('useradmin.index');
   }
