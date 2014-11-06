@@ -37,23 +37,23 @@ class UsersTableSeeder extends Seeder
                 'confirmed'             => 1,
                 'reseller_code'         => User::getResellerCode()
             ],
-            [
-                'name'                  => 'Sands Consulting',
-                'username'              => 'sands',
-                'domain'                => 'sands',
-                'database'              => User::generateDatabaseName(),
-                'email'                 => 'zulfa@my-sands.com',
-                'password'              => 'sands',
-                'password_confirmation' => 'sands',
-                'organization_unit_id'  => 1,
-                'confirmed'             => 1,
-            ],
+            // [
+            //     'name'                  => 'Sands Consulting',
+            //     'username'              => 'sands',
+            //     'domain'                => 'sands',
+            //     'database'              => User::generateDatabaseName(),
+            //     'email'                 => 'zulfa@my-sands.com',
+            //     'password'              => 'sands',
+            //     'password_confirmation' => 'sands',
+            //     'organization_unit_id'  => 1,
+            //     'confirmed'             => 1,
+            // ],
         ];
 
         $roles = [
             1 => [1],
             2 => [6],
-            3 => [7],
+            // 3 => [7],
         ];
 
         foreach ($datas as $data) {

@@ -21,7 +21,7 @@
                         {{ Former::number('default_entitlement')
                         -> label('Default Entitlement') }}
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         {{ Former::text('colors')
                         -> label('Colors')
                         -> placeholder('#696969,#c4c4c4') }}
