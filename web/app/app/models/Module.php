@@ -5,9 +5,7 @@ class Module Extends Eloquent{
 
 
   public static $validation_rules = [
-    'edit' => [
-      'name' => 'required'
-    ]
+    'edit' => []
   ];
 
   protected $fillable = ['name', 'approver', 'verifier'];

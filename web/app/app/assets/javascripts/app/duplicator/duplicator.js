@@ -214,15 +214,19 @@
         fn.make_row_controls(new_row);
       },
       remove_row: function(event, action, instance, row) {
-        var row_data = row.data();
-        var remove_row_el = function() {
-          row.remove();
-          row.data({});
-        }
-        if (row_data[data.id_field] && data.remotes.delete) {
-          return fn.remove_remote_row(row_data, remove_row_el);
-        }
-        remove_row_el();
+        bootbox.confirm('Are you sure you want to remove this row?', function(res){
+          if(res) {
+            var row_data = row.data();
+            var remove_row_el = function() {
+              row.remove();
+              row.data({});
+            }
+            if (row_data[data.id_field] && data.remotes.delete) {
+              return fn.remove_remote_row(row_data, remove_row_el);
+            }
+            remove_row_el();
+          }
+        }) 
       },
       save_row: function(event, action, instance, row) {
         var form_data = $('<form></form>')

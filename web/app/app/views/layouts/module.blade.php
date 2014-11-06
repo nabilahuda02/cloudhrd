@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
+        <link href='http://fonts.googleapis.com/css?family=Raleway:400,200|Open+Sans' rel='stylesheet' type='text/css'>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 		@include('html.head')
 		<title>
 			CloudHRD | {{ $controller }}
