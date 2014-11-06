@@ -248,6 +248,7 @@ function nl2br(str, is_xhtml) {
                     model: model
                 }))
             }.bind(this));
+            $('.has-tooltip').tooltip();
             // console.log(this.collection.length)
         }, 17),
         collection: (new Backbone.Collection()),

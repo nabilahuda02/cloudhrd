@@ -18,7 +18,7 @@
 			</div>
 			<br>
 		</div>
-		<div class="col-sm-3 hidden-sm hidden-xs">
+		<div class="col-md-3 hidden-sm hidden-xs">
 			<!-- <div class="panel panel-primary text-center">
 				<div class="panel-heading">October 2014</div>
 				<div class="panel-body">
@@ -35,7 +35,7 @@
 				</div>
 			</div> -->
 			<div class="panel panel-primary text-center" id="todos">
-				<div class="panel-heading">Todos</div>
+				<div class="panel-heading">Tasks</div>
 				<div class="panel-body">
 					<ul class="list-unstyled" id="todo-el"></ul>
 				</div>
