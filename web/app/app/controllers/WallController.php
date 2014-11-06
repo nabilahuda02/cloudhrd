@@ -210,7 +210,7 @@ class WallController extends \BaseController {
 
         Mail::send(['html' => 'emails.support'], compact('user', 'report'), function($message) use ($report)
         {
-            $message->to('zulfajuniadi@gmail.com', 'CloudHRD Support')
+            $message->to('support@cloudhrd.com', 'CloudHRD Support')
                 ->replyTo(Auth::user()->email)
                 ->subject('Support request: ' . substr($report['issue'], 0, 30));
         });
