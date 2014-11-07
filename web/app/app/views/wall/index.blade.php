@@ -49,8 +49,8 @@
 
 <script type="text/template" id="task-template"><li><img src="<%- model.owner.profile.user_image %>" class="feed-avatar hidden-sm hidden-xs">
     <%- model.description %> 
-    <% model.tags.forEach(function(tag){ %> <span class="label label-<%-tag.label%>">
-            <span title="<%- tag.category.name %>: <%- tag.name %>" data-toggle="tooltip" data-placement="top" class="has-tooltip"><%- tag.name.charAt(0) %></span></span><% }); %>
+    <% model.tags.forEach(function(tag){ if(tag.category) { %> <span class="label label-<%-tag.label%>">
+            <span title="<%- tag.category.name %>: <%- tag.name %>" data-toggle="tooltip" data-placement="top" class="has-tooltip"><%- tag.name.charAt(0) %></span></span><% }}); %>
     <div class="clearfix"></div></li></script>
 <script type="text/template" id="feeds-template">
 <% _.each(shares, function(item){ %>
