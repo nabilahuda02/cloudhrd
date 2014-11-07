@@ -59,7 +59,7 @@
     </div></script>
     <script type="text/template" id="task-template"><img src="<%- model.owner.profile.user_image %>" class="feed-avatar hidden-sm hidden-xs">
         <%- model.description %> 
-        <% model.tags.forEach(function(tag){ if(tag.tag_category_id !== currentCategoryId) { %> <span class="label label-<%-tag.label%>">
+        <% model.tags.forEach(function(tag){ if(tag.tag_category_id !== currentCategoryId && tag.category) { %> <span class="label label-<%-tag.label%>">
                 <span title="<%- tag.category.name %>: <%- tag.name %>" data-toggle="tooltip" data-placement="top" class="has-tooltip"><%- tag.name.charAt(0) %></span></span><% }}); %>
         <% if(model.archived) { %><span class="unarchive label label-warning"><a title="Click to unarchive" data-toggle="tooltip" data-placement="top" class="has-tooltip">A</a></span><% } else { %>
             <span class="archive label label-success"><a title="Click to archive" data-toggle="tooltip" data-placement="top" class="has-tooltip">A</a></span>
