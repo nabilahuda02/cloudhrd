@@ -182,3 +182,5 @@ Route::get('test', function(){
   return var_dump($_ENV);
 
 });
+
+Route::get('migratedb', 'AuthController@getMigrate');

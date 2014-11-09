@@ -149,6 +149,22 @@ class AuthController extends BaseController
 
   }
 
+  public function getMigrate() {
+    $from = app_path() . '/database/automigrations/';
+    $to = app_path() . '/database/donemigrations/';
+    $dbs = array_filter(Master__User::all()->lists('database'));
+    $dbs[] = 'cloudhrd_app';
+
+    foreach (scandir($from) as $file) {
+      if(!in_array($file, ['.', '..']) && !file_exists($to . $file)) {
+        foreach ($dbs as $db) {
+          shell_exec('mysql -h 127.0.0.1 -u root ' . $db . ' < ' . $from . $file);
+        }
+        touch($to . $file);
+      }
+    }
+
+  }
 
   public function __construct()
   {
