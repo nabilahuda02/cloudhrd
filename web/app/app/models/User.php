@@ -25,6 +25,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     ],
 	];
 
+  public function uploads()
+  {
+    return $this->morphMany('Upload', 'imageable');
+  }
+
 	protected $fillable = ['email', 'verified', 'password', 'unit_id', 'is_admin'];
 
 	/**

@@ -51,6 +51,22 @@
         <hr>
         <br>
     </div>
+    
+    <div class="form-group">
+        <h3>Attached Documents</h3>
+        <hr>
+        <ul class="media-list">
+            @foreach ($currentuser->uploads as $upload)
+            <li class="media">
+                <a class="pull-left" download href="{{$upload->file_url}}"><img class="media-object" src="{{$upload->thumb_url}}" width="64px" height="64px"></a>
+                <div class="media-body">
+                    <h4 class="media-heading">{{$upload->file_name}}</h4>
+                    <p>{{$upload->humanSize()}}</p>
+                </div>
+            </li>
+            @endforeach
+        </ul>
+    </div>
     <div id="profile_contacts">
         <br>
         <h4>

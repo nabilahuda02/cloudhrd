@@ -142,5 +142,12 @@ class AdminUserProfileController extends \BaseController
       return 'OK';
     }
 
+    public function getDeleteFile($file_id) {
+      $upload = Upload::findOrFail($file_id);
+      unlink($upload->thumb_path);
+      unlink($upload->file_path);
+      $upload->delete();
+    }
+
 
 }

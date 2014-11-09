@@ -36,6 +36,9 @@ class UploadController extends BaseController
 
     if(is_numeric($itemId)) {
       switch ($model) {
+        case 'users':
+          $item = User::find($itemId);
+          break;
         case 'leave':
           $item = Leave__Main::find($itemId);
           break;
