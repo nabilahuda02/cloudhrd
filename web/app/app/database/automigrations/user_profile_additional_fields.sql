@@ -1,0 +1,40 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+ALTER TABLE `todo_notes` 
+DROP FOREIGN KEY `fk_todo_notes_todos1`;
+
+ALTER TABLE `user_profiles` 
+ADD COLUMN `user_field_00` TEXT NULL DEFAULT NULL AFTER `address`,
+ADD COLUMN `user_field_01` TEXT NULL DEFAULT NULL AFTER `user_field_00`,
+ADD COLUMN `user_field_02` TEXT NULL DEFAULT NULL AFTER `user_field_01`,
+ADD COLUMN `user_field_03` TEXT NULL DEFAULT NULL AFTER `user_field_02`,
+ADD COLUMN `user_field_04` TEXT NULL DEFAULT NULL AFTER `user_field_03`,
+ADD COLUMN `user_field_05` TEXT NULL DEFAULT NULL AFTER `user_field_04`,
+ADD COLUMN `user_field_06` TEXT NULL DEFAULT NULL AFTER `user_field_05`,
+ADD COLUMN `user_field_07` TEXT NULL DEFAULT NULL AFTER `user_field_06`,
+ADD COLUMN `user_field_08` TEXT NULL DEFAULT NULL AFTER `user_field_07`,
+ADD COLUMN `user_field_09` TEXT NULL DEFAULT NULL AFTER `user_field_08`;
+
+ALTER TABLE `todo_subtasks` 
+ADD INDEX `fk_task_subtasks_todos1_idx` (`todos_id` ASC),
+DROP INDEX `fk_task_subtasks_todos1_idx` ;
+
+ALTER TABLE `todo_notes` 
+DROP COLUMN `todo_id`,
+ADD COLUMN `todo_id` INT(10) UNSIGNED NOT NULL AFTER `id`,
+ADD INDEX `fk_todo_notes_todos1_idx` (`todo_id` ASC),
+DROP INDEX `fk_todo_notes_todos1_idx` ;
+
+ALTER TABLE `todo_notes` 
+ADD CONSTRAINT `fk_todo_notes_todos1`
+  FOREIGN KEY (`todo_id`)
+  REFERENCES `todos` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

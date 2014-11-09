@@ -28,11 +28,23 @@
             </div>
             <div class="col-md-12">
                 {{ Former::textarea('user_profile["address"]')
-                -> label('Additional Information')
-                -> value('')
+                -> label('Address')
+                -> value($currentuser->profile->address)
                 -> readonly()
                 -> disabled() }}
             </div>
+            <?php $i = 0; ?>
+            @foreach (app()->user_locale->profile_custom_fields as $key => $value)
+              @if($value)
+                <div class="col-md-12">
+                {{ Former::text('user_field_0' . $i)
+                      ->label($value)
+                      ->disabled()
+                      ->value(@$currentuser->profile->{'user_field_0' . $i}) }}
+                </div>        
+              @endif
+              <?php $i++; ?>
+            @endforeach
         </div>
         {{Former::close()}}
         <div class="myclear"></div>

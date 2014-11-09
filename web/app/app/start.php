@@ -19,7 +19,11 @@ if (!App::runningInConsole()) {
     $app->user_locale->php_long_date = substr(strchr($app->user_locale->long_date, '__'), 2);
     $app->user_locale->php_short_date = substr(strchr($app->user_locale->short_date, '__'), 2);
     $app->user_locale->php_time = ($app->user_locale->time_format === '12h') ? 'g:i a' : 'H:i';
-    \Log::info(json_encode($app->user_locale));
+    if(!isset($app->user_locale->profile_custom_fields)){
+        $app->user_locale->profile_custom_fields = [];
+        $app->master_user->locale = json_encode($app->user_locale);
+        $app->master_user->save();
+    }
     View::share('user_locale', $app->user_locale);
     if($token = Input::get('token')) {
         if($ltoken = Master__LoginToken::where('token', $token)->first()) {

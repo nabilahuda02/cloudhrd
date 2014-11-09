@@ -166,6 +166,28 @@ class AdminUserController extends \BaseController {
 
   }
 
+  public function getManageTemplate()
+  {
+    $custom_fields = app()->user_locale->profile_custom_fields;
+    return View::make('admin.users.user-profile-template', compact('custom_fields'));
+  }
+
+  public function postManageTemplate()
+  {
+    $data = Input::all();
+    $user = app()->master_user;
+    $locale = app()->user_locale;
+    unset($data['_token']);
+    $locale->profile_custom_fields = $data;
+    $user->locale = json_encode($locale);
+    if($user->save()) {
+      Session::flash('NotifySuccess', 'User Template Updated');
+    } else {
+      Session::flash('NotifyError', 'Error Updating User Template');
+    }
+    return Redirect::action('AdminUserController@getManageTemplate');
+  }
+
 
   public function __construct()
   {

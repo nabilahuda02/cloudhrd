@@ -128,6 +128,8 @@ Route::group(['before' => 'auth'], function(){
     Route::post('/useradmin/change-password/{user_id}', 'AdminUserController@postChangePassword');
     Route::controller('/useradminprofile', 'AdminUserProfileController');
     Route::resource('/organization', 'AdminOrganizationController');
+    Route::get('/manage-user-template', 'AdminUserController@getManageTemplate');
+    Route::post('/manage-user-template', 'AdminUserController@postManageTemplate');
   });
 
   Route::controller('ajax','AjaxController');
