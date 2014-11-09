@@ -1,0 +1,13 @@
+{
+    "name": "cloudhrd/marketing",
+    "require": {
+        "symfony/yaml": "2.*"
+    },
+    "authors": [
+        {
+            "name": "Zulfa Juniadi Zulkifli",
+            "email": "zulfajuniadi@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
