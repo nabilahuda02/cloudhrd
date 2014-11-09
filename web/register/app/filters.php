@@ -43,7 +43,7 @@ Route::filter('auth', function()
 		}
 		else
 		{
-			return Redirect::action('AuthController@login')
+			return Redirect::action('AuthController@create')
 				->with('notification:warning', 'Please login to continue.');
 		}
 	}
