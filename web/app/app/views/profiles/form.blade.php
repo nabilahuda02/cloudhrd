@@ -26,14 +26,14 @@
                 -> readonly()
                 -> disabled() }}
             </div>
+            <div class="col-md-12">
+                {{ Former::textarea('user_profile["address"]')
+                -> label('Additional Information')
+                -> value('')
+                -> readonly()
+                -> disabled() }}
+            </div>
         </div>
-        <!-- <div class="col-md-12">
-            {{ Former::textarea('user_profile["address"]')
-            -> label('Address')
-            -> value('Lot 1234, Kampung Pisang')
-            -> readonly()
-            -> disabled() }}
-        </div> -->
         {{Former::close()}}
         <div class="myclear"></div>
         <hr>
@@ -48,13 +48,11 @@
         <div class="row">
             <div class="col-md-6">
                 {{ Former::text('name')
-                -> label('Contact Type')
-                -> placeholder('Mobile') }}
+                -> label('Contact Type') }}
             </div>
             <div class="col-md-6">
                 {{ Former::text('number')
-                -> label('Contact Number')
-                -> placeholder('+60312345678') }}
+                -> label('Contact Number') }}
             </div>
             <div class="clearfix"></div>
             <br>
@@ -71,25 +69,21 @@
         <div class="row">
             <div class="col-md-8">
                 {{ Former::text('institution')
-                -> label('Institution')
-                -> placeholder('ABC University') }}
+                -> label('Institution') }}
             </div>
             <div class="col-md-4">
                 {{ Former::input('start_date')
                 -> type('date')
-                -> label('Start Date')
-                -> placeholder('01-01-1990') }}
+                -> label('Start Date') }}
             </div>
             <div class="col-md-8">
                 {{ Former::text('course')
-                -> label('Course')
-                -> placeholder('Diploma') }}
+                -> label('Course') }}
             </div>
             <div class="col-md-4">
                 {{ Former::input('end_date')
                 -> type('date')
-                -> label('End Date')
-                -> placeholder('01-01-1992') }}
+                -> label('End Date') }}
             </div>
             <div class="clearfix"></div>
             <br>
@@ -100,19 +94,17 @@
     <div id="profile_emergency">
         <br>
         <h4>
-        Emergency Contacts
+        Emergency Contact Information
         </h4>
         <br>
         <div class="row">
             <div class="col-md-6">
                 {{ Former::text('name')
-                -> label('Contact Person')
-                -> placeholder('Norseta Saidon') }}
+                -> label('Contact Person') }}
             </div>
             <div class="col-md-6">
                 {{ Former::text('phone')
-                -> label('Contact Person Number')
-                -> placeholder('03 12345678') }}
+                -> label('Contact Person Number') }}
             </div>
             <div class="col-md-12">
                 {{ Former::textarea('address')
@@ -134,25 +126,21 @@
         <div class="row">
             <div class="col-md-3">
                 {{ Former::text('company_name')
-                -> label('Company Name')
-                -> placeholder('ABC Company') }}
+                -> label('Company Name') }}
             </div>
             <div class="col-md-3">
                 {{ Former::text('position')
-                -> label('Position')
-                -> placeholder('Manager') }}
+                -> label('Position') }}
             </div>
             <div class="col-md-3">
                 {{ Former::input('start_date')
                 -> label('Start Date')
-                -> type('date')
-                -> placeholder('01-01-1990') }}
+                -> type('date') }}
             </div>
             <div class="col-md-3">
                 {{ Former::input('end_date')
                 -> label('End Date')
-                -> type('date')
-                -> placeholder('01-01-1992') }}
+                -> type('date') }}
             </div>
             <div class="clearfix"></div>
             <br>
