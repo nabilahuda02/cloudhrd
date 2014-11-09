@@ -43,7 +43,6 @@
                 if(order.length > 0) {
                     return order[0].order;
                 }
-                console.error('order not found for categoryid ' + activeCategory)
                 return 0;
             },
             setArchived: function() {
