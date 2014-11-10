@@ -162,18 +162,18 @@ Route::get('email_action/{hash}', function($hash) {
   }
 
   $item->setStatus($config->next_status);
-  if($config->type === 'leave' 
-      && $config->next_status == 3
-      && $item->leave_type_id == 1
-    ) {
-    $item->shares()->create([
-      'type' => 'event',
-      'user_id' => $item->user_id,
-      'event_date' => $item->dates[0]->date,
-      'title' => $item->user->profile->first_name . ' On Leave',
-      'content' => $item->user->profile->first_name . ' will be on leave for ' . $item->total . ' day(s)'
-    ]);
-  }
+  // if($config->type === 'leave' 
+  //     && $config->next_status == 3
+  //     && $item->leave_type_id == 1
+  //   ) {
+  //   $item->shares()->create([
+  //     'type' => 'event',
+  //     'user_id' => $item->user_id,
+  //     'event_date' => $item->dates[0]->date,
+  //     'title' => $item->user->profile->first_name . ' On Leave',
+  //     'content' => $item->user->profile->first_name . ' will be on leave for ' . $item->total . ' day(s)'
+  //   ]);
+  // }
 
   return 'Application status updated.';
 });
