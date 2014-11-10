@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('homestead', 'localhost', 'dockerhost', 'CouldHRD-Beta'),
+	'local' => array('homestead', 'localhost', 'dockerhost', 'CouldHRD-Beta', 'MacBookPro-B8F6B113A859-2.local'),
 
 ));
 

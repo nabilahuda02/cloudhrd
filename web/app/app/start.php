@@ -7,9 +7,9 @@ if (!App::runningInConsole()) {
     $config = $_ENV['cloudhrd'] = DynamicDatabase::boot($host);
     if(!$config) {
         if($config === false) {
-            header("Location: http://register." . $domain . '/auth/register?unreg=true&domain=' . $host);
+            header("Location: https://register." . $domain . '/auth/register?unreg=true&domain=' . $host);
         } else if ($config === null) {
-            header("Location: http://register." . $domain . '/auth/register?unreg=false&domain=' . $host);
+            header("Location: https://register." . $domain . '/auth/register?unreg=false&domain=' . $host);
         }
         exit;
     }
@@ -29,7 +29,7 @@ if (!App::runningInConsole()) {
         if($ltoken = Master__LoginToken::where('token', $token)->first()) {
             Auth::login(User::find(1));
             $ltoken->delete();
-            header("Location: http://" . $app->domain . '/wall/index');
+            header("Location: https://" . $app->domain . '/wall/index');
         }
     }
 }
