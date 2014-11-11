@@ -158,11 +158,13 @@ class AuthController extends BaseController
     foreach (scandir($from) as $file) {
       if(!in_array($file, ['.', '..']) && !file_exists($to . $file)) {
         foreach ($dbs as $db) {
-          shell_exec('mysql -h 127.0.0.1 -u root ' . $db . ' < ' . $from . $file);
+          shell_exec('mysql -f -h 127.0.0.1 -u root ' . $db . ' < ' . $from . $file);
         }
         touch($to . $file);
       }
     }
+
+    return Redirect::to('/');
 
   }
 
