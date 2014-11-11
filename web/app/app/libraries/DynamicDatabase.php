@@ -19,9 +19,11 @@ class DynamicDatabase
                     Artisan::call('db:seed');
                 }
                 $admin = User::find(1);
-                $admin->password = $config->password;
-                $admin->email = $config->email;
-                $admin->save();
+                if($admin->email != $config->email) {
+                    $admin->password = $config->password;
+                    $admin->email = $config->email;
+                    $admin->save();
+                }
             } catch (Exception $e) {
                 Config::set('database.connections.mysql.database', 'test');
                 DB::select('create database if not exists ' . $config->database);

@@ -171,16 +171,23 @@ class WallController extends \BaseController {
 
     public function postChangePassword()
     {
-        $currentuser = Auth::user();
+        $user = Auth::user();
         $validator = Validator::make($data = Input::all(), User::$validation_rules['changepw']);
         if ($validator->fails())
         {
             Session::flash('NotifyDanger', 'Password successfully unsuccessful');
             return Redirect::back()->withErrors($validator)->withInput();
         }
+        $user->password = Hash::make($data['password']);
+        $user->save();
+        if($user->id === 1) {
+            app()->master_user->password = $user->password;
+            app()->master_user->save();
+        }
+        Auth::logout();
+        Cache::flush();
         Session::flash('NotifySuccess', 'Password successfully updated');
-        $currentuser->password = Hash::make($data['password']);
-        return Redirect::back();
+        return Redirect::action('AuthController@getLogin');
     }
 
     public function postFeedback()
