@@ -18,7 +18,8 @@
 		"intervention/image": "2.*",
 		"videlalvaro/php-amqplib": "2.2.*",
 		"guzzlehttp/guzzle": "4.*",
-		"oyejorge/less.php": "1.*"
+		"oyejorge/less.php": "1.*",
+		"aws/aws-sdk-php-laravel": "~1.1"
 	},
 	"autoload": {
 		"classmap": [

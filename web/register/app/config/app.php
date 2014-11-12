@@ -131,6 +131,7 @@ return array(
         'Clockwork\Support\Laravel\ClockworkServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
         'Intervention\Image\ImageServiceProvider',
+        'Aws\Laravel\AwsServiceProvider',
 
     ),
 
@@ -207,6 +208,7 @@ return array(
         'Image'             => 'Intervention\Image\Facades\Image',
         'Clockwork'         => 'Clockwork\Support\Laravel\Facade',
         'Carbon'            => 'Carbon\Carbon',
+        'AWS'               => 'Aws\Laravel\AwsFacade',
     ),
 
 );
