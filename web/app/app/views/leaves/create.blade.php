@@ -40,7 +40,7 @@
 
 		<div class="form-group">
 			<div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
-				<input class="btn-large btn-primary btn pull-right" type="submit" value="Submit">
+				<input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
 			</div>
 		</div>
 

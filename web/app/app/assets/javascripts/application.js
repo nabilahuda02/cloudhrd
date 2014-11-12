@@ -24,12 +24,14 @@ var tbl;
 
 (function() {
 
-    // $('button[type=submit],input[type=submit]').click(function() {
-    //     var btn = $(this)
-    //     btn.button('loading')
-    //         .val('Submitting...')
-    //         .text('Submitting...');
-    // });
+    $('.click-once').click(function(e) {
+        var btn = $(this);
+        if(btn.parents('form')[0].checkValidity()) {
+            btn.button('loading')
+                .val('Submitting...')
+                .text('Submitting...');
+        }
+    });
     // 
 
     window.init_datepicker = function(){

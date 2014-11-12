@@ -53,8 +53,11 @@
 			{{Asset::push('js', 'app/upload')}}
 		</div>
 		{{ Former::textarea('remarks') }}
-		{{ Former::actions()
-			-> medium_primary_submit() }}
+		<div class="form-group">
+			<div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
+				<input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
+			</div>
+		</div>
 		{{ Former::close() }}
 	</div>
 </div>
