@@ -33,4 +33,28 @@ class Task__Main extends \Eloquent {
         return $this->hasMany('Task__Order', 'todo_id');
     }
 
+    public function notes()
+    {
+        return $this->hasMany('Task__Note', 'todo_id');
+    }
+
+    public function uploads()
+    {
+        return $this->morphMany('Upload', 'imageable');
+    }
+
+    public function subtasks()
+    {
+        return $this->hasMany('Task__Subtask', 'todo_id');
+    }
+
+    public function sendAssignedEmail() {
+        $task = $this;
+        $user = $this->owner;
+        Mail::send('emails.tasks.assigned', compact('user', 'task'), function($message) use ($user, $task)
+        {
+          $message->to($user->email, $user->getFullName())->subject('Task Assigned: ' . substr($task->description, 0, 20));
+        });
+    }
+
 }

@@ -76,6 +76,10 @@ class TasksController extends \BaseController {
 	 */
 	public function update($id)
 	{
+        $task = Task__Main::findOrFail($id);
+        $task->update(Input::all());
+        $task->save();
+        return $task;
 	}
 
 	/**
@@ -86,9 +90,8 @@ class TasksController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		// Session::flash('NotifySuccess', 'Claim Deleted Successfully');
-		// MedicalClaim__Main::destroy($id);
-		// return Redirect::action('medical.index');
+		Task__Main::destroy($id);
+        return;
 	}
 
 	public function setTag($task_id, $tag_id)
@@ -116,7 +119,7 @@ class TasksController extends \BaseController {
             while (true) {
                 $todo_ids = Task__Follower::where('user_id', $user_id)->lists('todo_id');
                 if(count($todo_ids) > 0) {
-                	$new_data = Task__Main::with('orders', 'owner', 'owner.profile', 'followers', 'tags', 'tags.category')
+                	$new_data = Task__Main::with('orders', 'owner', 'owner.profile', 'subtasks', 'followers', 'tags', 'tags.category')
 	            		->whereIn('id', $todo_ids)
 						->get()
 						->toJson();
@@ -174,6 +177,61 @@ class TasksController extends \BaseController {
         $task = Task__Main::findOrFail($task_id);
         $task->archived = 0;
         $task->save();
+    }
+
+    public function addFollower($task_id, $user_id)
+    {
+        $task = Task__Main::findOrFail($task_id);
+        $followers = $task->followers->lists('id');
+        $followers[] = (int) $user_id;
+        $followers = array_unique($followers);
+        $followers = array_filter($followers);
+        $task->followers()->sync($followers);
+    }
+
+    public function removeFollower($task_id, $user_id)
+    {
+        $task = Task__Main::findOrFail($task_id);
+        $followers = $task->followers->lists('id');
+        if(($key = array_search((int) $user_id, $followers)) !== false) {
+            unset($followers[$key]);
+        }
+        $followers = array_filter($followers);
+        $task->followers()->sync($followers);
+    }
+
+    public function setOwner($task_id, $user_id)
+    {
+        $task = Task__Main::findOrFail($task_id);
+        $task->owner_id = $user_id;
+        $task->save();
+        $task->sendAssignedEmail();
+        return $task;
+    }
+
+    public function notes($task_id) {
+        return Task__Note::where('todo_id', $task_id)->orderBy('updated_at', 'DESC')->get();
+    }
+
+    public function newNote($task_id) {
+        $note = new Task__Note();
+        $note->todo_id = $task_id;
+        $note->note = Input::get('note');
+        $note->save();
+        return $note;
+    }
+
+    public function updateNote($noteId) {
+        $note = Task__Note::findOrFail($noteId);
+        $note->note = Input::get('note');
+        $note->save();
+        return $note;
+    }
+
+    public function deleteNote($noteId) {
+        $note = Task__Note::findOrFail($noteId);
+        $note->delete();
+        return $note;
     }
 
 	public function __construct()

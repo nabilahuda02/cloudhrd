@@ -202,32 +202,14 @@ class AjaxController extends BaseController
       -> join('status', 'status.id', '=', "$module.status_id")
       -> groupBy("$module.status_id")
       -> get();
+  }
 
-    // return [
-    //   'pending' => $response->pending,
-    //   'verified' => $response->verified,
-    //   'approved' => $response->approved,
-    //   'rejeced' => $response->rejeced,
-    //   'cancelled' => $response->cancelled
-    // ];
-    
-  //   switch ($module) {
-  //     case 'leave':
-  //       return [
-  //         'colors'   => Leave__Type::find($type)->getColors(),
-  //         'entitlement' => Leave__Type::find($type)->user_entitlement($user_id),
-  //         'utilized' => Leave__Type::find($type)->utilized_user_entitlement($user_id),
-  //         'balance'  => Leave__Type::find($type)->user_entitlement_balance($user_id)
-  //       ];
-  //       break;
-  //     case 'medical':
-  //       return [
-  //         'colors'   => MedicalClaim__Type::find($type)->getColors(),
-  //         'entitlement' => MedicalClaim__Type::find($type)->user_entitlement($user_id),
-  //         'utilized' => MedicalClaim__Type::find($type)->utilized_user_entitlement($user_id),
-  //         'balance'  => MedicalClaim__Type::find($type)->user_entitlement_balance($user_id)
-  //       ];
-  //       break;
-  //   }
+  public function getUsers(){
+    return User::with('profile')->get()->map(function($user){
+      return [
+        'value' => $user->id,
+        'text'  => $user->profile->first_name . ' ' . $user->profile->last_name
+      ];
+    });
   }
 }

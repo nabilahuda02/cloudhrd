@@ -10,7 +10,6 @@
 //= require jquery.serializeJSON/jquery.serializejson.min
 //= require bootbox/bootbox
 //= require multidatespicker
-//= require x-editable/dist/bootstrap3-editable/js/bootstrap-editable
 //= require datatables
 //= require app/duplicator/duplicator
 //= require app/jquery.avatar.js

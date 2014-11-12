@@ -47,9 +47,20 @@ Route::group(['before' => 'auth'], function(){
   Route::resource('tasks','TasksController');
 
   Route::get('tasks/{task_id}/set-tag/{tag_id}','TasksController@setTag');
+  Route::get('tasks/{task_id}/notes','TasksController@notes');
+  Route::post('tasks/{task_id}/notes','TasksController@newNote');
+  Route::put('tasks/{note_id}/notes','TasksController@updateNote');
+  Route::delete('tasks/{note_id}/notes','TasksController@deleteNote');
+
+  Route::get('tasks/{task_id}/add-follower/{user_id}','TasksController@addFollower');
+  Route::get('tasks/{task_id}/remove-follower/{user_id}','TasksController@removeFollower');
+  Route::get('tasks/{task_id}/set-owner/{user_id}','TasksController@setOwner');
 
 
   Route::resource('taskinfo','TaskInfoController');
+  Route::resource('subtasks','TaskSubtasksController');
+  Route::get('/subtasks/{subtask_id}/set-done','TaskSubtasksController@setDone');
+  Route::get('/subtasks/{subtask_id}/set-undone','TaskSubtasksController@setUndone');
 
   Route::resource('task-categories', 'TaskCategoriesController');
   Route::resource('task-tags', 'TaskTagsController');

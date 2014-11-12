@@ -54,6 +54,11 @@
             li {
                 padding: 4px 8px;
                 border-bottom:1px solid @borderColor;
+                position: relative;
+                .archived {
+                    text-decoration: line-through;
+                    color: #666;
+                }
                 .feed-avatar {
                     width: 42px;
                     height: 42px;
@@ -68,11 +73,11 @@
                         text-decoration: none
                     }
                 }
-                .unarchive, .archive {
+                .unarchive, .archive, .delete {
                     display: none;
                 }
                 &:hover {
-                    .unarchive, .archive {
+                    .unarchive, .archive, .delete {
                         display: inline;
                     }
                 }
@@ -115,4 +120,108 @@
 
 .modal-backdrop {
     z-index: 1061;
+}
+
+.no-padding {padding: 0px!important}
+
+.list-inline li.is-follower {
+    padding-right: 0px;
+    vertical-align: top;
+}
+.user-avatar {
+    border-radius: 50%; 
+    background-color: #ccc; 
+    width: 45px; 
+    height:45px; 
+    display: inline-block; 
+    vertical-align: top; 
+    text-align:center; 
+    overflow: hidden
+}
+
+.new-user {
+    padding-top:14px;
+    color: #222;
+}
+
+.subtask-done {margin-right: 8px; display: inline-block;}
+
+.followers > li:first-child a {
+    border: 3px solid red;
+}
+.followers > li:not(:first-child) a {
+    position: relative;
+    &:after {
+        font-family: 'FontAwesome';
+        content: "\f014";
+        position: absolute;
+        color: #FFF;
+        left: 0px;
+        top: 0px;
+        padding-top: 8px;
+        height: 45px;
+        width: 45px;
+        background-color: rgba(255, 0, 0, 0.5);
+        font-size: 22px;
+        opacity: 0;
+    }
+    &:hover:after {
+        opacity: 1;
+    }
+}
+
+.input-block {
+    display: block;
+    width: 100%;
+    padding: 8px 8px;
+}
+
+#notes{
+    .panel-title {
+        display: block;
+    }
+    .panel-body {
+        padding: 15px;
+    }
+    .panel-footer {
+        border-top: inherit;
+    }
+}
+
+.list-inline {
+    display: inline-block;
+    vertical-align: top;
+}
+#subtasks-list {
+    margin-bottom: 0px;
+    input[type=checkbox] {
+        margin-right: 6px;
+    }
+}
+
+.is_done {
+    label {text-decoration: line-through;}
+}
+
+.modal-title {
+    display: inline-block;
+}
+
+.badge-xs {
+    padding: 1px 3px;
+    font-size: 10px;
+}
+
+.undone-subtasks {
+    position: absolute;
+    left: 5px;
+    top:34px;
+    background-color: red;
+    &:empty {
+        display: none;
+    }
+}
+
+#note-content {
+    min-height: 124px;
 }

@@ -342,6 +342,7 @@
                 }
             },
             get: function(query, cb) {
+                console.log(this)
                 var that = this, encodedQuery = encodeURIComponent(query || ""), url, resp;
                 cb = cb || utils.noop;
                 url = this.replace ? this.replace(this.url, encodedQuery) : this.url.replace(this.wildcard, encodedQuery);

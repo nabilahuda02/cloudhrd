@@ -30,7 +30,7 @@ class TaskTableSeeder extends Seeder {
             [
                 'name' => 'New',
                 'tag_category_id' => 1,
-                'label' => 'default'
+                'label' => 'success'
             ],
             [
                 'name' => 'Doing',
@@ -38,9 +38,9 @@ class TaskTableSeeder extends Seeder {
                 'label' => 'info'
             ],
             [
-                'name' => 'Done',
+                'name' => 'KIV',
                 'tag_category_id' => 1,
-                'label' => 'success'
+                'label' => 'default'
             ],
             [
                 'name' => 'Low',
