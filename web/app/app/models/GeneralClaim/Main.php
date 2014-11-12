@@ -283,7 +283,7 @@ class GeneralClaim__Main extends Eloquent
   
   public function canDelete()
   {
-    return false;
+    return $this->status_id === 1 || $this->status_id === 5;
   }
 
   public function user()

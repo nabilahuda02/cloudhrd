@@ -184,10 +184,9 @@ class LeaveController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		// Session::flash('NotifySuccess', 'Leave Deleted Successfully');
-		// Leave__Main::destroy($id);
-
-		// return Redirect::action('leave.index');
+		Session::flash('NotifySuccess', 'Leave Deleted Successfully');
+		Leave__Main::destroy($id);
+		return Redirect::action('leave.index');
 	}
 
 	/**

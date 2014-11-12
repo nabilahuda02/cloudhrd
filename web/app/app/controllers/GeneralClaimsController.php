@@ -170,10 +170,9 @@ class GeneralClaimsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		// Session::flash('NotifySuccess', 'Claim Deleted Successfully');
-		// GeneralClaim__Main::destroy($id);
-
-		// return Redirect::route('claims.index');
+		Session::flash('NotifySuccess', 'Claim Deleted Successfully');
+		GeneralClaim__Main::destroy($id);
+		return Redirect::route('claims.index');
 	}
 
 	/**

@@ -163,10 +163,9 @@ class MedicalController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		// Session::flash('NotifySuccess', 'Claim Deleted Successfully');
-		// MedicalClaim__Main::destroy($id);
-
-		// return Redirect::action('medical.index');
+		Session::flash('NotifySuccess', 'Claim Deleted Successfully');
+		MedicalClaim__Main::destroy($id);
+		return Redirect::action('medical.index');
 	}
 
 	/**
