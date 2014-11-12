@@ -51,6 +51,21 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
+
+Route::filter('isadmin', function()
+{
+	if (!Auth::user()->is_admin) return Redirect::action('WallController@getIndex');
+});
+
+Route::filter('administers_leave', function(){
+	if(!Auth::user()->administers(Leave__Main::$moduleId)) return Redirect::action('WallController@getIndex');
+});
+Route::filter('administers_medical', function(){
+	if(!Auth::user()->administers(MedicalClaim__Main::$moduleId)) return Redirect::action('WallController@getIndex');
+});
+Route::filter('administers_generalclaim', function(){
+	if(!Auth::user()->administers(GeneralClaim__Main::$moduleId)) return Redirect::action('WallController@getIndex');
+});
 /*
 |--------------------------------------------------------------------------
 | Guest Filter

@@ -18,14 +18,6 @@ Route::get('/', function()
 	return Redirect::to('wall');
 });
 
-Route::get('/reset', function(){
-  Artisan::call('db:seed');
-  File::cleanDirectory(public_path() . '/uploads');
-  file_put_contents(public_path() . '/uploads/.gitignore', "*\n!.gitignore\n!index.html");
-  touch(public_path() . '/uploads/index.html');
-  return Redirect::action('leave.create');
-});
-
 Route::group(['before' => 'auth'], function(){
 
   View::share('user', Auth::user());
@@ -55,7 +47,6 @@ Route::group(['before' => 'auth'], function(){
   Route::get('tasks/{task_id}/add-follower/{user_id}','TasksController@addFollower');
   Route::get('tasks/{task_id}/remove-follower/{user_id}','TasksController@removeFollower');
   Route::get('tasks/{task_id}/set-owner/{user_id}','TasksController@setOwner');
-
 
   Route::resource('taskinfo','TaskInfoController');
   Route::resource('subtasks','TaskSubtasksController');
@@ -112,18 +103,6 @@ Route::group(['before' => 'auth'], function(){
   /**
    * FIXME: add filters
    */
-  // Route::group(['before' => 'administers_bookings'], function(){
-  //   Route::resource('timeslots', 'AdminLookupTimeslotsController');
-  //   Route::resource('rooms', 'AdminRoomBookingRoomsController');
-  //   Route::get('/booking/admin/timeslots', 'RoomBookingController@getTimeslot');
-  //   Route::get('/booking/admin/rooms', 'RoomBookingController@getRooms');
-  //   Route::get('/booking/admin/reporting', 'RoomBookingController@getAdminReporting');
-  //   Route::post('/booking/admin/reporting', 'RoomBookingController@postAdminReporting');
-  // });
-  
-  /**
-   * FIXME: add filters
-   */
   Route::group(['before' => 'isadmin'], function(){
 
     Route::controller('audits', 'AdminAuditController');
@@ -144,14 +123,13 @@ Route::group(['before' => 'auth'], function(){
     Route::resource('/organization', 'AdminOrganizationController');
     Route::get('/manage-user-template', 'AdminUserController@getManageTemplate');
     Route::post('/manage-user-template', 'AdminUserController@postManageTemplate');
+    Route::controller('subscription', 'SubscriptionController');
   });
 
   Route::controller('ajax','AjaxController');
   Route::controller('data','DataController');
   Route::controller('upload','UploadController');
 });
-
-Route::controller('subscription', 'SubscriptionController');
 
 Route::get('email_action/{hash}', function($hash) {
   $config = Helper::decrypt($hash);
@@ -169,34 +147,19 @@ Route::get('email_action/{hash}', function($hash) {
       $item = GeneralClaim__Main::where('id', $config->id);
       break;
   }
-
   $item = $item->where('status_id', $config->current_status)->first();
   if(!$item) {
     return 'Link no longer active';
   }
-
   $item->setStatus($config->next_status);
-  // if($config->type === 'leave' 
-  //     && $config->next_status == 3
-  //     && $item->leave_type_id == 1
-  //   ) {
-  //   $item->shares()->create([
-  //     'type' => 'event',
-  //     'user_id' => $item->user_id,
-  //     'event_date' => $item->dates[0]->date,
-  //     'title' => $item->user->profile->first_name . ' On Leave',
-  //     'content' => $item->user->profile->first_name . ' will be on leave for ' . $item->total . ' day(s)'
-  //   ]);
-  // }
-
   return 'Application status updated.';
 });
 
-
-Route::get('test', function(){
-
-  return var_dump($_ENV);
-
+Route::get('/backend/migratedb', 'AuthController@getMigrate');
+Route::get('/backend/reset', function(){
+  Artisan::call('db:seed');
+  File::cleanDirectory(public_path() . '/uploads');
+  file_put_contents(public_path() . '/uploads/.gitignore', "*\n!.gitignore\n!index.html");
+  touch(public_path() . '/uploads/index.html');
+  return Redirect::action('leave.create');
 });
-
-Route::get('migratedb', 'AuthController@getMigrate');
