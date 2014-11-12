@@ -109,7 +109,6 @@ class MedicalController extends \BaseController {
 		$medical = MedicalClaim__Main::findOrFail($id);
 
 		$data = Input::all();
-		$data['treatment_date'] = Helper::short_date_to_mysql($data['treatment_date']);
 
 		/* update status */
 		if(isset($data['_status']) && isset($data['status_id']) && (
@@ -125,6 +124,8 @@ class MedicalController extends \BaseController {
 		
 		if(!$medical->canEdit())
 			return Redirect::action('medical.index');
+
+		$data['treatment_date'] = Helper::short_date_to_mysql($data['treatment_date']);
 
 		if(!isset($data['user_id']) || (isset($data['user_id']) && !in_array($data['user_id'], Auth::user()->getDownline(MedicalClaim__Main::$moduleId)))) {
 			$data['user_id'] = Auth::user()->id;
