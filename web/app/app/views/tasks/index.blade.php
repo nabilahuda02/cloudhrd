@@ -60,7 +60,7 @@ var taskTags = {{$task_tags}};
     <script type="text/template" id="task-template"><img data-toggle="tooltip" data-taskid="<%- model.id %>" title="Click for more info" data-placement="top" src="<%- (model.owner.profile.user_image) ? model.owner.profile.user_image.replace('original', 'avatar') : '/images/user.jpg' %>" class="has-tooltip feed-avatar hidden-sm hidden-xs">
     <span class="badge badge-primary badge-xs undone-subtasks"><% if(getNotDone(model.subtasks).length > 0) { %><%-getNotDone(model.subtasks).length%><% } %></span>
     <span class="<% if(model.archived) { %>archived<% } %>"><%- model.description %></span>
-    <% model.tags.forEach(function(tag){ if(tag.tag_category_id !== currentCategoryId && tag.category) { %> <span class="label label-<%-tag.label%>">
+    <% model.tags.forEach(function(tag){ if(tag.tag_category_id !== currentCategoryId && tag.category) { %> <span data-categoryid="<%-tag.tag_category_id%>" class="category-label label label-<%-tag.label%>">
     <span title="<%- tag.category.name %>: <%- tag.name %>" data-toggle="tooltip" data-placement="top" class="has-tooltip"><%- tag.name.charAt(0) %></span></span><% }}); %>
     <% if(model.archived) { %><span class="unarchive label label-warning"><a title="Click to unarchive" data-toggle="tooltip" data-placement="top" class="has-tooltip">A</a></span> <span class="delete label label-danger"><a title="Click to delete" data-toggle="tooltip" data-placement="top" class="has-tooltip fa fa-trash"></a></span><% } else { %>
     <span class="archive label label-success"><a title="Click to archive" data-toggle="tooltip" data-placement="top" class="has-tooltip">A</a></span>

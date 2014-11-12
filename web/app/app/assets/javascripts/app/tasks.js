@@ -402,6 +402,10 @@ function getNotDone(items) {
     var taskViews = {};
     var taskView = Backbone.View.extend({
         events: {
+            'click .category-label': function(e) {
+                var category = taskCategoriesCollection.get($(e.currentTarget).data('categoryid'));
+                actionView.setActiveCategory(category);
+            },
             'click img' : function(e) {
                 TaskInfoModalView.setId(this.model.id);
             },
