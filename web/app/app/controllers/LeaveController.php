@@ -126,13 +126,6 @@ class LeaveController extends \BaseController {
 				$leave->canVerify())
 		) {
 			if($data['status_id'] == 3 && $leave->leave_type_id == 1) {
-	      $leave->shares()->create([
-	        'type' => 'event',
-	        'user_id' => $leave->user_id,
-	        'event_date' => $leave->dates[0]->date,
-	        'title' => $leave->user->profile->first_name . ' On Leave',
-	        'content' => $leave->user->profile->first_name . ' will be on leave for ' . $leave->total . ' day(s)'
-	      ]);
 	    }
 			$leave->setStatus($data['status_id']);
   		Session::flash('NotifySuccess', 'Status Updated Successfully');

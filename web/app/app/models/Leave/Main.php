@@ -90,9 +90,6 @@ class Leave__Main extends \Eloquent {
         $this->emailApproved();
       } else if($status_id == 4) {
         $this->emailRejected();
-        $this->shares()->delete();
-      } else if($status_id == 5) {
-        $this->shares()->delete();
       }
       $this->audits()->create([
         'ref' => $this->ref,
