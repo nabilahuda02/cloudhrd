@@ -6,7 +6,7 @@
                 <div class="legend-inner  text-center" style="display:none">
                     <h4>
                         @if(isset($leave))
-                        {{User::fullName($leave->user_id)}}'s
+                        User's
                         @endif
                         {{$leaveType->name}}
                     </h4>

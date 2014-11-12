@@ -6,7 +6,7 @@
                 <div class="legend-inner text-center" style="display:none">
                     <h4>
                     @if(isset($medical))
-                    {{User::fullName($medical->user_id)}}'s
+                    User's
                     @endif
                     {{$medicalClaimType->name}}
                     </h4>
