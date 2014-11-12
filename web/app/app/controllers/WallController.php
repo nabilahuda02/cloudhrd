@@ -10,7 +10,10 @@ class WallController extends \BaseController {
 	public function getIndex()
 	{
         Asset::push('js','app/wall.js');
-		$user_image = Auth::user()->profile->user_image;
+		$user_image = Auth::user()->avatar();
+        if(!$user_image) {
+            $user_image = '/images/user.jpg';
+        }
 		return View::make('wall.index',compact('user_image', 'user'));
 	}
 

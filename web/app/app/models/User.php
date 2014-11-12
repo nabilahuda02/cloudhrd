@@ -215,7 +215,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
   public function avatar()
   {
-    return str_replace('orginal', 'avatar', $this->profile->user_image);
+    return str_replace('original', 'avatar', $this->profile->user_image);
   }
 
   public static function fullName($uid) {

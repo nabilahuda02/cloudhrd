@@ -47,7 +47,7 @@
 	</div>
 </div>
 
-<script type="text/template" id="task-template"><li><img src="<%- model.owner.profile.user_image %>" class="feed-avatar hidden-sm hidden-xs">
+<script type="text/template" id="task-template"><li><img src="<%- (model.owner.profile.user_image + '').replace('original', 'avatar') || '/images/user.jpg' %>" class="feed-avatar hidden-sm hidden-xs">
     <%- model.description %> 
     <% model.tags.forEach(function(tag){ if(tag.category) { %> <span class="label label-<%-tag.label%>">
             <span title="<%- tag.category.name %>: <%- tag.name %>" data-toggle="tooltip" data-placement="top" class="has-tooltip"><%- tag.name.charAt(0) %></span></span><% }}); %>
@@ -55,7 +55,7 @@
 <script type="text/template" id="feeds-template">
 <% _.each(shares, function(item){ %>
 <div class="feed">
-    <img src="<%= (item.user.profile.user_image || '/images/user.jpg') %>" class="feed-avatar hidden-sm hidden-xs">
+    <img src="<%= ((item.user.profile.user_image + '').replace('original', 'avatar') || '/images/user.jpg') %>" class="feed-avatar hidden-sm hidden-xs">
     <div class="feed-wrap">
         <div class="title">
             <span class="pull-right text-muted">
@@ -72,7 +72,7 @@
         <div class="comments-view" data-shareid="<%= item.id %>">
         </div>
         <div class="comment new-comment">
-            <img src="<?=$user_image?>" class="feed-avatar hidden-sm hidden-xs">
+            <img src="<?=$user_image ?>" class="feed-avatar hidden-sm hidden-xs">
             <textarea class="new-comment" data-feedid="<%= item.id %>" placeholder="Write a reply and shift + enter to submit..."></textarea>
             <div class="clearfix"></div>
         </div>
@@ -92,7 +92,7 @@
     <% } %>
     <% _.each(comments.reverse(), function(comment){ %>
         <div class="comment">
-            <img src="<%= comment.user.profile.user_image %>" class="feed-avatar hidden-sm hidden-xs">
+            <img src="<%= (comment.user.profile.user_image + '').replace('original', 'avatar') || '/images/user.jpg' %>" class="feed-avatar hidden-sm hidden-xs">
             <div class="body">
                 <b><%= (comment.user.profile.first_name + (comment.user.profile.last_name ?  ' ' + comment.user.profile.last_name : '')) %></b> 
                 <%= nl2br(comment.comment) %>
