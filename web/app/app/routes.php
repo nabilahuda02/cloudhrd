@@ -20,9 +20,9 @@ Route::get('/', function()
 
 Route::get('/reset', function(){
   Artisan::call('db:seed');
-  if(file_exists(public_path() . '/uploads/temp')) {
-    File::cleanDirectory(public_path() . '/uploads/temp');
-  }
+  File::cleanDirectory(public_path() . '/uploads');
+  file_put_contents(public_path() . '/uploads/.gitignore', "*\n!.gitignore\n!index.html");
+  touch(public_path() . '/uploads/index.html');
   return Redirect::action('leave.create');
 });
 
@@ -47,6 +47,9 @@ Route::group(['before' => 'auth'], function(){
   Route::resource('tasks','TasksController');
 
   Route::get('tasks/{task_id}/set-tag/{tag_id}','TasksController@setTag');
+
+
+  Route::resource('taskinfo','TaskInfoController');
 
   Route::resource('task-categories', 'TaskCategoriesController');
   Route::resource('task-tags', 'TaskTagsController');

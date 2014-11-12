@@ -74,12 +74,6 @@ class UploadController extends BaseController
     if(!$entryFile) {
       return App::abort(404);
     }
-    if(file_exists($entryFile->file_path)) {
-      unlink($entryFile->file_path);
-    }
-    if(file_exists($entryFile->thumb_path)) {
-      unlink($entryFile->thumb_path);
-    }
     $entryFile->delete();
   }
 }

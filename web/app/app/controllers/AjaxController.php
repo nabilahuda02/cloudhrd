@@ -7,7 +7,7 @@ class AjaxController extends BaseController
     $file = Input::file('file');
 
     $uid                = md5(microtime());
-    $destinationPath    = public_path() . '/profile/' . $uid;
+    $destinationPath    = public_path() . '/uploads/profile/' . $uid;
     $parts              = explode('/', $file->getMimeType());
     $extension          = array_pop($parts);
     $filename           = 'original.'. $extension; 
@@ -18,7 +18,7 @@ class AjaxController extends BaseController
     // Helper::resizeImage($destinationPath, $extension, 'medium_' . $filename, 600);
 
     $profile = Auth::user()->profile;
-    $profile->user_image = '/profile/' . $uid . '/' . $filename;
+    $profile->user_image = '/uploads/profile/' . $uid . '/' . $filename;
     $profile->save();
   }
 
