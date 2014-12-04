@@ -12,7 +12,7 @@
 		<h4 class="text-center hover-show-hidden" style="text-transform:uppercase;">{{ $user->profile->first_name }} <a class="is-hidden" href="/wall/profile"><span class="fa fa-cog"></span></a></h4>
 		<hr style="margin-top:12px;">
 	</div>
-	<ul class="nav nav-pills nav-stacked">
+	<ul class="nav nav-pills nav-stacked hidden-xs">
 		<li class="bg-blue border-top-none {{ ($controller === 'Public Wall') ? 'active' : '' }}">
 			<a href="{{ action('WallController@getIndex') }}">
 				Wall
