@@ -3,6 +3,7 @@
 <script>
 var taskCategories = {{$task_categories}};
 var taskTags = {{$task_tags}};
+var is_admin = {{($user->is_admin ? 'true' : 'false')}};
 </script>
 @stop
 @section('content')

@@ -384,7 +384,8 @@ function getNotDone(items) {
         render: function() {
             this.element = $(this.template());
             this.element.appendTo(this.$el);
-            $('.panel-title', this.element).editable();
+            if(is_admin)
+                $('.panel-title', this.element).editable();
             this.renderChildren();
         },
         initialize: function(model) {
