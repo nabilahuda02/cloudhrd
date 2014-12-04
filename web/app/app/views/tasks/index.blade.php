@@ -15,18 +15,12 @@ var taskTags = {{$task_tags}};
             <ul class="dropdown-menu" role="menu">
                 <div id="group-menu"></div>
                 <li class="divider"></li>
+                @if($user->is_admin)
                 <li id="new-group"><a>Create New Grouping</a></li>
                 <li id="new-heading"><a>Create New Tag</a></li>
                 <li id="del-group"><a>Delete <span class="group-name"></span> Group</a></li>
                 <li class="divider"></li>
-                <!-- <li>
-                    <a>
-                        <label for="control-mine">
-                            <input id="control-mine" type="checkbox">
-                            Only mine
-                        </label>
-                    </a>
-                </li> -->
+                @endif
                 <li>
                     <a>
                         <label for="control-archived">
