@@ -38,8 +38,8 @@
 		</li>
 		@if($user->is_admin)
 		<li class="">
-			<a href="#admin_menu" class="" data-toggle="collapse">Administrator <span class="fa fa-raquo"></span></a>
-			<ul class="collapse list-unstyled @if(in_array($controller, ['Unit Admin', 'User Admin', 'Module Admin', 'Audit', 'Organization', 'Subscription'])) in @endif" id="admin_menu">
+			<a href="#admin_menu_sidebar" class="" data-toggle="collapse">Administrator <span class="fa fa-raquo"></span></a>
+			<ul class="collapse list-unstyled @if(in_array($controller, ['Unit Admin', 'User Admin', 'Module Admin', 'Audit', 'Organization', 'Subscription'])) in @endif" id="admin_menu_sidebar">
 				<li class="{{ ($controller === 'User Admin') ? 'active' : '' }}">
 					<a href="{{ action('AdminUserController@index') }}">
 						Manage User</a>
