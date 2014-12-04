@@ -667,7 +667,7 @@ function getNotDone(items) {
             var val = $('#note-content').val().trim();
             if(val) {
                 if(!this.isEditing) {
-                    $.post('/tasks/'+ this.id +'/notes/', {
+                    $.post('/tasks/'+ this.id +'/notes', {
                         note: val
                     }, function(data){
                         this.reload();
