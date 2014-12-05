@@ -123,6 +123,9 @@ Route::group(['before' => 'auth'], function(){
     Route::resource('/organization', 'AdminOrganizationController');
     Route::get('/manage-user-template', 'AdminUserController@getManageTemplate');
     Route::post('/manage-user-template', 'AdminUserController@postManageTemplate');
+    Route::get('/import-users', 'AdminUserController@getImportUsers');
+    Route::get('/download-import-template', 'AdminUserController@getDownloadTemplate');
+    Route::post('/import-users', 'AdminUserController@postImportUsers');
     Route::controller('subscription', 'SubscriptionController');
   });
 

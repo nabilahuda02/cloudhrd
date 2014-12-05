@@ -39,6 +39,13 @@ class AdminUserController extends \BaseController {
       return Redirect::back()->withErrors($validator)->withInput();
     }
 
+    $this->createUser($data);
+
+    return Redirect::route('useradmin.index');
+  }
+
+  private function createUser($data)
+  {
     Session::flash('NotifySuccess', 'User Created Successfully');
     $data['verified'] = 1;
     $original_password = $data['password'];
@@ -69,8 +76,6 @@ class AdminUserController extends \BaseController {
     {
       $message->to($user->email, User::fullName($user->id))->subject('Welcome to CloudHRD, ' . User::fullName($user->id));
     });
-
-    return Redirect::route('useradmin.index');
   }
 
   public function show($id)
@@ -183,11 +188,118 @@ class AdminUserController extends \BaseController {
     if($user->save()) {
       Session::flash('NotifySuccess', 'User Template Updated');
     } else {
-      Session::flash('NotifyError', 'Error Updating User Template');
+      Session::flash('NotifyDanger', 'Error Updating User Template');
     }
     return Redirect::action('AdminUserController@getManageTemplate');
   }
 
+  public function getImportUsers()
+  {
+    $custom_fields = app()->user_locale->profile_custom_fields;
+    return View::make('admin.users.import-users', compact('custom_fields'));
+  }
+
+  public function postImportUsers()
+  {
+    $file = Input::file('userimport');
+    $users = Excel::load($file->getPathname())->toArray();
+
+    // check duplicate emails
+    
+    $emails = array_pluck($users, 'email');
+    if(count(array_unique($emails)) < count($emails)) {
+      $values = array_count_values($emails);
+      $not_uniques = [];
+      foreach ($values as $key => $value) {
+        if($value > 1) {
+          $not_uniques[] = $key;
+        }
+      }
+      $error = 'These emails have duplicates: <ul>' . implode('', array_map(function($not_unique){ return '<li>' . $not_unique . '</li>'; }, $not_uniques)) . '<ul>';
+      Session::flash('NotifyDanger', $error);
+      return Redirect::back();
+    }
+
+    $error_rows = 0;
+    $error_messages = [];
+
+    foreach ($users as $index => $user) {
+      $validator = Validator::make($user, User::$validation_rules['registration']);
+      if($validator->fails()) {
+        $error_rows++;
+        $error_messages[] = 'Error on row ' . ($index + 2) . ' (' . $user['first_name'] . ') <ul>' . implode('', $validator->messages()->all('<li>:message</li>')) . '</ul>';
+      }
+    }
+
+    $groups = [];
+    $error_groups = [];
+    $custom_fields = app()->user_locale->profile_custom_fields;
+    foreach ( array_pluck($users, 'unit') as $index => $unit) {
+      $unit = trim($unit);
+      if(in_array($unit, $error_groups)) {
+        $error_rows++;
+        $error_messages[] = 'Error on row ' . ($index + 2) . ' (' . $users[$index]['first_name'] . '). Group "' . $users[$index]['unit'] . '" does not exist.<br/>';
+      } else if(!in_array($unit, $groups)) {
+        $group = UserUnit::where('name', $unit)->first();
+        if(!$group) {
+          $error_rows++;
+          $error_messages[] = 'Error on row ' . ($index + 2) . ' (' . $users[$index]['first_name'] . '). Group "' . $users[$index]['unit'] . '" does not exist.<br/>';
+          $error_groups[] = $unit;
+        } else {
+          $users[$index]['unit_id'] = $group->id;
+        }
+      } else {
+        $users[$index]['unit_id'] = $groups[$unit]->id;
+      }
+
+      // unset unit
+      unset($users[$index]['unit']);
+      foreach ($custom_fields as $k => $field) {
+        $key = strtolower(str_replace(' ', '_', $field));
+        if(isset($users[$index][$key])) {
+          $users[$index][$k] = $users[$index][$key];
+          unset($users[$index][$key]);
+        }
+      }
+      $users[$index]['is_admin'] = ($users[$index]['is_admin'] === 'Yes') ? true : false;
+    }
+
+    if($error_rows > 0) {
+      $error = 'Upload aborted.<br/>' . implode('', $error_messages);
+      Session::flash('NotifyDanger', $error);
+      return Redirect::back();
+    }
+
+    foreach ($users as $data) {
+      $this->createUser($data);
+    }
+
+    Session::flash('NotifySuccess', count($users) . ' Users Imported');
+    return Redirect::back();
+  }
+
+  public function getDownloadTemplate()
+  {
+    $fields = [
+      'Email',
+      'First Name',
+      'Last Name',
+      'Address',
+      'Unit',
+      'Is Admin',
+      'Password'
+    ];
+    $custom_fields = app()->user_locale->profile_custom_fields;
+    foreach ($custom_fields as $field) {
+      if($field)
+        $fields[] = $field;
+    }
+    return Excel::create('User Import Template', function($excel) use ($fields) {
+      $excel->sheet('User', function($sheet) use ($fields) {
+        $sheet->fromArray($fields);
+      });
+    })->export('xlsx');
+  }
 
   public function __construct()
   {
