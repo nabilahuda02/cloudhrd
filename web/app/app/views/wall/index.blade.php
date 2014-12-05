@@ -35,7 +35,7 @@
 				</div>
 			</div> -->
 			<div class="panel panel-primary text-center" id="todos">
-				<div class="panel-heading">Tasks</div>
+				<a href="/tasks" class="panel-heading" style="display:block">Tasks</a>
 				<div class="panel-body">
 					<ul class="list-unstyled" id="todo-el"></ul>
 				</div>
