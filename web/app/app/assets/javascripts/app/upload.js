@@ -1,11 +1,12 @@
 Dropzone.autoDiscover = false;
 function attachUploader() {
     var path = $('div#upload').data('path');
+    var type = $('div#upload').data('type');
     new Dropzone("div#upload", {
         url: '/upload/do/' + path,
         maxFilesize: 10,
         addRemoveLinks: true,
-        acceptedFiles: 'image/*',
+        acceptedFiles: type || 'image/*',
         init: function() {
             this.on('success', function(File, response) {
                 File.response = response;
