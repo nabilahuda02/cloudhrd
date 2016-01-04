@@ -48,7 +48,7 @@
 		<div class="form-group">
 			<label for="dates" class="control-label col-lg-2 col-sm-4">Upload<br/>(If Any)</label>
 			<div class="col-lg-10 col-sm-8">
-				<div class="dropzone" id="upload" data-path="generalclaim/temp/{{Helper::noonce()}}"></div>
+				<div class="dropzone" id="upload" data-path="generalclaim/temp/{{Helper::noonce()}}" data-type="image/jpeg,image/png,application/pdf"></div>
 			</div>
 			{{Asset::push('js', 'app/upload')}}
 		</div>
