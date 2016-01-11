@@ -9,7 +9,7 @@ class DataController extends BaseController
      */
     $leaves = DB::table('leaves')->select(['leaves.id', 'status.name as "status_name"', 'ref', 'leaves.created_at',  'leave_types.name', 'total'])
       -> where('user_id', Auth::user()->id)
-      -> orderBy('leaves.ref', 'desc')
+      -> orderBy('leaves.created_at', 'desc')
       -> join('status', 'status.id', '=', 'leaves.status_id')
       -> join('leave_types', 'leave_types.id', '=', 'leaves.leave_type_id');
     return Datatables::of($leaves)
@@ -30,7 +30,7 @@ class DataController extends BaseController
     if(count($downline) > 0) {
       $leaves = DB::table('leaves')->select(['leaves.id','status.name as "status_name"',  'user_profiles.first_name', 'leaves.created_at',  'ref', 'leave_types.name', 'total'])
         -> whereIn('leaves.user_id', $downline)
-        -> orderBy('leaves.ref', 'desc')
+        -> orderBy('leaves.created_at', 'desc')
         -> join('users', 'users.id', '=', 'leaves.user_id')
         -> join('user_profiles', 'user_profiles.user_id', '=', 'users.id')
         -> join('status', 'status.id', '=', 'leaves.status_id')
@@ -61,7 +61,7 @@ class DataController extends BaseController
         'medical_claim_types.name', 
         'total'])
       -> where('user_id', Auth::user()->id)
-      -> orderBy('medical_claims.ref', 'desc')
+      -> orderBy('medical_claims.created_at', 'desc')
       -> join('status', 'status.id', '=', 'medical_claims.status_id')
       -> join('medical_claim_types', 'medical_claim_types.id', '=', 'medical_claims.medical_claim_type_id');
     return Datatables::of($medical_claims)
@@ -92,7 +92,7 @@ class DataController extends BaseController
         'medical_claim_types.name', 
         'total'])
       -> whereIn('medical_claims.user_id', $downline)
-      -> orderBy('medical_claims.ref', 'desc')
+      -> orderBy('medical_claims.created_at', 'desc')
       -> join('users', 'users.id', '=', 'medical_claims.user_id')
       -> join('user_profiles', 'user_profiles.user_id', '=', 'users.id')
       -> join('status', 'status.id', '=', 'medical_claims.status_id')
@@ -157,7 +157,7 @@ class DataController extends BaseController
         DB::Raw('date(general_claims.created_at) as date'),
         'title', 
         'value'])
-      -> orderBy('general_claims.ref', 'desc')
+      -> orderBy('general_claims.created_at', 'desc')
       -> whereIn('general_claims.user_id', $downline)
       -> join('users', 'users.id', '=', 'general_claims.user_id')
       -> join('user_profiles', 'user_profiles.user_id', '=', 'users.id')
@@ -194,7 +194,7 @@ class DataController extends BaseController
         'room_booking_rooms.name',
         DB::Raw('group_concat(concat("(", TIME_FORMAT(lookup_timing_slots.start, "%l:%i %p"), " - ", TIME_FORMAT(lookup_timing_slots.end, "%l:%i %p"), ") ", lookup_timing_slots.name) SEPARATOR "<br/> ") as slots')])
       -> where('user_id', Auth::user()->id)
-      -> orderBy('room_bookings.ref', 'desc')
+      -> orderBy('room_bookings.created_at', 'desc')
       -> join('room_booking_timing_slots', 'room_booking_timing_slots.room_booking_id', '=', 'room_bookings.id')
       -> join('lookup_timing_slots', 'lookup_timing_slots.id', '=', 'room_booking_timing_slots.lookup_timing_slot_id')
       -> join('room_booking_rooms', 'room_booking_rooms.id', '=', 'room_bookings.room_booking_room_id')
@@ -222,7 +222,7 @@ class DataController extends BaseController
         'room_booking_rooms.name',
         DB::Raw('group_concat(concat("(", TIME_FORMAT(lookup_timing_slots.start, "%l:%i %p"), " - ", TIME_FORMAT(lookup_timing_slots.end, "%l:%i %p"), ") ", lookup_timing_slots.name) SEPARATOR "<br/> ") as slots')])
       -> whereIn('room_bookings.user_id', $downline)
-      -> orderBy('room_bookings.ref', 'desc')
+      -> orderBy('room_bookings.created_at', 'desc')
       -> join('room_booking_timing_slots', 'room_booking_timing_slots.room_booking_id', '=', 'room_bookings.id')
       -> join('lookup_timing_slots', 'lookup_timing_slots.id', '=', 'room_booking_timing_slots.lookup_timing_slot_id')
       -> join('users', 'users.id', '=', 'room_bookings.user_id')
