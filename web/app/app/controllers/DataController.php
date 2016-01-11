@@ -130,7 +130,7 @@ class DataController extends BaseController
         DB::Raw('date(general_claims.created_at) as date'),
         'title', 
         'value'])
-      -> orderBy('general_claims.ref', 'desc')
+      -> orderBy('general_claims.created_at', 'desc')
       -> where('user_id', Auth::user()->id)
       -> join('status', 'status.id', '=', 'general_claims.status_id');
     return Datatables::of($general_claims)
