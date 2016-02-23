@@ -1,7 +1,7 @@
 @extends('layouts.module')
 @section('content')
 <div class="col-md-10 col-sm-8">
-    
+
     @include('html.notifications')
     <div class="col-md-12">
         <div class="page-header">
@@ -20,7 +20,7 @@
         -> value($leave->ref)
         -> readonly()
         -> disabled() }}
-        
+
         @if(Auth::user()->administers(Leave__Main::$moduleId))
         {{ Former::select('user_id')
         -> label('For User')
@@ -36,8 +36,8 @@
         -> disabled() }}
         {{Former::populate($leave)}}
         @include('leaves.form')
-        
-        {{ Asset::push('js','app/upload.js')}}
+
+        {{ Asset::push('js','app/upload')}}
         <div class="form-group">
             <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
             <div class="col-lg-10 col-sm-8">

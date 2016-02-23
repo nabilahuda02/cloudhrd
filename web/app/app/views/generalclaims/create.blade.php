@@ -117,5 +117,5 @@
 	    }
 	};
 </script>
-{{Asset::push('js', 'app/general_claims.js')}}
+{{Asset::push('js', 'app/general_claims')}}
 @stop

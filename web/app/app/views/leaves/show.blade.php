@@ -37,8 +37,8 @@
         -> disabled() }}
         {{Former::populate($leave)}}
         @include('leaves.form')
-        
-        {{ Asset::push('js','app/upload.js')}}
+
+        {{ Asset::push('js','app/upload')}}
         <div class="form-group">
             <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
             <div class="col-lg-10 col-sm-8">
@@ -56,7 +56,7 @@
         <div class="form-group">
             <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
                 @include('leaves.actions-buttons')
-                
+
             </div>
         </div>
         {{ Former::close() }}

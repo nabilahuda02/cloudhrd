@@ -9,10 +9,7 @@
 		"anahkiasen/former": "3.4.2",
 		"baum/baum": "1.0.*",
 		"bllim/datatables": "1.*",
-		"maatwebsite/excel": "1.*",
-		"codesleeve/asset-pipeline": "2.*",
-		"oyejorge/less.php": "1.*",
-		"itsgoingd/clockwork": "1.*"
+		"maatwebsite/excel": "1.*"
 	},
 	"autoload": {
 		"classmap": [

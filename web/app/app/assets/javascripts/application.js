@@ -1,21 +1,19 @@
-//= require jquery
-//= require lodash/dist/lodash.min
-//= require jqueryui/jquery-ui.min
-//= require backbone/backbone
-//= require bootstrap/dist/js/bootstrap.min
-//= require dropzone/downloads/dropzone.min
-//= require raphael/raphael-min
-//= require morrisjs/morris.min
-//= require datatables/media/js/jquery.dataTables.min
-//= require jquery.serializeJSON/jquery.serializejson.min
-//= require bootbox/bootbox
-//= require multidatespicker
-//= require datatables
-//= require app/duplicator/duplicator
-//= require app/jquery.avatar.js
-//= require app/lib/feedback
-//= require app/lib/colpick
-//= require_self
+//=require ../packages/jquery/dist/jquery.min.js
+//=require ../packages/lodash/dist/lodash.min.js
+//=require ../packages/jqueryui/jquery-ui.min.js
+//=require ../packages/backbone/backbone.js
+//=require ../packages/bootstrap/dist/js/bootstrap.min.js
+//=require ../packages/dropzone/downloads/dropzone.min.js
+//=require ../packages/raphael/raphael-min.js
+//=require ../packages/morrisjs/morris.min.js
+//=require ../packages/datatables/media/js/jquery.dataTables.min.js
+//=require ../packages/jquery.serializeJSON/jquery.serializejson.min.js
+//=require ../packages/bootbox/bootbox.js
+//=require ../packages/Multiple-Dates-Picker-for-jQuery-UI/jquery-ui.multidatespicker.js
+//=require ../packages/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js
+//=require app/lib/duplicator.js
+//=require ../packages/tapatar/dist/tapatar.min.js
+//=require ../packages/colpick/js/colpick.js
 
 Dropzone.autoDiscover = false;
 
@@ -76,23 +74,5 @@ var tbl;
           });
         });;
     };
-
-    new Feedback({
-        url: '/wall/feedback'
-    });
-
-    $('.feedback-btn')
-        .removeClass('feedback-bottom-right')
-        .addClass('feedback-bottom-left btn-danger btn')
-        .hover(function(){
-            $('.feedback-btn').animate({
-                left: '5px'
-            })
-        }, function(){
-            $('.feedback-btn').animate({
-                left: '-122px'
-            })
-        })
-        .append('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fa fa-exclamation-triangle"></span> ');
 
 }).call(this);

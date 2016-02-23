@@ -40,6 +40,6 @@
     </div>
 </div>
 @endforeach
-{{Asset::push('js', 'app/entitlementchart.js')}}
+{{Asset::push('js', 'entitlementchart')}}
 <div class="clearfix"></div>
 <hr>

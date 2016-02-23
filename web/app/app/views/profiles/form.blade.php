@@ -1,6 +1,6 @@
 @extends('layouts.module')
 @section('content')
-{{Asset::push('js','app/profile.js')}}
+{{Asset::push('js','profile')}}
 <div class="col-sm-10">
     <div>
         <br>
@@ -33,7 +33,7 @@
                 -> readonly()
                 -> disabled() }}
             </div>
-            <?php $i = 0; ?>
+            <?php $i = 0;?>
             @foreach (app()->user_locale->profile_custom_fields as $key => $value)
               @if($value)
                 <div class="col-md-12">
@@ -41,9 +41,9 @@
                       ->label($value)
                       ->disabled()
                       ->value(@$currentuser->profile->{'user_field_0' . $i}) }}
-                </div>        
+                </div>
               @endif
-              <?php $i++; ?>
+              <?php $i++;?>
             @endforeach
         </div>
         {{Former::close()}}
@@ -51,7 +51,7 @@
         <hr>
         <br>
     </div>
-    
+
     <div class="form-group">
         <h3>Attached Documents</h3>
         <hr>
