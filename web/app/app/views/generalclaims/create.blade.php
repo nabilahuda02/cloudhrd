@@ -50,7 +50,7 @@
 			<div class="col-lg-10 col-sm-8">
 				<div class="dropzone" id="upload" data-path="generalclaim/temp/{{Helper::noonce()}}" data-type="image/jpeg,image/png,application/pdf"></div>
 			</div>
-			{{Asset::push('js', 'app/upload')}}
+			{{Asset::push('js', 'upload')}}
 		</div>
 		{{ Former::textarea('remarks') }}
 		<div class="form-group">
@@ -117,5 +117,5 @@
 	    }
 	};
 </script>
-{{Asset::push('js', 'app/general_claims')}}
+{{Asset::push('js', 'general_claims')}}
 @stop

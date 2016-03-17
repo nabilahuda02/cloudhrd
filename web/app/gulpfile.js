@@ -56,88 +56,9 @@ gulp.task('js', function(){
         ;
 });
 
+gulp.task('watch', function() {
+  gulp.watch(sources.js, ['js']);
+  gulp.watch(sources.less, ['css']);
+});
 
- 
-// gulp.task("scripts", function() {
-//   console.log("-- gulp is running task 'scripts'");
- 
-//   gulp.src("src/js/main.js")
-//     .pipe(include())
-//       .on('error', console.log)
-//     .pipe(gulp.dest("dist/js"));
-// });
- 
-// gulp.task("default", ["scripts"]);
-
- 
-// gulp.task('default', function () {
-//     return gulp.src('src/app.js')
-//         .pipe(ngAnnotate())
-//         .pipe(gulp.dest('dist'));
-// });
-
-// var ;
-// var;
- 
-// gulp.task('less', function () {
-//   return gulp.src('./less/**/*.less')
-//     .pipe(less({
-//       paths: [ path.join(__dirname, 'less', 'includes') ]
-//     }))
-//     .pipe(gulp.dest('./public/css'));
-// });
-
-// var ;
- 
-// gulp.task('compress', function() {
-//   gulp.src('lib/*.js')
-//     .pipe(minify({
-//         exclude: ['tasks'],
-//         ignoreFiles: ['.combo.js', '-min.js']
-//     }))
-//     .pipe(gulp.dest('dist'))
-// });
-
-// var gulp = require('gulp');
-// var ;
-// var ngAnnotate = require('gulp-ng-annotate'); // just as an example 
- 
-// var SRC = 'src/*.js';
-// var DEST = 'dist';
- 
-// gulp.task('default', function () {
-//     return gulp.src(SRC)
-//         .pipe(changed(DEST))
-//         // ngAnnotate will only get the files that 
-//         // changed since the last time it was run 
-//         .pipe(ngAnnotate())
-//         .pipe(gulp.dest(DEST));
-// });
-
-// var ;
- 
-// gulp.task('compress', function() {
-//   gulp.src('lib/*.js')
-//     .pipe(minify({
-//         exclude: ['tasks'],
-//         ignoreFiles: ['.combo.js', '-min.js']
-//     }))
-//     .pipe(gulp.dest('dist'))
-// });
-
-// var gulp = require('gulp'),
-//     ;
- 
-// gulp.task('stream', function () {
-//     return gulp.src('css/**/*.css')
-//         .pipe(watch('css/**/*.css'))
-//         .pipe(gulp.dest('build'));
-// });
- 
-// gulp.task('callback', function (cb) {
-//     watch('css/**/*.css', function () {
-//         gulp.src('css/**/*.css')
-//             .pipe(watch('css/**/*.css'))
-//             .on('end', cb);
-//     });
-// });
+gulp.task('default', ['watch']);
