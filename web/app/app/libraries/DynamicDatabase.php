@@ -4,10 +4,10 @@ class DynamicDatabase
 {
     public static function boot($host)
     {
-        $config = Cache::remember('config.' . $host, 10, function() use ($host) {
+        $config = Cache::remember('config.' . $host, 10, function () use ($host) {
             return Master__User::where('domain', '=', $host)->first();
         });
-        if(!$config) {
+        if (!$config) {
             return false;
         } else if ($config->confirmed === 0) {
             return null;
@@ -15,17 +15,17 @@ class DynamicDatabase
             Config::set('database.connections.mysql.database', $config->database);
             try {
                 $tables = DB::select('show tables from ' . $config->database);
-                if(count(DB::table('users')->get()) === 0) {
+                if (count(DB::table('users')->get()) === 0) {
                     Artisan::call('db:seed');
                 }
                 $admin = User::find(1);
-                if($admin->email != $config->email) {
+                if ($admin->email != $config->email) {
                     $admin->password = $config->password;
                     $admin->email = $config->email;
                     $admin->save();
                 }
             } catch (Exception $e) {
-                Config::set('database.connections.mysql.database', 'test');
+                Config::set('database.connections.mysql.database', 'information_schema');
                 DB::select('create database if not exists ' . $config->database);
                 $cloudhrd_tables = DB::select('show tables from cloudhrd_app');
                 foreach ($cloudhrd_tables as $table) {
@@ -42,7 +42,7 @@ class DynamicDatabase
     {
         $host = app()->master_user->domain;
         Cache::forget('config.' . $host);
-        app()->master_user = Cache::remember('config.' . $host, 10, function() use ($host) {
+        app()->master_user = Cache::remember('config.' . $host, 10, function () use ($host) {
             return Master__User::where('domain', '=', $host)->first();
         });
     }
