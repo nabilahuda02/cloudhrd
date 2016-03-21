@@ -29,7 +29,7 @@ class DynamicDatabase
                 DB::select('create database if not exists ' . $config->database);
                 $cloudhrd_tables = DB::select('show tables from cloudhrd_app');
                 foreach ($cloudhrd_tables as $table) {
-                    DB::select('create table ' . $config->database . '.' . $table->Tables_in_cloudhrd_app . ' like cloudhrd_app.' . $table->Tables_in_cloudhrd_app);
+                    DB::select('create table if not exists ' . $config->database . '.' . $table->Tables_in_cloudhrd_app . ' like cloudhrd_app.' . $table->Tables_in_cloudhrd_app);
                 }
                 $page = $_SERVER['PHP_SELF'];
                 header("Refresh: 0; url=$page");
