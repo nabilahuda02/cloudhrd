@@ -1,10 +1,14 @@
 @extends('layouts.module')
 @section('content')
   <div class="col-md-10 col-sm-8">
-  
+
     @include('html.notifications')
 
     @include('generalclaims.header')
+
+    <div class="col-md-12">
+      <h3>{{ $claim->is_paid ? 'Paid' : 'Unpaid' }}</h3>
+    </div>
 
     <div class="col-md-12">
       <div >
@@ -95,8 +99,8 @@
         {{ Former::number('value')
             -> readonly()
             -> disabled()
-            -> placeholder('0.00') }} 
-      
+            -> placeholder('0.00') }}
+
         {{ Asset::push('js','app/upload.js')}}
         <div class="form-group">
           <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
@@ -121,13 +125,13 @@
           </div>
         </div>
 
-        {{ Former::close() }} 
+        {{ Former::close() }}
       </div>
     </div>
   </div>
 @stop
 @section('script')
-  
+
   @include('generalclaims.actions-scripts')
 
   <script>
@@ -143,7 +147,7 @@
       }
 
       $(document).on('click', '.removerow', function(){
-        var target = $(this); 
+        var target = $(this);
         bootbox.confirm('Are your sure you want to remove this row?', function(val){
           if(val) {
             target.parents('tr').remove();

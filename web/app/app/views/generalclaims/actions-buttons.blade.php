@@ -22,6 +22,12 @@
   <button type="button" class="status_verify btn btn-large pull-right"><i class="fa fa-check"></i> Verify</button>
 @endif
 
+@if($claim->canTogglePaid())
+  <a href="{{action('GeneralClaimsController@togglePaid',array($claim->id))}}" class="btn btn-default pull-right"><i class="fa fa-momney"></i>
+    @if($claim->is_paid) Set Unpaid @else Set Paid @endif
+  </a>
+@endif
+
 @if($claim->canView())
   <a href="{{action('claims.show', $claim->id)}}" class="btn btn-primary btn-large pull-right"><i class="fa fa-eye"></i> View</a>
 @endif

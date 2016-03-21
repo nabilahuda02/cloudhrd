@@ -22,6 +22,12 @@
   <button type="button" class="status_verify btn btn-large pull-right"><i class="fa fa-check"></i> Verify</button>
 @endif
 
+@if($medical->canTogglePaid())
+  <a href="{{action('MedicalController@togglePaid',array($medical->id))}}" class="btn btn-default pull-right"><i class="fa fa-momney"></i>
+    @if($medical->is_paid) Set Unpaid @else Set Paid @endif
+  </a>
+@endif
+
 @if($medical->canView())
   <a href="{{action('medical.show', $medical->id)}}" class="btn btn-primary btn-large pull-right"><i class="fa fa-eye"></i> View</a>
 @endif
