@@ -41,7 +41,7 @@ class DBSync extends Command
         $from = app_path() . '/database/automigrations/';
         $to = app_path() . '/database/donemigrations/';
         $dbs = array_filter(Master__User::all()->lists('database'));
-        $dbs[] = 'cloudhrd_app';
+        // $dbs[] = 'cloudhrd_app';
         $response = [];
 
         foreach (scandir($from) as $file) {
