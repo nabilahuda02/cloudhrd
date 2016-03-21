@@ -1,7 +1,7 @@
 @extends('layouts.module')
 @section('content')
 <div class="col-md-10 col-sm-8">
-    
+
     @include('html.notifications')
     @include('generalclaims.header')
     <div class="col-md-12">
@@ -59,8 +59,8 @@
             -> readonly()
             -> placeholder('0.00')
             -> required() }}
-            
-            {{ Asset::push('js','app/upload.js')}}
+
+            {{ Asset::push('js','app/upload')}}
             <div class="form-group">
                 <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
                 <div class="col-lg-10 col-sm-8">
@@ -83,7 +83,7 @@
             <div class="form-group">
                 <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
                     @include('generalclaims.actions-buttons')
-                    
+
                     <input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
                 </div>
             </div>
@@ -147,7 +147,7 @@
         }
     };
 </script>
-{{Asset::push('js', 'app/general_claims.js')}}
+{{Asset::push('js', 'app/general_claimd')}}
 @stop
 @section('script')
     @include('generalclaims.actions-scripts')

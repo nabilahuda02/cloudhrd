@@ -1,7 +1,7 @@
 @extends('layouts.module')
 @section('content')
   <div class="col-md-10 col-sm-8">
-  
+
     @include('html.notifications')
 
     @include('generalclaims.header')
@@ -95,9 +95,9 @@
         {{ Former::number('value')
             -> readonly()
             -> disabled()
-            -> placeholder('0.00') }} 
-      
-        {{ Asset::push('js','app/upload.js')}}
+            -> placeholder('0.00') }}
+
+        {{ Asset::push('js','app/upload')}}
         <div class="form-group">
           <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
           <div class="col-lg-10 col-sm-8">
@@ -121,13 +121,13 @@
           </div>
         </div>
 
-        {{ Former::close() }} 
+        {{ Former::close() }}
       </div>
     </div>
   </div>
 @stop
 @section('script')
-  
+
   @include('generalclaims.actions-scripts')
 
   <script>
@@ -143,7 +143,7 @@
       }
 
       $(document).on('click', '.removerow', function(){
-        var target = $(this); 
+        var target = $(this);
         bootbox.confirm('Are your sure you want to remove this row?', function(val){
           if(val) {
             target.parents('tr').remove();

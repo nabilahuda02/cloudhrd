@@ -4,3 +4,4 @@ logs/cloudhrd.marketing.access.log
 logs/cloudhrd.marketing.error.log
 logs/cloudhrd.register.access.log
 logs/cloudhrd.register.error.log
+web/app/app/storage/clockwork/*.json

@@ -124,8 +124,6 @@ return array(
 	    'Former\FormerServiceProvider',
 	    'Bllim\Datatables\DatatablesServiceProvider',
 	    'Maatwebsite\Excel\ExcelServiceProvider',
-        'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
-        'Clockwork\Support\Laravel\ClockworkServiceProvider'
 	),
 
 	/*

@@ -41,10 +41,10 @@
 
       @include('medicals.form')
 
-      {{ Former::textarea('remarks') 
+      {{ Former::textarea('remarks')
         -> value($medical->remarks) }}
-      
-      {{ Asset::push('js','app/upload.js')}}
+
+      {{ Asset::push('js','app/upload')}}
       <div class="form-group">
         <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
         <div class="col-lg-10 col-sm-8">
@@ -63,7 +63,7 @@
           @include('medicals.actions-buttons')
         </div>
       </div>
-      {{ Former::close() }} 
+      {{ Former::close() }}
     </div>
   </div>
 </div>
