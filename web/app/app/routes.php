@@ -36,6 +36,7 @@ Route::group(['before' => 'auth'], function () {
     Route::resource('medical', 'MedicalController');
     Route::resource('claims', 'GeneralClaimsController');
     Route::resource('tasks', 'TasksController');
+    Route::resource('payrolls', 'PayrollsController');
 
     Route::get('tasks/{task_id}/set-tag/{tag_id}', 'TasksController@setTag');
     Route::get('tasks/{task_id}/notes', 'TasksController@notes');
@@ -99,6 +100,14 @@ Route::group(['before' => 'auth'], function () {
         Route::get('/claims/admin/reporting', 'GeneralClaimsController@getAdminReporting');
         Route::post('/claims/admin/reporting', 'GeneralClaimsController@postAdminReporting');
         Route::get('/claim/{claim_id}/toggle-paid', 'GeneralClaimsController@togglePaid');
+    });
+
+    /**
+     * FIXME: add filters
+     */
+    Route::group(['before' => 'administers_payroll'], function () {
+        Route::get('/payroll/generate', 'PayrollsController@generate');
+        Route::post('/payroll/generate', 'PayrollsController@doGenerate');
     });
 
     /**
