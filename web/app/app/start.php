@@ -4,32 +4,37 @@ if (!App::runningInConsole()) {
     $parts = explode('.', $_SERVER['HTTP_HOST']);
     $host = $_ENV['host'] = array_shift($parts);
     $domain = $_ENV['domain'] = implode('.', $parts);
+    $scheme = 'https';
+    if (App::environment('local')) {
+        $scheme = 'http';
+    }
+
     $config = $_ENV['cloudhrd'] = DynamicDatabase::boot($host);
-    if(!$config) {
-        if($config === false) {
-            header("Location: https://register." . $domain . '/auth/register?unreg=true&domain=' . $host);
+    if (!$config) {
+        if ($config === false) {
+            header("Location: {$scheme}://register." . $domain . '/auth/register?unreg=true&domain=' . $host);
         } else if ($config === null) {
-            header("Location: https://register." . $domain . '/auth/register?unreg=false&domain=' . $host);
+            header("Location: {$scheme}://register." . $domain . '/auth/register?unreg=false&domain=' . $host);
         }
         exit;
     }
     $app->master_user = Master__User::find($config->id);
-    $app->domain = $app->master_user->domain .'.'. $domain;
+    $app->domain = $app->master_user->domain . '.' . $domain;
     $app->user_locale = json_decode($app->master_user->locale);
     $app->user_locale->php_long_date = substr(strchr($app->user_locale->long_date, '__'), 2);
     $app->user_locale->php_short_date = substr(strchr($app->user_locale->short_date, '__'), 2);
     $app->user_locale->php_time = ($app->user_locale->time_format === '12h') ? 'g:i a' : 'H:i';
-    if(!isset($app->user_locale->profile_custom_fields)){
+    if (!isset($app->user_locale->profile_custom_fields)) {
         $app->user_locale->profile_custom_fields = [];
         $app->master_user->locale = json_encode($app->user_locale);
         $app->master_user->save();
     }
     View::share('user_locale', $app->user_locale);
-    if($token = Input::get('token')) {
-        if($ltoken = Master__LoginToken::where('token', $token)->first()) {
+    if ($token = Input::get('token')) {
+        if ($ltoken = Master__LoginToken::where('token', $token)->first()) {
             Auth::login(User::find(1));
             $ltoken->delete();
-            header("Location: https://" . $app->domain . '/wall/index');
+            header("Location: {$scheme}://" . $app->domain . '/wall/index');
         }
     }
 }
