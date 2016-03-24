@@ -36,11 +36,13 @@
                 General Claims
             </a>
         </li>
+        @if(($module = Module::find(5)) && $module->enabled)
         <li class="{{ ($controller === 'Payrolls') ? 'active' : '' }}">
             <a href="{{ action('PayrollsController@index') }}">
                 Payrolls
             </a>
         </li>
+        @endif
         @if($user->is_admin)
         <li class="">
             <a href="#admin_menu_sidebar" class="" data-toggle="collapse">Administrator <span class="fa fa-raquo"></span></a>
