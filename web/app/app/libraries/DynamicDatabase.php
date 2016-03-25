@@ -25,6 +25,7 @@ class DynamicDatabase
                     $admin->save();
                 }
             } catch (Exception $e) {
+                Log::error('error creating db', [$e]);
                 Config::set('database.connections.mysql.database', 'information_schema');
                 DB::select('create database if not exists ' . $config->database);
                 $cloudhrd_tables = DB::select('show tables from cloudhrd_app');
