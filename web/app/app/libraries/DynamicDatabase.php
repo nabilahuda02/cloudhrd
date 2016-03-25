@@ -14,6 +14,7 @@ class DynamicDatabase
         } else {
             Config::set('database.connections.mysql.database', $config->database);
             try {
+                define('STDIN', fopen("php://stdin", "r"));
                 $tables = DB::select('show tables from ' . $config->database);
                 if (count(DB::table('users')->get()) === 0) {
                     Artisan::call('db:seed');
