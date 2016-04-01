@@ -51,6 +51,14 @@
             </div>
 
             <div class="col-md-4">
+                {{ Former::text('position')
+                ->value(@$currentuser->profile->position)
+                ->label('Position')
+                ->readonly()
+                ->disabled() }}
+            </div>
+
+            <div class="col-md-4">
                 {{ Former::text('bank_name')
                 ->value(@$currentuser->profile->bank_name)
                 ->label('Bank Name')
@@ -93,6 +101,7 @@
         <div class="row">
             <div class="col-md-12">
                 <br>
+                <a href="{{action('ProfileController@requestUpdate')}}" class="btn btn-primary">Update Personal Details</a>
             </div>
         </div>
         <div class="row">

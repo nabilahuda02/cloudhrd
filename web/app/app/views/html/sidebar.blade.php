@@ -9,11 +9,11 @@
                 @endif
             </div>
         </div>
-        <h4 class="text-center hover-show-hidden" style="text-transform:uppercase;">{{ $user->profile->first_name }} <a class="is-hidden" href="/wall/profile"><span class="fa fa-cog"></span></a></h4>
+        <h4 class="text-center hover-show-hidden" style="text-transform:uppercase;">{{ $user->profile->first_name }}</h4>
         <hr style="margin-top:12px;">
     </div>
     <ul class="nav nav-pills nav-stacked hidden-xs">
-        <li class="bg-blue border-top-none {{ ($controller === 'Public Wall') ? 'active' : '' }}">
+        <li class="bg-blue border-top-none {{ (Route::getCurrentRoute()->getActionName() === 'WallController@getIndex') ? 'active' : '' }}">
             <a href="{{ action('WallController@getIndex') }}">
                 Wall
             </a>
@@ -74,6 +74,16 @@
             </ul>
         </li>
         @endif
+        <li class="{{ ($controller === 'Change Requests') ? 'active' : '' }}">
+            <a href="{{ action('ChangeRequestsController@index') }}">
+                Change Requests
+            </a>
+        </li>
+        <li class="bg-blue border-top-none {{ (Route::getCurrentRoute()->getActionName() === 'WallController@getProfile') ? 'active' : '' }}">
+            <a href="/wall/profile">
+                Profile
+            </a>
+        </li>
         @if(Session::has('original_user_id'))
             <li class="border-bottom-none">
                 <a href="/resume">

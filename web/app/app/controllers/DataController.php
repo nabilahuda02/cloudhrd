@@ -277,9 +277,10 @@ class DataController extends BaseController
         ])
             ->join('status', 'status.id', '=', 'payrolls.status_id');
 
-        $isAdmin = false;
-        if (Auth::user()->administers(5)) {
-            $isAdmin = true;
+        $isAdmin = true;
+        if (!Auth::user()->administers(5)) {
+            $payroll->where('status_id', 7);
+            $isAdmin = false;
         }
 
         return Datatables::of($payroll)
@@ -289,6 +290,49 @@ class DataController extends BaseController
                     $actions .= '<a href="' . action('PayrollsController@edit', $payroll->id) . '" class="btn btn-primary btn-xs"><i class="fa fa-list"></i></a>';
                 }
                 return $actions;
+            })
+            ->remove_column('id')
+            ->make();
+    }
+
+    public function getChangeRequests()
+    {
+        /**
+         * Status, Reference Number, Type, Duration, Action
+         */
+        $change_requests = DB::table('change_requests')->select(['change_requests.id', 'status.name as "status_name"', 'ref', 'change_requests.created_at'])
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('change_requests.created_at', 'desc')
+            ->join('status', 'status.id', '=', 'change_requests.status_id');
+        return Datatables::of($change_requests)
+            ->add_column('action', "{{View::make('changerequests.actions-table', compact('id'))->render()}}")
+            ->edit_column('created_at', function ($data) {
+                return Helper::timestamp($data->created_at);
+            })
+            ->remove_column('id')
+            ->make();
+    }
+
+    public function getOtherChangeRequests()
+    {
+        /**
+         * User, Status, Reference Number, Type, Duration, Action
+         */
+        $downline = Auth::user()->getDownline(Leave__Main::$moduleId);
+        if (count($downline) > 0) {
+            $change_requests = DB::table('change_requests')->select(['change_requests.id', 'status.name as "status_name"', 'user_profiles.first_name', 'change_requests.created_at', 'ref'])
+                ->whereIn('change_requests.user_id', $downline)
+                ->orderBy('change_requests.created_at', 'desc')
+                ->join('users', 'users.id', '=', 'change_requests.user_id')
+                ->join('user_profiles', 'user_profiles.user_id', '=', 'users.id')
+                ->join('status', 'status.id', '=', 'change_requests.status_id');
+        } else {
+            $change_requests = Leave__Main::whereNull('status_id')->select(['change_requests.id', 'status_id', 'user_id', 'ref']);
+        }
+        return Datatables::of($change_requests)
+            ->add_column('action', "{{View::make('changerequests.actions-table', compact('id'))->render()}}")
+            ->edit_column('created_at', function ($data) {
+                return Helper::timestamp($data->created_at);
             })
             ->remove_column('id')
             ->make();

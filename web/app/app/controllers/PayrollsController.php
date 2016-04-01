@@ -101,12 +101,13 @@ class PayrollsController extends \BaseController
      */
     public function show($id)
     {
-        $payroll = Payroll__Main::findOrFail($id);
-        if (!$payroll->canView()) {
-            return Redirect::action('payrolls.index');
-        }
+        return '';
+        // $payroll = Payroll__Main::findOrFail($id);
+        // if (!$payroll->canView()) {
+        //     return Redirect::action('payrolls.index');
+        // }
 
-        return View::make('payrolls.show', compact('payroll'));
+        // return View::make('payrolls.show', compact('payroll'));
     }
 
     /**

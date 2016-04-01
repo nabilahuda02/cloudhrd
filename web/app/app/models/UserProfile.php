@@ -29,6 +29,8 @@ class UserProfile extends Eloquent
         'socso_account',
         'socso_contribution',
         'salary',
+        'position',
+        'gender',
     ];
 
     public function user()

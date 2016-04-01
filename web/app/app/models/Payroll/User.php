@@ -22,6 +22,11 @@ class Payroll__User extends Eloquent
         return $this->belongsTo('Payroll__Main');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('User');
+    }
+
     public function items()
     {
         return $this->hasMany('Payroll__Item', 'payroll_user_id');

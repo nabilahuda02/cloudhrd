@@ -26,6 +26,12 @@
         ->required() }}
     </div>
     <div class="col-md-3">
+        {{ Former::text('position')
+        ->value(isset($currentuser) ? $currentuser->profile->position : '')
+        ->label('Position')
+        ->required() }}
+    </div>
+    <div class="col-md-3">
         {{ Former::text('salary')
         ->value(isset($currentuser) ? $currentuser->profile->salary : '0.00')
         ->label('Salary')
@@ -72,6 +78,27 @@
         ->label('PCB Contrubution') }}
     </div>
 </div>
+<div class="row">
+    <div class="col-md-3">
+        {{Former::radios('gender')
+            ->checked([@$currentuser->profile->gender => true])
+            ->radios([
+                'Male' => array('value' => '1'),
+                'Female' => array('value' => '0'),
+            ])
+            ->required()
+            ->stacked() }}
+    </div>
+    <div class="col-md-3">
+        {{Former::radios('is_admin')
+            ->radios([
+                'True' => array('value' => '1'),
+                'False' => array('value' => '0'),
+            ])
+            ->required()
+            ->stacked() }}
+    </div>
+</div>
 <!--
 'bank_name',
 'bank_account',
@@ -92,10 +119,3 @@
 @endif
 <?php $i++;?>
 @endforeach
-{{Former::radios('is_admin')
-->radios([
-'True' => array('value' => '1'),
-'False' => array('value' => '0'),
-])
-->required()
-->stacked() }}

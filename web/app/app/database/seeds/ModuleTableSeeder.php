@@ -48,6 +48,15 @@ class ModuleTableSeeder extends Seeder
         $module->enabled = 0;
         $module->save();
 
+        $module = new Module();
+        $module->id = ChangeRequest__Main::$moduleId;
+        $module->name = 'Change Request';
+        $module->approver = -1;
+        $module->verifier = -2;
+        $module->has_config = 1;
+        $module->enabled = 1;
+        $module->save();
+
     }
 
 }

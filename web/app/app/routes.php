@@ -39,6 +39,7 @@ Route::group(['before' => 'auth'], function () {
     Route::resource('claims', 'GeneralClaimsController');
     Route::resource('tasks', 'TasksController');
     Route::resource('payrolls', 'PayrollsController');
+    Route::resource('change-request', 'ChangeRequestsController');
 
     Route::get('tasks/{task_id}/set-tag/{tag_id}', 'TasksController@setTag');
     Route::get('tasks/{task_id}/notes', 'TasksController@notes');
@@ -172,11 +173,15 @@ Route::get('email_action/{hash}', function ($hash) {
         case 'general':
             $item = GeneralClaim__Main::where('id', $config->id);
             break;
+        case 'change_request':
+            $item = ChangeRequest__Main::where('id', $config->id);
+            break;
     }
-    $item = $item->where('status_id', $config->current_status)->first();
-    if (!$item) {
-        return 'Link no longer active';
-    }
+    $item = $item->first();
+    // $item = $item->where('status_id', $config->current_status)->first();
+    // if (!$item) {
+    //     return 'Link no longer active';
+    // }
     $item->setStatus($config->next_status);
     return 'Application status updated.';
 });

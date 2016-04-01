@@ -17,7 +17,7 @@ class Module extends Eloquent
 
     public function users()
     {
-        return $this->belongsToMany('User', 'user_modules', 'id', 'user_id', 'module_id');
+        return $this->belongsToMany('User', 'user_modules');
     }
 
     public function administers($user_id)

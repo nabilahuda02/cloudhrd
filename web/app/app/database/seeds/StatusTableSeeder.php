@@ -3,7 +3,8 @@
 // Composer: "fzaninotto/faker": "v1.3.0"
 // use Faker\Factory as Faker;
 
-class StatusTableSeeder extends Seeder {
+class StatusTableSeeder extends Seeder
+{
 
     public function run()
     {
@@ -28,6 +29,16 @@ class StatusTableSeeder extends Seeder {
 
         $status = new Status();
         $status->name = 'Cancelled';
+        $status->save();
+
+        $status = new Status();
+        $status->id = 6;
+        $status->name = 'Draft';
+        $status->save();
+
+        $status = new Status();
+        $status->id = 7;
+        $status->name = 'Published';
         $status->save();
 
     }
