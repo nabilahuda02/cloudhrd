@@ -129,6 +129,8 @@ Route::group(['before' => 'auth'], function () {
         Route::resource('useradmin', 'AdminUserController');
         Route::get('/useradmin/change-password/{user_id}', 'AdminUserController@getChangePassword');
         Route::post('/useradmin/change-password/{user_id}', 'AdminUserController@postChangePassword');
+        Route::get('/useradmin/assume/{user_id}', 'AdminUserController@assume');
+        Route::post('/useradmin/change-password/{user_id}', 'AdminUserController@postChangePassword');
         Route::controller('/useradminprofile', 'AdminUserProfileController');
         Route::resource('/organization', 'AdminOrganizationController');
         Route::get('/manage-user-template', 'AdminUserController@getManageTemplate');
@@ -142,6 +144,14 @@ Route::group(['before' => 'auth'], function () {
     Route::controller('ajax', 'AjaxController');
     Route::controller('data', 'DataController');
     Route::controller('upload', 'UploadController');
+});
+
+Route::get('/resume', function () {
+    if ($user_id = Session::pull('original_user_id')) {
+        Auth::login(User::find($user_id));
+        return Redirect::action('AdminUserController@index');
+    }
+    return Redirect::to('/');
 });
 
 Route::get('email_action/{hash}', function ($hash) {

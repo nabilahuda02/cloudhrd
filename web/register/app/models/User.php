@@ -235,8 +235,12 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
 
     public function getDomainAttribute($value)
     {
-        global $app;
-        return $value . '.cloudhrd.com';
+        $domain = '.cloudhrd.com';
+        if (App::environment('local')) {
+            $domain = '.cloudhrd.dev';
+        }
+
+        return $value . $domain;
     }
 
     /**

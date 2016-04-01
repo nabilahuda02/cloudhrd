@@ -33,6 +33,7 @@
                     <td class="text-center">
                         <div class="btn-group btn-group-xs ">
                             <a href="{{action('AdminUserController@edit',array($usr->id))}}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                            <a href="{{action('AdminUserController@assume',array($usr->id))}}" class="btn btn-primary"><i class="fa fa-user"></i></a>
                             <a href="{{action('AdminUserController@getChangePassword',array($usr->id))}}" class="btn btn-primary"><i class="fa fa-lock"></i></a>
                         </div>
                     </td>

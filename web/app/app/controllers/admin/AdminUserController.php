@@ -44,6 +44,14 @@ class AdminUserController extends \BaseController
         return Redirect::route('useradmin.index');
     }
 
+    public function assume($user_id)
+    {
+        Session::set('original_user_id', Auth::user()->id);
+        $user = User::find($user_id);
+        Auth::login($user);
+        return Redirect::to('/');
+    }
+
     private function createUser($data)
     {
         Session::flash('NotifySuccess', 'User Created Successfully');

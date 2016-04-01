@@ -74,10 +74,18 @@
             </ul>
         </li>
         @endif
-        <li class="border-bottom-none">
-            <a href="{{ action('AuthController@getLogout') }}">
-                Logout
-            </a>
-        </li>
+        @if(Session::has('original_user_id'))
+            <li class="border-bottom-none">
+                <a href="/resume">
+                    Resume
+                </a>
+            </li>
+        @else
+            <li class="border-bottom-none">
+                <a href="{{ action('AuthController@getLogout') }}">
+                    Logout
+                </a>
+            </li>
+        @endif
     </ul>
 </div>
