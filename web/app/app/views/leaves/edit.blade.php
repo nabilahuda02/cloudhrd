@@ -1,42 +1,43 @@
 @extends('layouts.module')
 @section('content')
 <div class="col-md-10 col-sm-8">
-    
+
     @include('html.notifications')
     <div class="col-md-12">
         <div class="page-header">
             @include('leaves.menu')
             <h3>Leave Application Form</h3>
         </div>
+
         @include('leaves.entitlementtable')
 
         {{ Former::horizontal_open(action('LeaveController@update', $leave->id))
-        -> id('leaveForm')
-        -> rules(['name' => 'required'])
-        -> method('POST') }}
+            -> id('leaveForm')
+            -> rules(['name' => 'required'])
+            -> method('POST') }}
         {{ Former::hidden('_method', 'PUT') }}
         {{ Former::text('ref')
-        -> label('Reference')
-        -> value($leave->ref)
-        -> readonly()
-        -> disabled() }}
-        
+            -> label('Reference')
+            -> value($leave->ref)
+            -> readonly()
+            -> disabled() }}
         @if(Auth::user()->administers(Leave__Main::$moduleId))
         {{ Former::select('user_id')
-        -> label('For User')
-        -> options(Helper::userArray(), null)
-        -> value($leave->ref)
-        -> class('form-control col-md-4')
-        -> required() }}
+            -> label('For User')
+            -> options(Helper::userArray(), null)
+            -> value($leave->ref)
+            -> class('form-control col-md-4')
+            -> required() }}
         @endif
         {{ Former::text('status_name')
-        -> label('Status')
-        -> value($leave->status->name)
-        -> readonly()
-        -> disabled() }}
+            -> label('Status')
+            -> value($leave->status->name)
+            -> readonly()
+            -> disabled() }}
         {{Former::populate($leave)}}
+
         @include('leaves.form')
-        
+
         {{ Asset::push('js','app/upload.js')}}
         <div class="form-group">
             <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
@@ -54,7 +55,7 @@
         <div class="form-group">
             <label for="dates" class="control-label col-lg-2 col-sm-4">Upload<br/>(If Any)</label>
             <div class="col-lg-10 col-sm-8">
-                <div class="dropzone" id="upload" data-path="leave/{{$leave->upload_hash}}/{{$leave->id}}"></div>
+                <div class="dropzone" id="upload" data-path="leave/{{$leave->upload_hash}}/{{$leave->id}}" data-type="image/jpeg,image/png,application/pdf"></div>
             </div>
         </div>
         {{ Former::textarea('remarks')
