@@ -95,8 +95,6 @@ class Module extends Eloquent
 
     public function getApprovers($itemUserId)
     {
-        dd($this);
-
         if (!$this->hasApprovers()) {
             return [];
         }
