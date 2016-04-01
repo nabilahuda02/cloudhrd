@@ -12,11 +12,6 @@
         -> rules(['name' => 'required'])
         -> method('POST') }}
         @include('admin.users.form')
-        {{ Former::password('password')
-        ->required() }}
-        {{ Former::password('confirm_password')
-        ->label('Confirm Password')
-        ->required() }}
         <div class="form-group">
             <input class="btn-large btn-primary btn pull-right" type="submit" value="Submit">
         </div>

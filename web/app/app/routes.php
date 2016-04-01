@@ -28,6 +28,8 @@ Route::group(['before' => 'auth'], function () {
     Route::resource('profile_emergencies', 'ProfileEmergencyController');
     Route::resource('profile_employment_history', 'ProfileEmploymentHistoryController');
     Route::resource('profile_family', 'ProfileFamilyController');
+    Route::get('/update-profile', 'ProfileController@requestUpdate');
+    Route::post('/update-profile', 'ProfileController@doUpdateProfile');
 
     /**
      * Modules
