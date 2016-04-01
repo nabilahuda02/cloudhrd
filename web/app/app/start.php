@@ -3,10 +3,11 @@
 if (!App::runningInConsole()) {
     $parts = explode('.', $_SERVER['HTTP_HOST']);
     $host = $_ENV['host'] = array_shift($parts);
-    $domain = $_ENV['domain'] = implode('.', $parts);
+    $domain = 'cloudhrd.com';
     $scheme = 'https';
     if (App::environment('local')) {
         $scheme = 'http';
+        $domain = 'cloudhrd.dev';
     }
 
     $config = $_ENV['cloudhrd'] = DynamicDatabase::boot($host);
