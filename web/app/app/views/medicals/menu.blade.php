@@ -21,9 +21,9 @@
 @else
     <div class="pull-right">
         @if(Route::currentRouteAction() !== 'MedicalController@index')
-            <a href="<?php echo url('medical/index'); ?>" class="btn btn-primary">List Claims</a>
+            <a href="<?php echo url('medical'); ?>" class="btn btn-primary">List Claims</a>
         @endif
         <a href="<?php echo url('medical/create'); ?>" class="btn btn-primary">Create Claim</a>
     </div>
-    
+
 @endif

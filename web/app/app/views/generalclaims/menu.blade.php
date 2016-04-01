@@ -20,7 +20,7 @@
 @else
     <div class="pull-right">
         @if(Route::currentRouteAction() !== 'GeneralClaimsController@index')
-            <a href="<?php echo url('claims/index'); ?>" class="btn btn-primary">List Claims</a>
+            <a href="<?php echo url('claims'); ?>" class="btn btn-primary">List Claims</a>
         @endif
         <a href="<?php echo url('claims/create'); ?>" class="btn btn-primary">Create Claim</a>
     </div>
