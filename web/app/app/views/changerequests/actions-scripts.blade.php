@@ -1,5 +1,5 @@
-@if($leave->canDelete())
-  {{ Form::open(array('id'=>'delete_form', 'method'=>'post','action'=>array('LeaveController@destroy',$leave->id))) }}
+@if($changerequest->canDelete())
+  {{ Form::open(array('id'=>'delete_form', 'method'=>'post','action'=>array('ChangeRequestsController@destroy',$changerequest->id))) }}
     {{ Form::hidden('_method', 'DELETE')}}
   {{ Form::close() }}
   <script>
@@ -11,8 +11,8 @@
   </script>
 @endif
 
-@if($leave->canVerify())
-  {{ Form::open(array('id'=>'verify_form', 'method'=>'post','action'=>array('LeaveController@update',$leave->id))) }}
+@if($changerequest->canVerify())
+  {{ Form::open(array('id'=>'verify_form', 'method'=>'post','action'=>array('ChangeRequestsController@update',$changerequest->id))) }}
     {{ Form::hidden('_method', 'PUT')}}
     {{ Form::hidden('status_id', '2')}}
     {{ Form::hidden('_status', 'true')}}
@@ -26,8 +26,8 @@
   </script>
 @endif
 
-@if($leave->canApprove())
-  {{ Form::open(array('id'=>'approve_form', 'method'=>'post','action'=>array('LeaveController@update',$leave->id))) }}
+@if($changerequest->canApprove())
+  {{ Form::open(array('id'=>'approve_form', 'method'=>'post','action'=>array('ChangeRequestsController@update',$changerequest->id))) }}
     {{ Form::hidden('_method', 'PUT')}}
     {{ Form::hidden('status_id', '3')}}
     {{ Form::hidden('_status', 'true')}}
@@ -41,8 +41,8 @@
   </script>
 @endif
 
-@if($leave->canReject())
-  {{ Form::open(array('id'=>'reject_form', 'method'=>'post','action'=>array('LeaveController@update',$leave->id))) }}
+@if($changerequest->canReject())
+  {{ Form::open(array('id'=>'reject_form', 'method'=>'post','action'=>array('ChangeRequestsController@update',$changerequest->id))) }}
     {{ Form::hidden('_method', 'PUT')}}
     {{ Form::hidden('status_id', '4')}}
     {{ Form::hidden('_status', 'true')}}
@@ -56,8 +56,8 @@
   </script>
 @endif
 
-@if($leave->canCancel())
-  {{ Form::open(array('id'=>'cancel_form', 'method'=>'post','action'=>array('LeaveController@update',$leave->id))) }}
+@if($changerequest->canCancel())
+  {{ Form::open(array('id'=>'cancel_form', 'method'=>'post','action'=>array('ChangeRequestsController@update',$changerequest->id))) }}
     {{ Form::hidden('_method', 'PUT')}}
     {{ Form::hidden('status_id', '5')}}
     {{ Form::hidden('_status', 'true')}}

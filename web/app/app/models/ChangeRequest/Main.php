@@ -125,34 +125,6 @@ class ChangeRequest__Main extends Eloquent
 
     public function canEdit()
     {
-        /**
-         * If user is submitter and status is new
-         */
-
-        if (Auth::user()->id === $this->user_id && $this->status_id === 1) {
-            return true;
-        }
-
-        /**
-         * If user is admin or module owner
-         */
-
-        if (Auth::user()->administers(static::$moduleId)) {
-            return true;
-        }
-
-        /**
-         * If module custodian is unit head and user belongs to the same unit (custodian)
-         */
-
-        if (Auth::user()->isApprover(static::$moduleId, $this->user_id)) {
-            return true;
-        }
-
-        /**
-         * Else return false
-         */
-
         return false;
     }
 
@@ -184,34 +156,6 @@ class ChangeRequest__Main extends Eloquent
          */
 
         if ($this->status_id !== 3) {
-            /**
-             * If user is admin or module owner
-             */
-            if (Auth::user()->administers(static::$moduleId)) {
-                return true;
-            }
-
-            /**
-             * If module custodian is unit head and user belongs to the same unit (custodian)
-             */
-            if (Auth::user()->isApprover(static::$moduleId, $this->user_id)) {
-                return true;
-            }
-
-        }
-        /**
-         * Else return false
-         */
-        return false;
-    }
-
-    public function canTogglePaid()
-    {
-        /**
-         * If status is not approved
-         */
-
-        if ($this->status_id == 3) {
             /**
              * If user is admin or module owner
              */

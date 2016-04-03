@@ -46,7 +46,8 @@ class ChangeRequestsController extends \BaseController
      */
     public function show($id)
     {
-        //
+        $changerequest = ChangeRequest__Main::find($id);
+        return View::make('changerequests.show', compact('changerequest'));
     }
 
     /**
@@ -70,7 +71,20 @@ class ChangeRequestsController extends \BaseController
      */
     public function update($id)
     {
-        //
+        $changerequest = ChangeRequest__Main::findOrFail($id);
+
+        $data = Input::all();
+        /* update status */
+        if (isset($data['_status']) && isset($data['status_id']) && (
+            $changerequest->canApprove() ||
+            $changerequest->canReject() ||
+            $changerequest->canCancel() ||
+            $changerequest->canVerify())
+        ) {
+            $changerequest->setStatus($data['status_id']);
+            return Redirect::action('ChangeRequestsController@index')->with('NotifySuccess', 'Status Updated Successfully');
+        }
+        return Redirect::action('ChangeRequestsController@index')->with('NotifyDanger', 'Invalid Action');
     }
 
     /**
@@ -82,7 +96,9 @@ class ChangeRequestsController extends \BaseController
      */
     public function destroy($id)
     {
-        //
+        $changerequest = ChangeRequest__Main::findOrFail($id);
+        $changerequest->delete();
+        return Redirect::action('ChangeRequestsController@index')->with('NotifySuccess', 'Status Deleted Successfully');
     }
 
     public function __construct()
