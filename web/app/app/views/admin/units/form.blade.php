@@ -13,6 +13,7 @@
 
 {{Former::radios('is_onpayroll')
     ->label('Is On Payroll')
+    ->checked(['1' => true])
     ->radios([
         'True' => array('value' => '1'),
         'False' => array('value' => '0'),

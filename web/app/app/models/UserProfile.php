@@ -7,8 +7,11 @@ class UserProfile extends Eloquent
 
     protected $fillable = [
         'user_id',
+        'ic_no',
+        'staff_no',
         'first_name',
         'last_name',
+        'date_join',
         'address',
         'user_field_00',
         'user_field_01',

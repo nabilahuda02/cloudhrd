@@ -12,21 +12,21 @@
         <br>
         {{ Former::open() }}
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 {{ Former::text('user_profile["email"]')
                     -> label('Email')
                     -> value($currentuser->email)
                     -> readonly()
                     -> disabled() }}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 {{ Former::text('user_profile["first_name"]')
                     -> label('First Name')
                     -> value($currentuser->profile->first_name)
                     -> readonly()
                     -> disabled() }}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 {{ Former::text('user_profile["last_name"]')
                     -> label('Last Name')
                     -> value($currentuser->profile->last_name)

@@ -1,23 +1,40 @@
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         {{ Former::email('email')
             ->required() }}
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         {{ Former::text('first_name')
             ->label('First Name')
             ->required()
             ->value(@$currentuser->profile->first_name) }}
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         {{ Former::text('last_name')
             ->label('Last Name')
             ->value(@$currentuser->profile->last_name) }}
+    </div>
+    <div class="col-md-3">
+        {{ Former::text('ic_no')
+        ->value(@$currentuser->profile->ic_no)
+        ->label('IC No') }}
     </div>
     <div class="col-md-12">
         {{ Former::textarea('address')
             ->label('Address')
             ->value(@$currentuser->profile->address) }}
+    </div>
+    <div class="col-md-3">
+        {{ Former::text('staff_no')
+        ->value(isset($currentuser) ? $currentuser->profile->staff_no : '')
+        ->label('Staff No')
+        ->required() }}
+    </div>
+    <div class="col-md-3">
+        {{ Former::date('date_join')
+        ->value(isset($currentuser) ? $currentuser->profile->date_join : '')
+        ->label('Date Join')
+        ->required() }}
     </div>
     <div class="col-md-3">
         {{ Former::select('unit_id')

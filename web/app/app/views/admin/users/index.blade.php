@@ -7,7 +7,7 @@
             @include('admin.users.menu')
             <h3>User List</h3>
         </div>
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped datatable">
             <thead>
                 <tr>
                     <th class="text-center">Email</th>
@@ -49,4 +49,9 @@
         <hr>
     </div>
 </div>
+@stop
+@section('script')
+    <script type="text/javascript">
+        $('table').dataTable();
+    </script>
 @stop
