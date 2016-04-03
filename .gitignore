@@ -4,3 +4,5 @@ logs/cloudhrd.marketing.access.log
 logs/cloudhrd.marketing.error.log
 logs/cloudhrd.register.access.log
 logs/cloudhrd.register.error.log
+.DS_Store
+vendor/
