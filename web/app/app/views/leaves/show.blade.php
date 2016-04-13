@@ -37,7 +37,7 @@
         -> disabled() }}
         {{Former::populate($leave)}}
         @include('leaves.form')
-        
+
         {{ Asset::push('js','app/upload.js')}}
         <div class="form-group">
             <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
@@ -45,7 +45,7 @@
                 <ul class="list-inline uploaded">
                     @foreach ($leave->uploads as $file)
                     <li class="view_uploaded" data-url="{{$file->file_url}}">
-                        <img src="{{ $file->thumb_url }}" alt="" class="thumbnail">
+                        <a href="{{$file->file_url}}" target="_blank">{{$file->file_name}}</a>
                     </li>
                     @endforeach
                 </ul>
@@ -56,7 +56,7 @@
         <div class="form-group">
             <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
                 @include('leaves.actions-buttons')
-                
+
             </div>
         </div>
         {{ Former::close() }}

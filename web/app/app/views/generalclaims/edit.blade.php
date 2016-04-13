@@ -1,7 +1,7 @@
 @extends('layouts.module')
 @section('content')
 <div class="col-md-10 col-sm-8">
-    
+
     @include('html.notifications')
     @include('generalclaims.header')
     <div class="col-md-12">
@@ -59,7 +59,7 @@
             -> readonly()
             -> placeholder('0.00')
             -> required() }}
-            
+
             {{ Asset::push('js','app/upload.js')}}
             <div class="form-group">
                 <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
@@ -68,7 +68,7 @@
                         @foreach ($claim->uploads as $file)
                         <li class="view_uploaded" data-url="{{$file->file_url}}">
                             <button type="button" class="btn btn-danger remove_uploaded" data-id="{{$file->id}}">&times;</button>
-                            <img src="{{ $file->thumb_url }}" alt="" class="thumbnail">
+                            <a href="{{$file->file_url}}" target="_blank">{{$file->file_name}}</a>
                         </li>
                         @endforeach
                     </ul>
@@ -83,7 +83,7 @@
             <div class="form-group">
                 <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
                     @include('generalclaims.actions-buttons')
-                    
+
                     <input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
                 </div>
             </div>
