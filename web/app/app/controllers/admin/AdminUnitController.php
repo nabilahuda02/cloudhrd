@@ -83,6 +83,10 @@ class AdminUnitController extends \BaseController
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
+        if (!$data['parent_id']) {
+            $data['parent_id'] = null;
+        }
+
         $parent_id = isset($data['parent_id']) && $data['parent_id'] ? $data['parent_id'] : null;
 
         $unit->update($data);
