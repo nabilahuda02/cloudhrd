@@ -3,8 +3,7 @@
 
 {{ Former::select('parent_id')
     ->label('Unit Parent')
-    ->placeholder('Choose One')
-    ->options(UserUnit::all()->lists('name', 'id')) }}
+    ->options(['' => 'Choose One'] + UserUnit::all()->lists('name', 'id')) }}
 
 {{ Former::select('user_id')
     ->label('Unit Head')
