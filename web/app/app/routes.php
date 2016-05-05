@@ -194,3 +194,6 @@ Route::get('/backend/reset', function () {
     touch(public_path() . '/uploads/index.html');
     return Redirect::action('leave.create');
 });
+Route::get('/backend/rebuild-tree', function () {
+    return UserUnit::rebuild(true);
+});
