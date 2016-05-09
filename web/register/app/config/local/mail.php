@@ -54,7 +54,7 @@ return array(
     |
      */
 
-    'from' => array('address' => 'notifications@cloudhrd.com', 'name' => 'CloudHRD Notifications'),
+    'from' => array('address' => 'registration@cloudhrd.com', 'name' => 'CloudHRD Registration'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
     |
      */
 
-    'username' => 'notifications@cloudhrd.com',
+    'username' => 'registration@cloudhrd.com',
 
     /*
     |--------------------------------------------------------------------------
