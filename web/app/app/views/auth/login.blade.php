@@ -27,6 +27,7 @@
         </div>
         <hr>
         <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <a href="{{action('AuthController@getForgotPassword')}}" class="btn btn-link btn-block">Forgot Password</a>
         {{Former::close()}}
     </section>
 @stop

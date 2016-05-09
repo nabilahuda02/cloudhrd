@@ -10,6 +10,7 @@
     <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right text-left" role="menu">
+        <li><a href="javascript:;"  onclick="HelpFile.show('ADMIN_MANAGE_MC.md', 'Medical Claims Administration Help')">Medical Claims Administration Help</a></li>
         @if(Route::currentRouteAction() !== 'MedicalController@index' && Route::currentRouteAction() !== 'MedicalController@create')
             <li><a href="<?php echo url('medical/create'); ?>">Create Claim</a></li>
         @endif

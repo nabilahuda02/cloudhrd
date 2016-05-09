@@ -42,3 +42,4 @@ if (!App::runningInConsole()) {
 
 Asset::push('css', 'application');
 Asset::push('js', 'application');
+Asset::push('js', 'help');

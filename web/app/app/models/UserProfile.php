@@ -27,13 +27,25 @@ class UserProfile extends Eloquent
         'bank_account',
         'kwsp_account',
         'kwsp_contribution',
+        'kwsp_employer_contribution',
         'lhdn_account',
         'pcb_contribution',
         'socso_account',
         'socso_contribution',
+        'socso_employer_contribution',
         'salary',
+        'resigned_date',
+        'employee_type',
         'position',
         'gender',
+    ];
+
+    public static $employeeTypeOptions = [
+        '' => 'Select One',
+        'Permanent' => 'Permanent',
+        'Contract' => 'Contract',
+        'Internship' => 'Internship',
+        // ENUM('Permanent', 'Contract', 'Internship')
     ];
 
     public function user()

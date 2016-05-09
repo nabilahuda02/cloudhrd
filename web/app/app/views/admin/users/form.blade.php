@@ -19,84 +19,109 @@
         ->value(@$currentuser->profile->ic_no)
         ->label('IC No') }}
     </div>
+</div>
+<div class="row">
     <div class="col-md-12">
         {{ Former::textarea('address')
             ->label('Address')
             ->value(@$currentuser->profile->address) }}
     </div>
-    <div class="col-md-3">
+</div>
+<div class="row">
+    <div class="col-md-4">
         {{ Former::text('staff_no')
         ->value(isset($currentuser) ? $currentuser->profile->staff_no : '')
         ->label('Staff No')
         ->required() }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{ Former::date('date_join')
         ->value(isset($currentuser) ? $currentuser->profile->date_join : '')
-        ->label('Date Join')
+        ->label('Joined Date')
         ->required() }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
+        {{ Former::date('resigned_date')
+        ->value(isset($currentuser) ? $currentuser->profile->resigned_date : '')
+        ->label('Resigned Date') }}
+    </div>
+    <div class="col-md-4">
         {{ Former::select('unit_id')
         ->label('Unit')
         ->options(UserUnit::all()->lists('name', 'id'))
         ->required() }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
+        {{ Former::select('employee_type')
+        ->value(@$currentuser->profile->employee_type)
+        ->options(UserProfile::$employeeTypeOptions)
+        ->label('Employee Type') }}
+    </div>
+    <div class="col-md-4">
         {{ Former::text('position')
         ->value(isset($currentuser) ? $currentuser->profile->position : '')
         ->label('Position')
         ->required() }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{ Former::text('salary')
         ->value(isset($currentuser) ? $currentuser->profile->salary : '0.00')
         ->label('Salary')
         ->required() }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{ Former::text('bank_name')
         ->value(@$currentuser->profile->bank_name)
         ->label('Bank Name') }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{ Former::text('bank_account')
         ->value(@$currentuser->profile->bank_account)
         ->label('Bank Account Number') }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{ Former::text('kwsp_account')
         ->value(@$currentuser->profile->kwsp_account)
-        ->label('KWSP Account Number') }}
+        ->label('EPF Account Number') }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{ Former::text('kwsp_contribution')
         ->value(@$currentuser->profile->kwsp_contribution)
-        ->label('KWSP Contribution Percentage') }}
+        ->label('EPF Employee Contribution Percentage') }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
+        {{ Former::text('kwsp_employer_contribution')
+        ->value(@$currentuser->profile->kwsp_employer_contribution)
+        ->label('EPF Employer Contribution Percentage') }}
+    </div>
+    <div class="col-md-4">
+        {{ Former::text('socso_contribution')
+        ->value(@$currentuser->profile->socso_contribution)
+        ->label('SOCSO Employee Contribution') }}
+    </div>
+    <div class="col-md-4">
+        {{ Former::text('socso_employer_contribution')
+        ->value(@$currentuser->profile->socso_employer_contribution)
+        ->label('SOCSO Employer Contribution') }}
+    </div>
+    <div class="col-md-4">
         {{ Former::text('socso_account')
         ->value(@$currentuser->profile->socso_account)
         ->label('SOCSO Account Number') }}
     </div>
-    <div class="col-md-3">
-        {{ Former::text('socso_contribution')
-        ->value(@$currentuser->profile->socso_contribution)
-        ->label('SOCSO Contribution') }}
-    </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{ Former::text('lhdn_account')
         ->value(@$currentuser->profile->lhdn_account)
         ->label('PCB Account Number') }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{ Former::text('pcb_contribution')
         ->value(@$currentuser->profile->pcb_contribution)
         ->label('PCB Contrubution') }}
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{Former::radios('gender')
             ->checked([@$currentuser->profile->gender => true])
             ->radios([
@@ -106,7 +131,7 @@
             ->required()
             ->stacked() }}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         {{Former::radios('is_admin')
             ->radios([
                 'True' => array('value' => '1'),

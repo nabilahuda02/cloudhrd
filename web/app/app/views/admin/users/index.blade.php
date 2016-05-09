@@ -5,7 +5,12 @@
     <div class="col-md-12">
         <div class="page-header">
             @include('admin.users.menu')
-            <h3>User List</h3>
+            <h3>
+                User List
+                <button class="btn btn-link help-btn" onclick="HelpFile.show('MANAGE_USER.md', 'Manage Users')">
+                    <i class="fa fa-question-circle"></i>
+                </button>
+            </h3>
         </div>
         <table class="table table-bordered table-striped datatable">
             <thead>
