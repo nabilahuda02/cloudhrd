@@ -178,10 +178,10 @@ Route::get('email_action/{hash}', function ($hash) {
             break;
     }
     $item = $item->first();
-    // $item = $item->where('status_id', $config->current_status)->first();
-    // if (!$item) {
-    //     return 'Link no longer active';
-    // }
+    $item = $item->where('status_id', $config->current_status)->first();
+    if (!$item) {
+        return 'Link no longer active';
+    }
     $item->setStatus($config->next_status);
     return 'Application status updated.';
 });
