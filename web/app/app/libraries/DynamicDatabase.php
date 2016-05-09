@@ -21,6 +21,7 @@ class DynamicDatabase
                 Config::set('database.connections.mysql.database', 'information_schema');
                 DB::select('create database if not exists ' . $config->database);
                 shell_exec('PATH=$PATH:/usr/local/bin/ && export PATH && mysqldump -u root cloudhrd_app | mysql -u root ' . $config->database);
+                Config::set('database.connections.mysql.database', $config->database);
                 Artisan::call('db:seed', ['--force' => true]);
                 $admin = User::find(1);
                 if ($admin->email != $config->email) {
