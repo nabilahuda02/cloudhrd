@@ -289,10 +289,10 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
         });
 
         self::deleting(function ($user) {
-            if($user->database) {
+            if ($user->database) {
                 try {
                     DB::select("drop database {$user->database}");
-                } catch ($e) {}
+                } catch (Exception $e) {}
             }
         });
 
