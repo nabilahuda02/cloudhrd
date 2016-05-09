@@ -16,11 +16,9 @@ class DynamicDatabase
             try {
                 define('STDIN', fopen("php://stdin", "r"));
                 $tables = DB::select('show tables from ' . $config->database);
-                if (count(DB::table('users')->get()) === 0) {
-                    Artisan::call('db:seed', ['--force' => true]);
-                }
                 $admin = User::find(1);
-                if ($admin->email != $config->email) {
+                if ($admin->email == 'user@email') {
+                    Artisan::call('db:seed', ['--force' => true]);
                     $admin->password = $config->password;
                     $admin->email = $config->email;
                     $admin->save();
