@@ -9,7 +9,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE TABLE IF NOT EXISTS `cloudhrd_app`.`epf_contributions` (
+CREATE TABLE IF NOT EXISTS `epf_contributions` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `payroll_user_id` INT(11) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
@@ -21,13 +21,13 @@ CREATE TABLE IF NOT EXISTS `cloudhrd_app`.`epf_contributions` (
   INDEX `fk_epf_contributions_payroll_user1_idx` (`payroll_user_id` ASC),
   CONSTRAINT `fk_epf_contributions_payroll_user1`
     FOREIGN KEY (`payroll_user_id`)
-    REFERENCES `cloudhrd_app`.`payroll_user` (`id`)
+    REFERENCES `payroll_user` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-CREATE TABLE IF NOT EXISTS `cloudhrd_app`.`pcb_contributions` (
+CREATE TABLE IF NOT EXISTS `pcb_contributions` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `payroll_user_id` INT(11) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
@@ -38,13 +38,13 @@ CREATE TABLE IF NOT EXISTS `cloudhrd_app`.`pcb_contributions` (
   INDEX `fk_epf_contributions_payroll_user1_idx` (`payroll_user_id` ASC),
   CONSTRAINT `fk_epf_contributions_payroll_user10`
     FOREIGN KEY (`payroll_user_id`)
-    REFERENCES `cloudhrd_app`.`payroll_user` (`id`)
+    REFERENCES `payroll_user` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-CREATE TABLE IF NOT EXISTS `cloudhrd_app`.`socso_contributions` (
+CREATE TABLE IF NOT EXISTS `socso_contributions` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `payroll_user_id` INT(11) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `cloudhrd_app`.`socso_contributions` (
   INDEX `fk_epf_contributions_payroll_user1_idx` (`payroll_user_id` ASC),
   CONSTRAINT `fk_epf_contributions_payroll_user11`
     FOREIGN KEY (`payroll_user_id`)
-    REFERENCES `cloudhrd_app`.`payroll_user` (`id`)
+    REFERENCES `payroll_user` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
