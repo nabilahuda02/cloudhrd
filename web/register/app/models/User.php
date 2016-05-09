@@ -288,6 +288,14 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
             Cache::tags('User')->flush();
         });
 
+        self::deleting(function ($user) {
+            if($user->database) {
+                try {
+                    DB::select("drop database {$user->database}");
+                } catch (e) {}
+            }
+        });
+
         self::deleted(function () {
             Cache::tags('User')->flush();
         });
