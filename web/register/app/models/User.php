@@ -292,7 +292,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
             if($user->database) {
                 try {
                     DB::select("drop database {$user->database}");
-                } catch (e) {}
+                } catch ($e) {}
             }
         });
 
