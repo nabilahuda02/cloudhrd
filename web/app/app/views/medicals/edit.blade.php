@@ -22,7 +22,7 @@
                 -> value($medical->ref)
                 -> readonly()
                 -> disabled() }}
-            {{ Former::text('user_id')
+            {{ Former::text('user_name')
                 -> label('Employee')
                 -> value(User::fullName($medical->user_id))
                 -> readonly() }}

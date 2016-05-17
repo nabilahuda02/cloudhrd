@@ -117,6 +117,10 @@ class GeneralClaimsController extends \BaseController
 
         $data = Input::all();
 
+        if (isset($data['user_id'])) {
+            unset($data['user_id']);
+        }
+
         /* update status */
         if (isset($data['_status']) && isset($data['status_id']) && (
             $claim->canApprove() ||
@@ -131,10 +135,6 @@ class GeneralClaimsController extends \BaseController
 
         if (!$claim->canEdit()) {
             return Redirect::action('claims.index');
-        }
-
-        if (!isset($data['user_id']) || (isset($data['user_id']) && !in_array($data['user_id'], Auth::user()->getDownline(GeneralClaim__Main::$moduleId)))) {
-            $data['user_id'] = Auth::user()->id;
         }
 
         $validator = Validator::make($data, GeneralClaim__Main::$rules);

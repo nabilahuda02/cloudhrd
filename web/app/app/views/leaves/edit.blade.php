@@ -21,14 +21,10 @@
             -> value($leave->ref)
             -> readonly()
             -> disabled() }}
-        @if(Auth::user()->administers(Leave__Main::$moduleId))
-        {{ Former::select('user_id')
-            -> label('For User')
-            -> options(Helper::userArray(), null)
-            -> value($leave->ref)
-            -> class('form-control col-md-4')
-            -> required() }}
-        @endif
+        {{ Former::text('user_name')
+            -> label('Employee')
+            -> value(User::fullName($leave->user_id))
+            -> readonly() }}
         {{ Former::text('status_name')
             -> label('Status')
             -> value($leave->status->name)

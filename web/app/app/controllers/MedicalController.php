@@ -112,6 +112,10 @@ class MedicalController extends \BaseController
 
         $data = Input::all();
 
+        if (isset($data['user_id'])) {
+            unset($data['user_id']);
+        }
+
         /* update status */
         if (isset($data['_status']) && isset($data['status_id']) && (
             $medical->canApprove() ||
@@ -129,10 +133,6 @@ class MedicalController extends \BaseController
         }
 
         $data['treatment_date'] = Helper::short_date_to_mysql($data['treatment_date']);
-
-        if (!isset($data['user_id']) || (isset($data['user_id']) && !in_array($data['user_id'], Auth::user()->getDownline(MedicalClaim__Main::$moduleId)))) {
-            $data['user_id'] = Auth::user()->id;
-        }
 
         $rules = MedicalClaim__Main::$rules;
         $rules['total'] = (isset($rules['total']) ? $rules['total'] . '|' : '') . 'max:' . (MedicalClaim__Type::find($data['medical_claim_type_id'])->user_entitlement_balance($medical->user_id) + $medical['total']);

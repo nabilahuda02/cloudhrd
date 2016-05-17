@@ -19,7 +19,7 @@
             -> value($claim->ref)
             -> readonly()
             -> disabled() }}
-            {{ Former::text('user_id')
+            {{ Former::text('user_name')
             -> label('Employee')
             -> value(User::fullName($claim->user_id))
             -> readonly() }}
