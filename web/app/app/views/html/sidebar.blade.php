@@ -13,6 +13,16 @@
         <hr style="margin-top:12px;">
     </div>
     <ul class="nav nav-pills nav-stacked hidden-xs">
+        <li class="bg-blue border-top-none {{ (Route::getCurrentRoute()->getActionName() === 'WallController@getProfile') ? 'active' : '' }}">
+            <a href="/wall/profile">
+                Profile
+            </a>
+        </li>
+        <li class="{{ ($controller === 'Change Requests') ? 'active' : '' }}">
+            <a href="{{ action('ChangeRequestsController@index') }}">
+                Change Requests
+            </a>
+        </li>
         <li class="bg-blue border-top-none {{ (Route::getCurrentRoute()->getActionName() === 'WallController@getIndex') ? 'active' : '' }}">
             <a href="{{ action('WallController@getIndex') }}">
                 Wall
@@ -74,16 +84,6 @@
             </ul>
         </li>
         @endif
-        <li class="{{ ($controller === 'Change Requests') ? 'active' : '' }}">
-            <a href="{{ action('ChangeRequestsController@index') }}">
-                Change Requests
-            </a>
-        </li>
-        <li class="bg-blue border-top-none {{ (Route::getCurrentRoute()->getActionName() === 'WallController@getProfile') ? 'active' : '' }}">
-            <a href="/wall/profile">
-                Profile
-            </a>
-        </li>
         @if(Session::has('original_user_id'))
             <li class="border-bottom-none">
                 <a href="/resume">
