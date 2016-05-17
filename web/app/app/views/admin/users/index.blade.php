@@ -34,7 +34,7 @@
                     </td>
                     <td class="text-center">{{ $usr->profile->first_name }}</td>
                     <td class="text-center">{{ $usr->profile->last_name }}</td>
-                    <td class="text-center">{{ $usr->unit ? $user->unit->name : '' }}</td>
+                    <td class="text-center">{{ $usr->unit ? $usr->unit->name : '' }}</td>
                     <td class="text-center">
                         <div class="btn-group btn-group-xs ">
                             <a href="{{action('AdminUserController@edit',array($usr->id))}}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
