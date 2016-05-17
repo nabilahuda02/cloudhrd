@@ -75,6 +75,38 @@ class DataController extends BaseController
             ->make();
     }
 
+    public function getUnpaidMedicalClaims($payrollUserId, $userId)
+    {
+        /**
+         * Status Clinic  Reference No  Claim Type  Amount  Action
+         */
+        $medical_claims = DB::table('medical_claims')->select(
+            ['medical_claims.id',
+                'status.name as "status_name"',
+                'medical_claims.created_at',
+                'ref',
+                'medical_claim_types.name',
+                'total'])
+            ->where('medical_claims.user_id', $userId)
+            ->where('medical_claims.is_paid', false)
+            ->where('medical_claims.status_id', 3)
+            ->orderBy('medical_claims.created_at', 'desc')
+            ->join('status', 'status.id', '=', 'medical_claims.status_id')
+            ->join('medical_claim_types', 'medical_claim_types.id', '=', 'medical_claims.medical_claim_type_id');
+        return Datatables::of($medical_claims)
+            ->add_column('action', function ($medical_claims) use ($payrollUserId) {
+                return '<a href="' . action('AdminPayrollController@getApplyMedicalClaim', [$payrollUserId, $medical_claims->id]) . '" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i></a>';
+            })
+            ->edit_column('total', function ($data) {
+                return Helper::currency_format($data->total);
+            })
+            ->edit_column('created_at', function ($data) {
+                return Helper::timestamp($data->created_at);
+            })
+            ->remove_column('id')
+            ->make();
+    }
+
     public function getOtherMedicalClaims()
     {
         /**
@@ -134,6 +166,35 @@ class DataController extends BaseController
             ->join('status', 'status.id', '=', 'general_claims.status_id');
         return Datatables::of($general_claims)
             ->add_column('action', "{{View::make('generalclaims.actions-table', compact('id'))->render()}}")
+            ->edit_column('value', function ($data) {
+                return Helper::currency_format($data->value);
+            })
+            ->remove_column('id')
+            ->make();
+    }
+
+    public function getUnpaidGeneralClaims($payrollUserId, $userId)
+    {
+        /**
+         * Status  Reference No  Request Date  Claim Description  Amount  Action
+         */
+
+        $general_claims = DB::table('general_claims')->select(
+            ['general_claims.id',
+                'status.name as "status_name"',
+                'ref',
+                DB::Raw('date(general_claims.created_at) as date'),
+                'title',
+                'value'])
+            ->orderBy('general_claims.created_at', 'desc')
+            ->where('general_claims.user_id', $userId)
+            ->where('general_claims.is_paid', false)
+            ->where('general_claims.status_id', 3)
+            ->join('status', 'status.id', '=', 'general_claims.status_id');
+        return Datatables::of($general_claims)
+            ->add_column('action', function ($general_claims) use ($payrollUserId) {
+                return '<a href="' . action('AdminPayrollController@getApplyGeneralClaim', [$payrollUserId, $general_claims->id]) . '" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i></a>';
+            })
             ->edit_column('value', function ($data) {
                 return Helper::currency_format($data->value);
             })
@@ -271,9 +332,9 @@ class DataController extends BaseController
     {
         $payroll = Payroll__Main::select([
             'payrolls.id',
-            'status.name as status_name',
             'payrolls.name',
             'payrolls.total',
+            'status.name as status_name',
         ])
             ->join('status', 'status.id', '=', 'payrolls.status_id');
 
@@ -285,12 +346,121 @@ class DataController extends BaseController
 
         return Datatables::of($payroll)
             ->add_column('action', function ($payroll) use ($isAdmin) {
-                $actions = '<a href="' . action('PayrollsController@show', $payroll->id) . '" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a>';
-                if ($isAdmin) {
-                    $actions .= '<a href="' . action('PayrollsController@edit', $payroll->id) . '" class="btn btn-primary btn-xs"><i class="fa fa-list"></i></a>';
-                }
+                $actions = '<a href="' . action('AdminPayrollController@getDetails', $payroll->id) . '" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a>';
                 return $actions;
             })
+            ->remove_column('id')
+            ->make();
+    }
+
+    public function getMyPayrolls()
+    {
+        $payroll = Payroll__Main::select([
+            'payrolls.id',
+            'payrolls.name',
+            'payrolls.total',
+            'status.name as status_name',
+        ])
+            ->join('status', 'status.id', '=', 'payrolls.status_id');
+        $payroll->where('status_id', 7);
+
+        return Datatables::of($payroll)
+            ->add_column('action', function ($payroll) {
+                $actions = '<a href="' . action('PayrollsController@show', $payroll->id) . '" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a>';
+                return $actions;
+            })
+            ->remove_column('id')
+            ->make();
+    }
+
+    public function getPayroll($id)
+    {
+
+        $payrolls = Payroll__User::where('payroll_id', $id)->select([
+            'payroll_user.id',
+            'user_units.name',
+            DB::Raw('concat(user_profiles.first_name, " ", user_profiles.last_name)'),
+            'user_profiles.bank_name',
+            'user_profiles.bank_account',
+            'payroll_user.total',
+        ])
+            ->join('users', 'users.id', '=', 'payroll_user.user_id')
+            ->join('user_profiles', 'users.id', '=', 'user_profiles.user_id')
+            ->join('user_units', 'user_units.id', '=', 'users.unit_id')
+        ;
+
+        return Datatables::of($payrolls)
+            ->add_column('action', function ($payroll) {
+                $actions = '<a href="' . action('AdminPayrollController@getUserDetails', $payroll->id) . '" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a>';
+                return $actions;
+            })
+            ->remove_column('id')
+            ->make();
+    }
+
+    public function getPayrollEpf($id)
+    {
+
+        $payrolls = Payroll__User::where('payroll_id', $id)->select([
+            'payroll_user.id',
+            'user_units.name',
+            DB::Raw('concat(user_profiles.first_name, " ", user_profiles.last_name)'),
+            'user_profiles.kwsp_account',
+            'epf_contributions.employee_contribution',
+            'epf_contributions.employer_contribution',
+            DB::Raw('epf_contributions.employee_contribution + epf_contributions.employer_contribution as total'),
+        ])
+            ->join('users', 'users.id', '=', 'payroll_user.user_id')
+            ->join('user_profiles', 'users.id', '=', 'user_profiles.user_id')
+            ->join('user_units', 'user_units.id', '=', 'users.unit_id')
+            ->join('epf_contributions', 'epf_contributions.payroll_user_id', '=', 'payroll_user.id')
+        ;
+
+        return Datatables::of($payrolls)
+            ->remove_column('id')
+            ->make();
+    }
+
+    public function getPayrollSocso($id)
+    {
+
+        $payrolls = Payroll__User::where('payroll_id', $id)->select([
+            'payroll_user.id',
+            'user_units.name',
+            DB::Raw('concat(user_profiles.first_name, " ", user_profiles.last_name)'),
+            'user_profiles.socso_account',
+            'socso_contributions.employee_contribution',
+            'socso_contributions.employer_contribution',
+            DB::Raw('socso_contributions.employee_contribution + socso_contributions.employer_contribution as total'),
+        ])
+            ->join('users', 'users.id', '=', 'payroll_user.user_id')
+            ->join('user_profiles', 'users.id', '=', 'user_profiles.user_id')
+            ->join('user_units', 'user_units.id', '=', 'users.unit_id')
+            ->join('socso_contributions', 'socso_contributions.payroll_user_id', '=', 'payroll_user.id')
+        ;
+
+        return Datatables::of($payrolls)
+            ->remove_column('id')
+            ->make();
+    }
+
+    public function getPayrollPcb($id)
+    {
+
+        $payrolls = Payroll__User::where('payroll_id', $id)->select([
+            'payroll_user.id',
+            'user_units.name',
+            DB::Raw('concat(user_profiles.first_name, " ", user_profiles.last_name)'),
+            'user_profiles.lhdn_account',
+            'pcb_contributions.employee_contribution',
+        ])
+            ->join('users', 'users.id', '=', 'payroll_user.user_id')
+            ->join('user_profiles', 'users.id', '=', 'user_profiles.user_id')
+            ->join('user_units', 'user_units.id', '=', 'users.unit_id')
+            ->join('pcb_contributions', 'pcb_contributions.payroll_user_id', '=', 'payroll_user.id')
+        ;
+
+        return Datatables::of($payrolls)
             ->remove_column('id')
             ->make();
     }

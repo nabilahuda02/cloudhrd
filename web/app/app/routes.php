@@ -111,6 +111,7 @@ Route::group(['before' => 'auth'], function () {
     Route::group(['before' => 'administers_payroll'], function () {
         Route::get('/payroll/generate', 'PayrollsController@generate');
         Route::post('/payroll/generate', 'PayrollsController@doGenerate');
+        Route::controller('/payroll/admin', 'AdminPayrollController');
     });
 
     /**

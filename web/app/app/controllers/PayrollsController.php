@@ -66,6 +66,12 @@ class PayrollsController extends \BaseController
                     'amount' => $epf,
                     'name' => "EPF Contribution ({$user->profile->kwsp_contribution}%)",
                 ]);
+                Payroll__EPFContribution::create([
+                    'payroll_user_id' => $payrollUser->id,
+                    'name' => "EPF Contribution",
+                    'employee_contribution' => -1 * $epf,
+                    'employer_contribution' => $user->profile->salary * ($user->profile->kwsp_employer_contribution / 100),
+                ]);
             }
 
             // Deduct SOCSO
@@ -74,6 +80,12 @@ class PayrollsController extends \BaseController
                 $payrollUser->items()->create([
                     'amount' => $socso,
                     'name' => "SOCSO Contribution",
+                ]);
+                Payroll__SOCSOContribution::create([
+                    'payroll_user_id' => $payrollUser->id,
+                    'name' => "SOCSO Contribution",
+                    'employee_contribution' => -1 * $socso,
+                    'employer_contribution' => $user->profile->socso_employer_contribution,
                 ]);
             }
 
@@ -84,13 +96,18 @@ class PayrollsController extends \BaseController
                     'amount' => $pcb,
                     'name' => "PCB Contribution",
                 ]);
+                Payroll__PCBContribution::create([
+                    'payroll_user_id' => $payrollUser->id,
+                    'name' => "PCB Contribution",
+                    'employee_contribution' => -1 * $pcb,
+                ]);
             }
 
             $payrollUser->updateTotal();
             $payroll->updateTotal();
         }
         $payroll->setStatus(6);
-        return Redirect::route('payrolls.index');
+        return Redirect::action('AdminPayrollController@getDetails', $payroll->id);
     }
 
     /**
@@ -101,13 +118,9 @@ class PayrollsController extends \BaseController
      */
     public function show($id)
     {
-        return '';
-        // $payroll = Payroll__Main::findOrFail($id);
-        // if (!$payroll->canView()) {
-        //     return Redirect::action('payrolls.index');
-        // }
-
-        // return View::make('payrolls.show', compact('payroll'));
+        $payroll = Payroll__Main::findOrFail($id);
+        $payrollUser = Payroll__User::where('payroll_id', $id)->where('user_id', Auth::user()->id)->first();
+        return View::make('payrolls.show', compact('payroll', 'payrollUser'));
     }
 
     /**

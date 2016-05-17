@@ -21,4 +21,9 @@ class Payroll__Item extends Eloquent
     {
         return Helper::currency_format($value, false);
     }
+
+    public function payrollUser()
+    {
+        return $this->belongsTo('Payroll__User', 'payroll_user_id');
+    }
 }

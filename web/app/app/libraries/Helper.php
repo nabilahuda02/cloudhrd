@@ -160,7 +160,7 @@ class Helper
     public static function currency_format($number, $not_for_input = true)
     {
         $locale = app()->user_locale;
-        $number = number_format($number, $locale->decimal_places, $locale->decimal_separator, ($not_for_input ? $locale->thousand_separator : ''));
+        $number = number_format((double) $number, $locale->decimal_places, $locale->decimal_separator, ($not_for_input ? $locale->thousand_separator : ''));
         if ($not_for_input) {
             if ($locale->symbol_location === 'before') {
                 return $locale->currency_symbol . ' ' . $number;

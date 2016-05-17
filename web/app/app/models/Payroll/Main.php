@@ -25,6 +25,12 @@ class Payroll__Main extends Eloquent
         return $this->hasMany('Payroll__User', 'payroll_id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany('User')
+            ->withPivot('total');
+    }
+
     public function setStatus($status_id)
     {
         $this->status_id = $status_id;
