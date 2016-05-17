@@ -39,12 +39,11 @@ class AdminUnitController extends \BaseController
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $parent_id = isset($data['parent_id']) ? $data['parent_id'] : null;
-
-        if ($parent_id) {
-            $parent = UserUnit::find($parent_id);
+        if ($data['parent_id']) {
+            $parent = UserUnit::find($data['parent_id']);
             $parent->children()->create($data);
         } else {
+            unset($data['parent_id']);
             UserUnit::create($data);
         }
 
