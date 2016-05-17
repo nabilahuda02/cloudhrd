@@ -56,7 +56,7 @@ class AdminUserController extends \BaseController
     {
         Session::flash('NotifySuccess', 'User Created Successfully');
         $data['verified'] = 1;
-        $password = str_random();
+        $password = str_random(8);
         $data['password'] = Hash::make($password);
         $user = User::create($data);
         $data['user_id'] = $user->id;
@@ -265,7 +265,28 @@ class AdminUserController extends \BaseController
                     unset($users[$index][$key]);
                 }
             }
+
             $users[$index]['is_admin'] = ($users[$index]['is_admin'] === 'Yes') ? true : false;
+            $users[$index]['gender'] = ($users[$index]['gender'] === 'Male') ? true : false;
+
+            // KWSP
+            $users[$index]['kwsp_account'] = $users[$index]['epf_account'];
+            $users[$index]['kwsp_contribution'] = $users[$index]['epf_employee_contribution'];
+            $users[$index]['kwsp_employer_contribution'] = $users[$index]['epf_employer_contribution'];
+
+            // EPF
+            $users[$index]['lhdn_account'] = $users[$index]['income_tax_account_number'];
+            $users[$index]['pcb_contribution'] = $users[$index]['pcb_contribution_value'];
+
+            // SOCSO
+            $users[$index]['socso_contribution'] = $users[$index]['socso_employee_contribution'];
+
+            if (!in_array($users[$index]['employment_type'], ['Permanent', 'Contract', 'Internship'])) {
+                $users[$index]['employee_type'] = null;
+            } else {
+                $users[$index]['employee_type'] = $users[$index]['employment_type'];
+            }
+
         }
 
         if ($error_rows > 0) {
@@ -291,7 +312,20 @@ class AdminUserController extends \BaseController
             'Address',
             'Unit',
             'Is Admin',
-            'Password',
+            'Bank Name',
+            'Bank Account',
+            'EPF Account',
+            'EPF Employee Contribution',
+            'EPF Employer Contribution',
+            'Income Tax Account Number',
+            'PCB Contribution Value',
+            'SOCSO Account',
+            'SOCSO Employee Contribution',
+            'SOCSO Employer Contribution',
+            'Salary',
+            'Position',
+            'Gender',
+            'Employment Type',
         ];
         $custom_fields = app()->user_locale->profile_custom_fields;
         foreach ($custom_fields as $field) {
