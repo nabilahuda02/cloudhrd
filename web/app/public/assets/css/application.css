@@ -14925,6 +14925,14 @@ button.bootbox-close-button.close {
 .main-nav li {
   background-color: white;
 }
+.help-btn {
+  font-size: 24px;
+}
+#help-modal img {
+  width: 80%;
+  display: block;
+  margin: 0px auto 20px;
+}
 @media (max-width: 991px) {
   .profile-avatar {
     display: none;
