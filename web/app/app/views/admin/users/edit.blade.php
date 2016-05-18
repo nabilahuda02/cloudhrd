@@ -1,7 +1,7 @@
 @extends('layouts.module')
 @section('content')
 <div class="col-md-10 col-sm-8">
-    {{Asset::push('js', 'app/upload')}}
+    {{Asset::push('js', 'upload')}}
     @include('html.notifications')
     <div class="col-md-12">
         <div class="page-header">

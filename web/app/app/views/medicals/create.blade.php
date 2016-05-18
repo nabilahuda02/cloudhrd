@@ -36,5 +36,5 @@
 		{{ Former::close() }}
 	</div>
 </div>
-{{Asset::push('js','app/upload')}}
+{{Asset::push('js','upload')}}
 @stop

@@ -14,6 +14,7 @@
 //=require app/lib/duplicator.js
 //=require ../packages/tapatar/dist/tapatar.min.js
 //=require ../packages/colpick/js/colpick.js
+//=require app/help.js
 
 Dropzone.autoDiscover = false;
 

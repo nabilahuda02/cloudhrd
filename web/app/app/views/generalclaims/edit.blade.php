@@ -60,7 +60,7 @@
             -> placeholder('0.00')
             -> required() }}
 
-            {{ Asset::push('js','app/upload')}}
+            {{ Asset::push('js','upload')}}
             <div class="form-group">
                 <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
                 <div class="col-lg-10 col-sm-8">
