@@ -19,7 +19,7 @@
             -> value($claim->ref)
             -> readonly()
             -> disabled() }}
-            {{ Former::text('user_id')
+            {{ Former::text('user_name')
             -> label('Employee')
             -> value(User::fullName($claim->user_id))
             -> readonly() }}
@@ -60,7 +60,7 @@
             -> placeholder('0.00')
             -> required() }}
 
-            {{ Asset::push('js','app/upload')}}
+            {{ Asset::push('js','upload')}}
             <div class="form-group">
                 <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
                 <div class="col-lg-10 col-sm-8">
@@ -68,7 +68,7 @@
                         @foreach ($claim->uploads as $file)
                         <li class="view_uploaded" data-url="{{$file->file_url}}">
                             <button type="button" class="btn btn-danger remove_uploaded" data-id="{{$file->id}}">&times;</button>
-                            <img src="{{ $file->thumb_url }}" alt="" class="thumbnail">
+                            <a href="{{$file->file_url}}" target="_blank">{{$file->file_name}}</a>
                         </li>
                         @endforeach
                     </ul>

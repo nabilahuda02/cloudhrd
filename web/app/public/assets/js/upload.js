@@ -43,8 +43,8 @@ $('.remove_uploaded').click(function(e){
     return false;
 });
 
-$('.view_uploaded').click(function(){
-    var target = $(this);
-    var url = target.data('url');
-    bootbox.alert('<img src="'+ url +'" />', function(){}).addClass('upload-preview');
-});
+// $('.view_uploaded').click(function(){
+//     var target = $(this);
+//     var url = target.data('url');
+//     bootbox.alert('<img src="'+ url +'" />', function(){}).addClass('upload-preview');
+// });

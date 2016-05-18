@@ -12,27 +12,98 @@
         <br>
         {{ Former::open() }}
         <div class="row">
-            <div class="col-md-6">
-                {{ Former::text('user_profile["first_name"]')
-                -> label('First Name')
-                -> value($currentuser->profile->first_name)
-                -> readonly()
-                -> disabled() }}
+            <div class="col-md-3">
+                {{ Former::text('user_profile["email"]')
+                    -> label('Email')
+                    -> value($currentuser->email)
+                    -> readonly()
+                    -> disabled() }}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
+                {{ Former::text('user_profile["first_name"]')
+                    -> label('First Name')
+                    -> value($currentuser->profile->first_name)
+                    -> readonly()
+                    -> disabled() }}
+            </div>
+            <div class="col-md-3">
                 {{ Former::text('user_profile["last_name"]')
-                -> label('Last Name')
-                -> value($currentuser->profile->last_name)
-                -> readonly()
-                -> disabled() }}
+                    -> label('Last Name')
+                    -> value($currentuser->profile->last_name)
+                    -> readonly()
+                    -> disabled() }}
             </div>
             <div class="col-md-12">
                 {{ Former::textarea('user_profile["address"]')
-                -> label('Address')
-                -> value($currentuser->profile->address)
-                -> readonly()
-                -> disabled() }}
+                    -> label('Address')
+                    -> value($currentuser->profile->address)
+                    -> readonly()
+                    -> disabled() }}
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                {{ Former::select('unit_id')
+                ->label('Unit')
+                ->options(UserUnit::all()->lists('name', 'id'))
+                ->readonly()
+                ->disabled() }}
+            </div>
+
+            <div class="col-md-4">
+                {{ Former::text('position')
+                ->value(@$currentuser->profile->position)
+                ->label('Position')
+                ->readonly()
+                ->disabled() }}
+            </div>
+
+            <div class="col-md-4">
+                {{ Former::text('bank_name')
+                ->value(@$currentuser->profile->bank_name)
+                ->label('Bank Name')
+                ->readonly()
+                ->disabled() }}
+            </div>
+            <div class="col-md-4">
+                {{ Former::text('bank_account')
+                ->value(@$currentuser->profile->bank_account)
+                ->label('Bank Account Number')
+                ->readonly()
+                ->disabled() }}
+            </div>
+
+            <div class="col-md-4">
+                {{ Former::text('kwsp_account')
+                ->value(@$currentuser->profile->kwsp_account)
+                ->label('KWSP Account Number')
+                ->readonly()
+                ->disabled() }}
+            </div>
+
+            <div class="col-md-4">
+                {{ Former::text('socso_account')
+                ->value(@$currentuser->profile->socso_account)
+                ->label('SOCSO Account Number')
+                ->readonly()
+                ->disabled() }}
+            </div>
+
+            <div class="col-md-4">
+                {{ Former::text('lhdn_account')
+                ->value(@$currentuser->profile->lhdn_account)
+                ->label('PCB Account Number')
+                ->readonly()
+                ->disabled() }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br>
+                <a href="{{action('ProfileController@requestUpdate')}}" class="btn btn-primary">Update Personal Details</a>
+            </div>
+        </div>
+        <div class="row">
             <?php $i = 0;?>
             @foreach (app()->user_locale->profile_custom_fields as $key => $value)
               @if($value)
@@ -52,6 +123,7 @@
         <br>
     </div>
 
+    @if($currentuser->uploads->count() > 0)
     <div class="form-group">
         <h3>Attached Documents</h3>
         <hr>
@@ -67,6 +139,7 @@
             @endforeach
         </ul>
     </div>
+    @endif
     <div id="profile_contacts">
         <br>
         <h4>

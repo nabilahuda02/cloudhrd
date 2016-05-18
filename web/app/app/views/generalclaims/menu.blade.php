@@ -10,6 +10,7 @@
     <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right text-left" role="menu">
+        <li><a href="javascript:;"  onclick="HelpFile.show('ADMIN_MANAGE_GC.md', 'General Claims Administration Help')">General Claims Administration Help</a></li>
         @if(Route::currentRouteAction() !== 'GeneralClaimsController@index' && Route::currentRouteAction() !== 'GeneralClaimsController@create')
             <li><a href="<?php echo url('claims/create'); ?>">Create Claim</a></li>
         @endif
@@ -20,7 +21,7 @@
 @else
     <div class="pull-right">
         @if(Route::currentRouteAction() !== 'GeneralClaimsController@index')
-            <a href="<?php echo url('claims/index'); ?>" class="btn btn-primary">List Claims</a>
+            <a href="<?php echo url('claims'); ?>" class="btn btn-primary">List Claims</a>
         @endif
         <a href="<?php echo url('claims/create'); ?>" class="btn btn-primary">Create Claim</a>
     </div>

@@ -5,3 +5,5 @@ logs/cloudhrd.marketing.error.log
 logs/cloudhrd.register.access.log
 logs/cloudhrd.register.error.log
 web/app/app/storage/clockwork/*.json
+.DS_Store
+vendor/

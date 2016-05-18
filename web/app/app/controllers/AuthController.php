@@ -14,6 +14,55 @@ class AuthController extends BaseController
         return View::make('auth.login');
     }
 
+    public function getForgotPassword()
+    {
+        return View::make('auth.forgot-password');
+    }
+
+    public function postForgotPassword()
+    {
+        $email = Input::get('email');
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return Redirect::back()
+                ->withInput()
+                ->with('NotifyWarning', "User with the email addres {$email} not found.");
+        }
+        $user->verify_token = str_random(128);
+        $user->save();
+        $this->_sendResetPasswordEmail($user);
+        return Redirect::back()
+            ->with('NotifySuccess', "We have emailed a reset password link to: {$email}");
+    }
+
+    public function getResetPassword($token = '')
+    {
+        $user = User::byToken($token);
+        if ($user) {
+            return View::make('auth.reset-password', compact('user', 'token'));
+        }
+        return Redirect::action('AuthController@getForgotPassword')
+            ->with('NotifyWarning', 'Invalid Token');
+    }
+
+    public function postResetPassword($token = '')
+    {
+        $user = User::byToken($token);
+        if ($user) {
+            $validator = Validator::make($data = Input::all(), User::$validation_rules['changepw']);
+            if ($validator->fails()) {
+                return Redirect::back()->withErrors($validator)->withInput();
+            }
+            $user->password = Hash::make(Input::get('password'));
+            $user->verify_token = null;
+            $user->save();
+            return Redirect::action('AuthController@getLogin')
+                ->with('NotifySuccess', 'Password reset successful. Login with your new password.');
+        }
+        return Redirect::action('AuthController@getForgotPassword')
+            ->with('NotifyWarning', 'Invalid Token');
+    }
+
     public function postLogin()
     {
         $email = Input::get('email');
@@ -115,7 +164,6 @@ class AuthController extends BaseController
         }
         return Redirect::action('AuthController@getLogin')
             ->with('NotifyDanger', 'Error validating email address.');
-
     }
 
     public function getUnlist($token = null)
@@ -143,8 +191,38 @@ class AuthController extends BaseController
             'last_name' => $user->profile->last_name,
             'token' => $user->verify_token,
         ], function ($message) use ($user) {
-            $message->to($user->email, $user->profile->first_name . ' ' . $user->profile->last_name)->subject('Welcome to cloudhrm!');
+            $message->to($user->email, $user->profile->first_name . ' ' . $user->profile->last_name)->subject('Welcome to CloudHRD!');
         });
+    }
+
+    private function _sendResetPasswordEmail(User $user)
+    {
+        Mail::send('emails.auth.reset-password', [
+            'first_name' => $user->profile->first_name,
+            'last_name' => $user->profile->last_name,
+            'token' => $user->verify_token,
+        ], function ($message) use ($user) {
+            $message->to($user->email, $user->profile->first_name . ' ' . $user->profile->last_name)->subject('Reset Password for CloudHRD');
+        });
+    }
+
+    public function getMigrate()
+    {
+        $from = app_path() . '/database/automigrations/';
+        $to = app_path() . '/database/donemigrations/';
+        $dbs = array_filter(Master__User::all()->lists('database'));
+        $dbs[] = 'cloudhrd_app';
+
+        foreach (scandir($from) as $file) {
+            if (!in_array($file, ['.', '..']) && !file_exists($to . $file)) {
+                foreach ($dbs as $db) {
+                    shell_exec('mysql -f -h 127.0.0.1 -u root ' . $db . ' < ' . $from . $file);
+                }
+                touch($to . $file);
+            }
+        }
+
+        return Redirect::to('/');
 
     }
 

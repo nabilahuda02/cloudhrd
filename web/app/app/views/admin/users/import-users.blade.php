@@ -22,7 +22,7 @@
                     <tr>
                         <th>Field</th>
                         <th>Description</th>
-                        <th>Example</th>
+                        <th>Example / Values</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,9 +57,74 @@
                         <td>No</td>
                     </tr>
                     <tr>
-                        <td>Password</td>
-                        <td>User's Password (6 or more characters)</td>
-                        <td>&nbsp;</td>
+                        <td>Bank Name</td>
+                        <td>Bank Branch Name</td>
+                        <td>CIMB Tronoh</td>
+                    </tr>
+                    <tr>
+                        <td>Bank Account</td>
+                        <td>Bank Account Number</td>
+                        <td>192837283</td>
+                    </tr>
+                    <tr>
+                        <td>EPF Account</td>
+                        <td>EPF Account Number</td>
+                        <td>233212</td>
+                    </tr>
+                    <tr>
+                        <td>EPF Employee Contrubution</td>
+                        <td>EPF Employee Contrubution in percentage</td>
+                        <td>11</td>
+                    </tr>
+                    <tr>
+                        <td>EPF Employer Contrubution</td>
+                        <td>EPF Employer Contrubution in percentage</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>Income Tax Account Number</td>
+                        <td>Employee Income Tax Account Number</td>
+                        <td>12235533</td>
+                    </tr>
+                    <tr>
+                        <td>PCB Contribution Value</td>
+                        <td>PCB Contribution in Monetary Value</td>
+                        <td>550.00</td>
+                    </tr>
+                    <tr>
+                        <td>SOCSO Account</td>
+                        <td>SOCSO Account Number</td>
+                        <td>840231-02-1122</td>
+                    </tr>
+                    <tr>
+                        <td>SOCSO Employee Contribution</td>
+                        <td>SOCSO Employee Contribution in Monetary Value</td>
+                        <td>23.00</td>
+                    </tr>
+                    <tr>
+                        <td>SOCSO Employer Contribution</td>
+                        <td>SOCSO Employer Contribution in Monetary Value</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Salary</td>
+                        <td>Salary in Monetary Value</td>
+                        <td>5000.00</td>
+                    </tr>
+                    <tr>
+                        <td>Position</td>
+                        <td>Position Held in Company</td>
+                        <td>Developer</td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td>User's Gender</td>
+                        <td>One of: Male or Female</td>
+                    </tr>
+                    <tr>
+                        <td>Employment Type</td>
+                        <td>User's Employment Type</td>
+                        <td>One of: Permanent, Contract or Internship</td>
                     </tr>
                     @foreach($custom_fields as $field)
                         @if($field)
@@ -73,7 +138,6 @@
                 </tbody>
             </table>
             <a href="{{action('AdminUserController@getDownloadTemplate')}}" class="btn btn-primary">Download Template</a>
-            <a href="{{action('AdminUserController@getManageTemplate')}}" class="btn btn-default">Customize Fields</a>
             <hr>
             <br>
             {{ Former::vertical_for_files_open(action('AdminUserController@postImportUsers')) }}

@@ -1,10 +1,10 @@
 @extends('layouts.module')
 @section('content')
 
-{{Asset::push('js', 'app/upload')}}
+{{Asset::push('js', 'upload')}}
 
 <div class="col-md-10 col-sm-8">
-  
+
   @include('html.notifications')
 
 	<div class="col-md-12">
@@ -27,12 +27,12 @@
 			    ->required() }}
 		@endif
 
-		@include('leaves.form') 
-	
+		@include('leaves.form')
+
 		<div class="form-group">
 			<label for="dates" class="control-label col-lg-2 col-sm-4">Upload</label>
 			<div class="col-lg-10 col-sm-8">
-				<div class="dropzone" id="upload" data-path="leave/temp/{{ Helper::noonce() }}"></div>
+				<div class="dropzone" id="upload" data-path="leave/temp/{{ Helper::noonce() }}" data-type="image/jpeg,image/png,application/pdf"></div>
 			</div>
 		</div>
 
@@ -62,9 +62,9 @@
 		};
 		var yyyymmdd = function(date) {
 			var yyyy = date.getFullYear().toString();
-			var mm = (date.getMonth()+1).toString(); 
+			var mm = (date.getMonth()+1).toString();
 			var dd  = date.getDate().toString();
-			return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]); 
+			return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
 		};
 		var disabledData = {{ json_encode(Leave__BlockedDate::select(['date', 'name'])->lists('name', 'date')) }};
 		var options = {

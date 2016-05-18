@@ -10,6 +10,7 @@
     <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-right text-left" role="menu">
+        <li><a href="javascript:;"  onclick="HelpFile.show('ADMIN_LEAVE.md', 'Leave Administration Help')">Leave Administration Help</a></li>
         @if(Route::currentRouteAction() !== 'LeaveController@index' && Route::currentRouteAction() !== 'LeaveController@create')
             <li><a href="<?php echo url('leave/create'); ?>">Create Leave</a></li>
         @endif

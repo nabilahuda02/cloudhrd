@@ -14,7 +14,7 @@
 Route::controller('auth', 'AuthController');
 
 Route::get('/', function () {
-    return Redirect::to('leave');
+    return Redirect::to('wall');
 });
 
 Route::group(['before' => 'auth'], function () {
@@ -28,6 +28,8 @@ Route::group(['before' => 'auth'], function () {
     Route::resource('profile_emergencies', 'ProfileEmergencyController');
     Route::resource('profile_employment_history', 'ProfileEmploymentHistoryController');
     Route::resource('profile_family', 'ProfileFamilyController');
+    Route::get('/update-profile', 'ProfileController@requestUpdate');
+    Route::post('/update-profile', 'ProfileController@doUpdateProfile');
 
     /**
      * Modules
@@ -36,6 +38,8 @@ Route::group(['before' => 'auth'], function () {
     Route::resource('medical', 'MedicalController');
     Route::resource('claims', 'GeneralClaimsController');
     Route::resource('tasks', 'TasksController');
+    Route::resource('payrolls', 'PayrollsController');
+    Route::resource('change-request', 'ChangeRequestsController');
 
     Route::get('tasks/{task_id}/set-tag/{tag_id}', 'TasksController@setTag');
     Route::get('tasks/{task_id}/notes', 'TasksController@notes');
@@ -87,6 +91,7 @@ Route::group(['before' => 'auth'], function () {
         Route::post('/medical/admin/entitlement/{user_id}', 'MedicalController@postAdminShowUserEntitlemnt');
         Route::get('/medical/admin/reporting', 'MedicalController@getAdminReporting');
         Route::post('/medical/admin/reporting', 'MedicalController@postAdminReporting');
+        Route::get('/medical/{claim_id}/toggle-paid', 'MedicalController@togglePaid');
     });
 
     /**
@@ -97,6 +102,16 @@ Route::group(['before' => 'auth'], function () {
         Route::get('/claims/admin/types', 'GeneralClaimsController@getAdminTypes');
         Route::get('/claims/admin/reporting', 'GeneralClaimsController@getAdminReporting');
         Route::post('/claims/admin/reporting', 'GeneralClaimsController@postAdminReporting');
+        Route::get('/claim/{claim_id}/toggle-paid', 'GeneralClaimsController@togglePaid');
+    });
+
+    /**
+     * FIXME: add filters
+     */
+    Route::group(['before' => 'administers_payroll'], function () {
+        Route::get('/payroll/generate', 'PayrollsController@generate');
+        Route::post('/payroll/generate', 'PayrollsController@doGenerate');
+        Route::controller('/payroll/admin', 'AdminPayrollController');
     });
 
     /**
@@ -118,19 +133,29 @@ Route::group(['before' => 'auth'], function () {
         Route::resource('useradmin', 'AdminUserController');
         Route::get('/useradmin/change-password/{user_id}', 'AdminUserController@getChangePassword');
         Route::post('/useradmin/change-password/{user_id}', 'AdminUserController@postChangePassword');
+        Route::get('/useradmin/assume/{user_id}', 'AdminUserController@assume');
+        Route::post('/useradmin/change-password/{user_id}', 'AdminUserController@postChangePassword');
         Route::controller('/useradminprofile', 'AdminUserProfileController');
         Route::resource('/organization', 'AdminOrganizationController');
-        Route::get('/manage-user-template', 'AdminUserController@getManageTemplate');
-        Route::post('/manage-user-template', 'AdminUserController@postManageTemplate');
-        Route::get('/import-users', 'AdminUserController@getImportUsers');
-        Route::get('/download-import-template', 'AdminUserController@getDownloadTemplate');
-        Route::post('/import-users', 'AdminUserController@postImportUsers');
+        // Route::get('/manage-user-template', 'AdminUserController@getManageTemplate');
+        // Route::post('/manage-user-template', 'AdminUserController@postManageTemplate');
+        Route::get('/user-admin/import-users', 'AdminUserController@getImportUsers');
+        Route::post('/user-admin/import-users', 'AdminUserController@postImportUsers');
+        Route::get('/user-admin/download-import-template', 'AdminUserController@getDownloadTemplate');
         Route::controller('subscription', 'SubscriptionController');
     });
 
     Route::controller('ajax', 'AjaxController');
     Route::controller('data', 'DataController');
     Route::controller('upload', 'UploadController');
+});
+
+Route::get('/resume', function () {
+    if ($user_id = Session::pull('original_user_id')) {
+        Auth::login(User::find($user_id));
+        return Redirect::action('AdminUserController@index');
+    }
+    return Redirect::to('/');
 });
 
 Route::get('email_action/{hash}', function ($hash) {
@@ -149,7 +174,11 @@ Route::get('email_action/{hash}', function ($hash) {
         case 'general':
             $item = GeneralClaim__Main::where('id', $config->id);
             break;
+        case 'change_request':
+            $item = ChangeRequest__Main::where('id', $config->id);
+            break;
     }
+    $item = $item->first();
     $item = $item->where('status_id', $config->current_status)->first();
     if (!$item) {
         return 'Link no longer active';
@@ -158,10 +187,14 @@ Route::get('email_action/{hash}', function ($hash) {
     return 'Application status updated.';
 });
 
+Route::get('/backend/migratedb', 'AuthController@getMigrate');
 Route::get('/backend/reset', function () {
     Artisan::call('db:seed');
     File::cleanDirectory(public_path() . '/uploads');
     file_put_contents(public_path() . '/uploads/.gitignore', "*\n!.gitignore\n!index.html");
     touch(public_path() . '/uploads/index.html');
     return Redirect::action('leave.create');
+});
+Route::get('/backend/rebuild-tree', function () {
+    return UserUnit::rebuild(true);
 });

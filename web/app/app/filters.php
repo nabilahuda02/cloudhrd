@@ -9,17 +9,14 @@
 | which may be used to do any work before or after a request into your
 | application. Here you may also register your custom route filters.
 |
-*/
+ */
 
-App::before(function($request)
-{
-	//
+App::before(function ($request) {
+    //
 });
 
-
-App::after(function($request, $response)
-{
-	//
+App::after(function ($request, $response) {
+    //
 });
 
 /*
@@ -31,40 +28,51 @@ App::after(function($request, $response)
 | session is logged into this application. The "basic" filter easily
 | integrates HTTP Basic authentication for quick, simple checking.
 |
-*/
+ */
 
-Route::filter('auth', function()
-{
-  if (Auth::guest()) return Redirect::action('AuthController@getLogin');
+Route::filter('auth', function () {
+    if (Auth::guest()) {
+        return Redirect::action('AuthController@getLogin');
+    }
+
 });
 
-Route::filter('isprivilleged', function($request, $response)
-{
-	// $uri = Request::path();
-	// $method = Request::method();
-	// dd($uri.' '.$method);
+Route::filter('isprivilleged', function ($request, $response) {
+    // $uri = Request::path();
+    // $method = Request::method();
+    // dd($uri.' '.$method);
 });
 
-
-Route::filter('auth.basic', function()
-{
-	return Auth::basic();
+Route::filter('auth.basic', function () {
+    return Auth::basic();
 });
 
+Route::filter('isadmin', function () {
+    if (!Auth::user()->is_admin) {
+        return Redirect::action('WallController@getIndex');
+    }
 
-Route::filter('isadmin', function()
-{
-	if (!Auth::user()->is_admin) return Redirect::action('WallController@getIndex');
 });
 
-Route::filter('administers_leave', function(){
-	if(!Auth::user()->administers(Leave__Main::$moduleId)) return Redirect::action('WallController@getIndex');
+Route::filter('administers_leave', function () {
+    if (!Auth::user()->administers(Leave__Main::$moduleId)) {
+        return Redirect::action('WallController@getIndex');
+    }
 });
-Route::filter('administers_medical', function(){
-	if(!Auth::user()->administers(MedicalClaim__Main::$moduleId)) return Redirect::action('WallController@getIndex');
+Route::filter('administers_medical', function () {
+    if (!Auth::user()->administers(MedicalClaim__Main::$moduleId)) {
+        return Redirect::action('WallController@getIndex');
+    }
 });
-Route::filter('administers_generalclaim', function(){
-	if(!Auth::user()->administers(GeneralClaim__Main::$moduleId)) return Redirect::action('WallController@getIndex');
+Route::filter('administers_generalclaim', function () {
+    if (!Auth::user()->administers(GeneralClaim__Main::$moduleId)) {
+        return Redirect::action('WallController@getIndex');
+    }
+});
+Route::filter('administers_payroll', function () {
+    if (!Auth::user()->administers(Payroll__Main::$moduleId)) {
+        return Redirect::action('WallController@getIndex');
+    }
 });
 /*
 |--------------------------------------------------------------------------
@@ -75,11 +83,13 @@ Route::filter('administers_generalclaim', function(){
 | it simply checks that the current user is not logged in. A redirect
 | response will be issued if they are, which you may freely change.
 |
-*/
+ */
 
-Route::filter('guest', function()
-{
-	if (Auth::check()) return Redirect::to('/');
+Route::filter('guest', function () {
+    if (Auth::check()) {
+        return Redirect::to('/');
+    }
+
 });
 
 /*
@@ -91,12 +101,10 @@ Route::filter('guest', function()
 | cross-site request forgery attacks. If this special token in a user
 | session does not match the one given in this request, we'll bail.
 |
-*/
+ */
 
-Route::filter('csrf', function()
-{
-	if (Session::token() != Input::get('_token'))
-	{
-		throw new Illuminate\Session\TokenMismatchException;
-	}
+Route::filter('csrf', function () {
+    if (Session::token() != Input::get('_token')) {
+        throw new Illuminate\Session\TokenMismatchException;
+    }
 });

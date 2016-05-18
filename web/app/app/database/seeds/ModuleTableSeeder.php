@@ -1,12 +1,12 @@
 <?php
 
 // Composer: "fzaninotto/faker": "v1.3.0"
-use Faker\Factory as Faker;
 
-class ModuleTableSeeder extends Seeder {
+class ModuleTableSeeder extends Seeder
+{
 
-	public function run()
-	{
+    public function run()
+    {
 
         DB::table('modules')->truncate();
 
@@ -37,6 +37,24 @@ class ModuleTableSeeder extends Seeder {
         $module->approver = -1;
         $module->verifier = -2;
         $module->has_config = 0;
+        $module->save();
+
+        $module = new Module();
+        $module->id = Payroll__Main::$moduleId;
+        $module->name = 'Payroll';
+        $module->approver = -1;
+        $module->verifier = -2;
+        $module->has_config = 1;
+        $module->enabled = 0;
+        $module->save();
+
+        $module = new Module();
+        $module->id = ChangeRequest__Main::$moduleId;
+        $module->name = 'Change Request';
+        $module->approver = -1;
+        $module->verifier = -2;
+        $module->has_config = 1;
+        $module->enabled = 1;
         $module->save();
 
     }

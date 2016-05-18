@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 @section('login_heading')
-    <h2>Sands Consulting</h2>
+    <h2>{{app()->master_user->name}}</h2>
 @stop
 @section('content')
   {{Former::open(action('AuthController@postLogin'))}}

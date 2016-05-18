@@ -8,36 +8,33 @@
             @include('leaves.menu')
             <h3>Leave Application Form</h3>
         </div>
+
         @include('leaves.entitlementtable')
 
         {{ Former::horizontal_open(action('LeaveController@update', $leave->id))
-        -> id('leaveForm')
-        -> rules(['name' => 'required'])
-        -> method('POST') }}
+            -> id('leaveForm')
+            -> rules(['name' => 'required'])
+            -> method('POST') }}
         {{ Former::hidden('_method', 'PUT') }}
         {{ Former::text('ref')
-        -> label('Reference')
-        -> value($leave->ref)
-        -> readonly()
-        -> disabled() }}
-
-        @if(Auth::user()->administers(Leave__Main::$moduleId))
-        {{ Former::select('user_id')
-        -> label('For User')
-        -> options(Helper::userArray(), null)
-        -> value($leave->ref)
-        -> class('form-control col-md-4')
-        -> required() }}
-        @endif
+            -> label('Reference')
+            -> value($leave->ref)
+            -> readonly()
+            -> disabled() }}
+        {{ Former::text('user_name')
+            -> label('Employee')
+            -> value(User::fullName($leave->user_id))
+            -> readonly() }}
         {{ Former::text('status_name')
-        -> label('Status')
-        -> value($leave->status->name)
-        -> readonly()
-        -> disabled() }}
+            -> label('Status')
+            -> value($leave->status->name)
+            -> readonly()
+            -> disabled() }}
         {{Former::populate($leave)}}
+
         @include('leaves.form')
 
-        {{ Asset::push('js','app/upload')}}
+        {{ Asset::push('js','upload')}}
         <div class="form-group">
             <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
             <div class="col-lg-10 col-sm-8">
@@ -45,7 +42,7 @@
                     @foreach ($leave->uploads as $file)
                     <li class="view_uploaded" data-url="{{$file->file_url}}">
                         <button type="button" class="btn btn-primary remove_uploaded" data-id="{{$file->id}}">&times;</button>
-                        <img src="{{ $file->thumb_url }}" alt="" class="thumbnail">
+                        <a href="{{$file->file_url}}" target="_blank">{{$file->file_name}}</a>
                     </li>
                     @endforeach
                 </ul>
@@ -54,7 +51,7 @@
         <div class="form-group">
             <label for="dates" class="control-label col-lg-2 col-sm-4">Upload<br/>(If Any)</label>
             <div class="col-lg-10 col-sm-8">
-                <div class="dropzone" id="upload" data-path="leave/{{$leave->upload_hash}}/{{$leave->id}}"></div>
+                <div class="dropzone" id="upload" data-path="leave/{{$leave->upload_hash}}/{{$leave->id}}" data-type="image/jpeg,image/png,application/pdf"></div>
             </div>
         </div>
         {{ Former::textarea('remarks')

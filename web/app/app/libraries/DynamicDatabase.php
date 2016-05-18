@@ -14,23 +14,20 @@ class DynamicDatabase
         } else {
             Config::set('database.connections.mysql.database', $config->database);
             try {
+                define('STDIN', fopen("php://stdin", "r"));
                 $tables = DB::select('show tables from ' . $config->database);
-                if (count(DB::table('users')->get()) === 0) {
-                    Artisan::call('db:seed');
-                }
                 $admin = User::find(1);
-                if ($admin->email != $config->email) {
+                if ($admin->email == 'user@email') {
+                    Artisan::call('db:seed', ['--force' => true]);
                     $admin->password = $config->password;
                     $admin->email = $config->email;
                     $admin->save();
                 }
             } catch (Exception $e) {
+                Log::error('error creating db', [$e]);
                 Config::set('database.connections.mysql.database', 'information_schema');
                 DB::select('create database if not exists ' . $config->database);
-                $cloudhrd_tables = DB::select('show tables from cloudhrd_app');
-                foreach ($cloudhrd_tables as $table) {
-                    DB::select('create table if not exists ' . $config->database . '.' . $table->Tables_in_cloudhrd_app . ' like cloudhrd_app.' . $table->Tables_in_cloudhrd_app);
-                }
+                shell_exec('PATH=$PATH:/usr/local/bin/ && export PATH && mysqldump -u root cloudhrd_app | mysql -u root ' . $config->database);
                 $page = $_SERVER['PHP_SELF'];
                 header("Refresh: 0; url=$page");
             }
