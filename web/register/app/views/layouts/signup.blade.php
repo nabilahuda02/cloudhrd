@@ -27,7 +27,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     {{Asset::tags('js')}}
     @yield('scripts')
