@@ -124,7 +124,6 @@ return array(
         'Former\FormerServiceProvider',
         'Bllim\Datatables\DatatablesServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
-        'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
     ),
 
     /*
@@ -198,5 +197,4 @@ return array(
     /* For Laravel 4.2+: http://laravel.com/docs/upgrade */
 
     'cipher' => MCRYPT_RIJNDAEL_256,
-
 );

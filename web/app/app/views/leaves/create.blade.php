@@ -1,7 +1,7 @@
 @extends('layouts.module')
 @section('content')
 
-{{Asset::push('js', 'app/upload')}}
+{{Asset::push('js', 'upload')}}
 
 <div class="col-md-10 col-sm-8">
 

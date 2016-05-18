@@ -507,5 +507,4 @@ class DataController extends BaseController
             ->remove_column('id')
             ->make();
     }
-
 }

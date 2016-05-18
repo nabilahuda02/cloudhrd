@@ -12,33 +12,33 @@
         </div>
         <div style="padding:15px;">
             {{ Former::horizontal_open(action('MedicalController@store'))
-            -> id('medicalForm')
-            -> rules(['name' => 'required'])
-            -> method('POST') }}
+                -> id('medicalForm')
+                -> rules(['name' => 'required'])
+                -> method('POST') }}
             {{ Former::text('created_at')
-            -> label('Created At')
-            -> value(Helper::timestamp($medical->created_at))
-            -> readonly()
-            -> disabled() }}
+                -> label('Created At')
+                -> value(Helper::timestamp($medical->created_at))
+                -> readonly()
+                -> disabled() }}
             {{ Former::text('ref')
-            -> label('Reference')
-            -> value($medical->ref)
-            -> readonly()
-            -> disabled() }}
+                -> label('Reference')
+                -> value($medical->ref)
+                -> readonly()
+                -> disabled() }}
             {{ Former::text('user_id')
-            -> label('Employee')
-            -> value(User::fullName($medical->user_id))
-            -> readonly()
-            -> disabled() }}
+                -> label('Employee')
+                -> value(User::fullName($medical->user_id))
+                -> readonly()
+                -> disabled() }}
             {{ Former::text('status')
-            -> label('Status')
-            -> value($medical->status->name)
-            -> readonly()
-            -> disabled() }}
+                -> label('Status')
+                -> value($medical->status->name)
+                -> readonly()
+                -> disabled() }}
             {{Former::populate($medical)}}
             @include('medicals.form')
             {{ Former::textarea('remarks')
-            -> value($medical->remarks) }}
+                -> value($medical->remarks) }}
             {{ Asset::push('js','app/upload.js')}}
             <div class="form-group">
                 <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>

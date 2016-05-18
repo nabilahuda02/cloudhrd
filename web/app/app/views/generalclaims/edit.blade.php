@@ -60,7 +60,7 @@
             -> placeholder('0.00')
             -> required() }}
 
-            {{ Asset::push('js','app/upload.js')}}
+            {{ Asset::push('js','upload')}}
             <div class="form-group">
                 <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
                 <div class="col-lg-10 col-sm-8">
@@ -147,7 +147,7 @@
         }
     };
 </script>
-{{Asset::push('js', 'app/general_claims.js')}}
+{{Asset::push('js', 'app/general_claimd')}}
 @stop
 @section('script')
     @include('generalclaims.actions-scripts')

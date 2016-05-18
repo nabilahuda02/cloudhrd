@@ -1,6 +1,6 @@
 @extends('layouts.module')
 @section('content')
-{{Asset::push('js','app/profile.js')}}
+{{Asset::push('js','profile')}}
 <div class="col-sm-10">
     <div>
         <br>
@@ -65,7 +65,6 @@
                 ->readonly()
                 ->disabled() }}
             </div>
-
             <div class="col-md-4">
                 {{ Former::text('bank_account')
                 ->value(@$currentuser->profile->bank_account)

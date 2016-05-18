@@ -40,7 +40,6 @@ class StatusTableSeeder extends Seeder
         $status->id = 7;
         $status->name = 'Published';
         $status->save();
-
     }
 
 }

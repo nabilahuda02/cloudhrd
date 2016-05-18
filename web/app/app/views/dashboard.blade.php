@@ -95,5 +95,5 @@
 </div>
 @stop
 @section('script')
-  {{Asset::push('js','app/dash.js')}}
+  {{Asset::push('js','app/dash')}}
 @stop

@@ -1,6 +1,6 @@
 <?php
 
-class GeneralClaim__Main extends Eloquent
+class Generalclaim__Main extends Eloquent
 {
 
     // Add your validation rules here
@@ -241,6 +241,14 @@ class GeneralClaim__Main extends Eloquent
              * If user is admin or module owner
              */
             if (Auth::user()->administers(static::$moduleId)) {
+                return true;
+            }
+
+            /**
+             * If module verifier
+             */
+
+            if (Auth::user()->isVerifier(static::$moduleId, $this->user_id)) {
                 return true;
             }
 

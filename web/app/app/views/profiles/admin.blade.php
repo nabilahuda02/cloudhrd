@@ -1,4 +1,4 @@
-{{Asset::push('js','app/admin_profile.js')}}
+{{Asset::push('js','app/admin_profile')}}
 <div id="profile_contacts">
     <br>
     <h4>

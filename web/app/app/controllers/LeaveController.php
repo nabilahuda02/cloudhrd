@@ -60,7 +60,7 @@ class LeaveController extends \BaseController
         foreach ($data['dates'] as $date) {
             $leaveDate = new Leave__Date();
             $leaveDate->leave_id = $leave->id;
-            $leaveDate->date = Helper::short_date_to_mysql($date);
+            $leaveDate->date = Helper::short_date_to_mysql(trim($date));
             $leaveDate->save();
         }
 
@@ -172,7 +172,7 @@ class LeaveController extends \BaseController
         foreach ($data['dates'] as $date) {
             $leaveDate = new Leave__Date();
             $leaveDate->leave_id = $leave->id;
-            $leaveDate->date = Helper::short_date_to_mysql($date);
+            $leaveDate->date = Helper::short_date_to_mysql(trim($date));
             $leaveDate->save();
         }
 

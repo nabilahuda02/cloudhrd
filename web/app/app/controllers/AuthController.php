@@ -164,7 +164,6 @@ class AuthController extends BaseController
         }
         return Redirect::action('AuthController@getLogin')
             ->with('NotifyDanger', 'Error validating email address.');
-
     }
 
     public function getUnlist($token = null)
