@@ -4,7 +4,7 @@
         <br>
         <br>
         <br>
-        <h1>CloudHRD</h1>
+        <h1>{{app()->master_user->name}}</h1>
         <h4>Login to your Account</h4>
         <hr>
         @include('html.notifications')
@@ -27,6 +27,7 @@
         </div>
         <hr>
         <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <a href="{{action('AuthController@getForgotPassword')}}" class="btn btn-link btn-block">Forgot Password</a>
         {{Former::close()}}
     </section>
 @stop

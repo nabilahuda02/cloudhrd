@@ -5,9 +5,14 @@
     <div class="col-md-12">
         <div class="page-header">
             @include('admin.users.menu')
-            <h3>User List</h3>
+            <h3>
+                User List
+                <button class="btn btn-link help-btn" onclick="HelpFile.show('MANAGE_USER.md', 'Manage Users')">
+                    <i class="fa fa-question-circle"></i>
+                </button>
+            </h3>
         </div>
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped datatable">
             <thead>
                 <tr>
                     <th class="text-center">Email</th>
@@ -29,10 +34,11 @@
                     </td>
                     <td class="text-center">{{ $usr->profile->first_name }}</td>
                     <td class="text-center">{{ $usr->profile->last_name }}</td>
-                    <td class="text-center">{{ $usr->unit->name }}</td>
+                    <td class="text-center">{{ $usr->unit ? $usr->unit->name : '' }}</td>
                     <td class="text-center">
                         <div class="btn-group btn-group-xs ">
                             <a href="{{action('AdminUserController@edit',array($usr->id))}}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                            <a href="{{action('AdminUserController@assume',array($usr->id))}}" class="btn btn-primary"><i class="fa fa-user"></i></a>
                             <a href="{{action('AdminUserController@getChangePassword',array($usr->id))}}" class="btn btn-primary"><i class="fa fa-lock"></i></a>
                         </div>
                     </td>
@@ -48,4 +54,9 @@
         <hr>
     </div>
 </div>
+@stop
+@section('script')
+    <script type="text/javascript">
+        $('table').dataTable();
+    </script>
 @stop

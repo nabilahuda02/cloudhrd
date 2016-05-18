@@ -9,19 +9,29 @@
                 @endif
             </div>
         </div>
-        <h4 class="text-center hover-show-hidden" style="text-transform:uppercase;">{{ $user->profile->first_name }} <a class="is-hidden" href="/wall/profile"><span class="fa fa-cog"></span></a></h4>
+        <h4 class="text-center hover-show-hidden" style="text-transform:uppercase;">{{ $user->profile->first_name }}</h4>
         <hr style="margin-top:12px;">
     </div>
     <ul class="nav nav-pills nav-stacked hidden-xs">
-        {{-- <li class="bg-blue border-top-none {{ ($controller === 'Public Wall') ? 'active' : '' !!}">
-                            <a href="{{ action('WallController@getIndex') }}">
-                                Wall
-                            </a>
-                        </li>
-                        <li class="{{ ($controller === 'Tasks') ? 'active' : '' }}">
-                            <a href="{{ action('TasksController@index') }}">
-                                Tasks</a>
-                        </li> --}}
+        <li class="bg-blue border-top-none {{ (Route::getCurrentRoute()->getActionName() === 'WallController@getProfile') ? 'active' : '' }}">
+            <a href="/wall/profile">
+                Profile
+            </a>
+        </li>
+        <li class="{{ ($controller === 'Change Requests') ? 'active' : '' }}">
+            <a href="{{ action('ChangeRequestsController@index') }}">
+                Change Requests
+            </a>
+        </li>
+        <li class="bg-blue border-top-none {{ (Route::getCurrentRoute()->getActionName() === 'WallController@getIndex') ? 'active' : '' }}">
+            <a href="{{ action('WallController@getIndex') }}">
+                Wall
+            </a>
+        </li>
+        <li class="{{ ($controller === 'Tasks') ? 'active' : '' }}">
+            <a href="{{ action('TasksController@index') }}">
+                Tasks</a>
+        </li>
         <li class="{{ ($controller === 'Leaves') ? 'active' : '' }}">
             <a href="{{ action('LeaveController@index') }}">
                 Leaves</a>
@@ -36,6 +46,13 @@
                 General Claims
             </a>
         </li>
+        @if(($module = Module::find(5)) && $module->enabled)
+        <li class="{{ ($controller === 'Payrolls') ? 'active' : '' }}">
+            <a href="{{ action('PayrollsController@index') }}">
+                Payrolls
+            </a>
+        </li>
+        @endif
         @if($user->is_admin)
         <li class="">
             <a href="#admin_menu_sidebar" class="" data-toggle="collapse">Administrator <span class="fa fa-raquo"></span></a>
@@ -67,10 +84,18 @@
             </ul>
         </li>
         @endif
-        <li class="border-bottom-none">
-            <a href="{{ action('AuthController@getLogout') }}">
-                Logout
-            </a>
-        </li>
+        @if(Session::has('original_user_id'))
+            <li class="border-bottom-none">
+                <a href="/resume">
+                    Resume
+                </a>
+            </li>
+        @else
+            <li class="border-bottom-none">
+                <a href="{{ action('AuthController@getLogout') }}">
+                    Logout
+                </a>
+            </li>
+        @endif
     </ul>
 </div>

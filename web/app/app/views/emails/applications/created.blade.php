@@ -11,6 +11,8 @@
   @include('medicals.email-data')
 @elseif($type === 'claims')
   @include('generalclaims.email-data')
+@elseif($type === 'change_request')
+  @include('changerequests.email-data')
 @else
   @include('booking.email-data')
 @endif

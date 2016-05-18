@@ -8,7 +8,7 @@
         <title>
             CloudHRD | {{ $controller }}
         </title>
-        {{ Asset::tags('css') }}
+        {{{ Asset::tags('css') }}}
         @yield('style')
         @if($locale = app()->user_locale)
         <script>
@@ -61,9 +61,24 @@
                 @endif
                 @yield('content')
                 @include('html.footer')
-                {{ Asset::tags('js') }}
-                @yield('script')
             </div>
         </div>
+        <div id="help-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" id="help-title"></h4>
+                    </div>
+                    <div class="modal-body" id="help-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pagedown/1.0/Markdown.Converter.min.js"></script>
+        {{{ Asset::tags('js') }}}
+        @yield('script')
     </body>
 </html>

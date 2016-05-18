@@ -45,7 +45,7 @@
                 <ul class="list-inline uploaded">
                     @foreach ($leave->uploads as $file)
                     <li class="view_uploaded" data-url="{{$file->file_url}}">
-                        <img src="{{ $file->thumb_url }}" alt="" class="thumbnail">
+                        <a href="{{$file->file_url}}" target="_blank">{{$file->file_name}}</a>
                     </li>
                     @endforeach
                 </ul>
@@ -66,23 +66,22 @@
 @section('script')
 @include('leaves.actions-scripts')
 <script>
-
-$('input:not([type=hidden],[type=search]),select,textarea').attr({
-readonly: true,
-disabled: true
-});
-$('#leaveForm').on('submit',function(e){
-e.preventDefault();
-return false;
-});
-var dates = ["{{ implode('","',$leave->dates->lists('date'))}}"].map(function(d){
-return new Date(d);
-});
-var dp = $("#datepicker").multiDatesPicker({
-altField: '#dates',
-dateFormat: app_locale.short_date,
-disabled: true,
-addDates: dates
-});
+    $('input:not([type=hidden],[type=search]),select,textarea').attr({
+        readonly: true,
+        disabled: true
+    });
+    $('#leaveForm').on('submit',function(e){
+        e.preventDefault();
+        return false;
+    });
+    var dates = ["{{ implode('","',$leave->dates->lists('date'))}}"].map(function(d){
+        return new Date(d);
+    });
+    var dp = $("#datepicker").multiDatesPicker({
+        altField: '#dates',
+        dateFormat: app_locale.short_date,
+        disabled: true,
+        addDates: dates
+    });
 </script>
 @stop

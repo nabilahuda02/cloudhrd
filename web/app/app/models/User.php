@@ -12,8 +12,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface
     public static $validation_rules = [
         'registration' => [
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-            'confirm_password' => 'same:password',
             'first_name' => 'required',
         ],
         'edit' => [
@@ -179,7 +177,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 
     public function loginAction()
     {
-        return 'LeaveController@index';
+        return 'WallController@getIndex';
     }
 
     // Checks whether a user is responsible to administer a module

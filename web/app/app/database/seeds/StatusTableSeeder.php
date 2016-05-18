@@ -32,9 +32,14 @@ class StatusTableSeeder extends Seeder
         $status->save();
 
         $status = new Status();
+        $status->id = 6;
         $status->name = 'Draft';
         $status->save();
 
+        $status = new Status();
+        $status->id = 7;
+        $status->name = 'Published';
+        $status->save();
     }
 
 }

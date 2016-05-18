@@ -9,7 +9,7 @@ class Generalclaim__Main extends Eloquent
     public static $moduleId = 3;
 
     // Don't forget to fill this array
-    protected $fillable = ['title', 'remarks', 'user_id', 'status_id', 'value', 'upload_hash'];
+    protected $fillable = ['title', 'remarks', 'user_id', 'status_id', 'value', 'upload_hash', 'is_paid'];
 
     protected $table = 'general_claims';
 
@@ -154,7 +154,23 @@ class Generalclaim__Main extends Eloquent
          * If user is submitter and status is new
          */
 
-        if (Auth::user()->id === $this->user_id && in_array($this->status_id, [1, 6])) {
+        if (Auth::user()->id === $this->user_id && $this->status_id === 1) {
+            return true;
+        }
+
+        /**
+         * If user is admin or module owner
+         */
+
+        if (Auth::user()->administers(static::$moduleId)) {
+            return true;
+        }
+
+        /**
+         * If module custodian is unit head and user belongs to the same unit (custodian)
+         */
+
+        if (Auth::user()->isApprover(static::$moduleId, $this->user_id)) {
             return true;
         }
 
@@ -197,6 +213,42 @@ class Generalclaim__Main extends Eloquent
              * If user is admin or module owner
              */
             if (Auth::user()->administers(static::$moduleId)) {
+                return true;
+            }
+
+            /**
+             * If module custodian is unit head and user belongs to the same unit (custodian)
+             */
+            if (Auth::user()->isApprover(static::$moduleId, $this->user_id)) {
+                return true;
+            }
+
+        }
+        /**
+         * Else return false
+         */
+        return false;
+    }
+
+    public function canTogglePaid()
+    {
+        /**
+         * If status is not approved
+         */
+
+        if ($this->status_id == 3) {
+            /**
+             * If user is admin or module owner
+             */
+            if (Auth::user()->administers(static::$moduleId)) {
+                return true;
+            }
+
+            /**
+             * If module verifier
+             */
+
+            if (Auth::user()->isVerifier(static::$moduleId, $this->user_id)) {
                 return true;
             }
 

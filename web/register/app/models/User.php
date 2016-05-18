@@ -4,11 +4,12 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\UserTrait;
+use Subscription\SubscriptionTrait;
 use Zizaco\Confide\ConfideUser;
 use Zizaco\Entrust\HasRole;
-use Subscription\SubscriptionTrait;
 
-class User extends ConfideUser implements UserInterface, RemindableInterface {
+class User extends ConfideUser implements UserInterface, RemindableInterface
+{
 
     use UserTrait, SubscriptionTrait, RemindableTrait, HasRole;
 
@@ -55,7 +56,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
         'trial_ends',
         'subscription_ends',
         'reseller_code',
-        'reseller_id'
+        'reseller_id',
     ];
 
     /**
@@ -63,53 +64,54 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
      */
     static $_rules = [
         'store' => [
-            'domain'                => 'required|alpha_dash|max:12|unique:users,domain',
-            'name'                  => 'required',
-            'username'              => 'required|alpha_dash|unique:users,username',
-            'email'                 => 'required|email|unique:users,email',
-            'password'              => 'required|min:4|confirmed',
+            'domain' => 'required|alpha_dash|max:12|unique:users,domain',
+            'name' => 'required',
+            'username' => 'required|alpha_dash|unique:users,username',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:4|confirmed',
             'password_confirmation' => 'min:4',
         ],
         'testing' => [
-            'domain'                => 'required|alpha_dash|max:12|unique:users,domain',
-            'name'                  => 'required',
-            'username'              => 'required|alpha_dash|unique:users,username',
-            'email'                 => 'required|email|unique:users,email',
-            'password'              => 'required|min:4',
+            'domain' => 'required|alpha_dash|max:12|unique:users,domain',
+            'name' => 'required',
+            'username' => 'required|alpha_dash|unique:users,username',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:4',
         ],
         'reseller' => [
-            'name'                  => 'required',
-            'username'              => 'required|alpha_dash|unique:users,username',
-            'email'                 => 'required|email|unique:users,email',
-            'password'              => 'required|min:4|confirmed',
+            'name' => 'required',
+            'username' => 'required|alpha_dash|unique:users,username',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:4|confirmed',
             'password_confirmation' => 'min:4',
         ],
         'update' => [
-            'domain'   => 'required|alpha_dash|unique:users,domain',
-            'name'     => 'required',
+            'domain' => 'required|alpha_dash|unique:users,domain',
+            'name' => 'required',
             'username' => 'required|alpha_dash|unique:users,username',
-            'email'    => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email',
         ],
         'resetPassword' => [
-            'password'              => 'required|min:4|confirmed',
-            'password_confirmation' => 'min:4'
+            'password' => 'required|min:4|confirmed',
+            'password_confirmation' => 'min:4',
         ],
         'setPassword' => [
-            'password'              => 'required|min:4|confirmed',
-            'password_confirmation' => 'min:4'
+            'password' => 'required|min:4|confirmed',
+            'password_confirmation' => 'min:4',
         ],
         'setConfirmation' => [
             'confirmed' => 'numeric|min:0|max:1',
         ],
         'changePassword' => [
-            'password'              => 'required|min:4|confirmed',
-            'password_confirmation' => 'min:4'
-        ]
+            'password' => 'required|min:4|confirmed',
+            'password_confirmation' => 'min:4',
+        ],
     ];
 
     static $rules = [];
 
-    public static function setRules($name) {
+    public static function setRules($name)
+    {
         self::$rules = self::$_rules[$name];
     }
 
@@ -120,7 +122,8 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
      */
     protected $hidden = array('password', 'remember_token');
 
-    public function getAuthorizedUserids($authorization_flag) {
+    public function getAuthorizedUserids($authorization_flag)
+    {
         if ($authorization_flag === 0) {
             return [];
         }
@@ -129,7 +132,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
             return [$this->id];
         }
 
-        $key  = implode('.', ['User', 'getAuthorizedUserids', $this->id, $authorization_flag]);
+        $key = implode('.', ['User', 'getAuthorizedUserids', $this->id, $authorization_flag]);
         $user = $this;
         return Cache::tags(['User', 'OrganizationUnit'])->rememberForever($key, function () use ($authorization_flag, $user) {
             $result = [$user->id];
@@ -145,7 +148,8 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
         });
     }
 
-    public function isAuthorized($authorization_flag, $user_id) {
+    public function isAuthorized($authorization_flag, $user_id)
+    {
         if ($authorization_flag == 0) {
             return true;
         }
@@ -182,38 +186,45 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
      * ACL
      */
 
-    public static function canList() {
+    public static function canList()
+    {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:list']));
     }
 
-    public static function canCreate() {
+    public static function canCreate()
+    {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:create']));
     }
 
-    public function canShow() {
+    public function canShow()
+    {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:show']));
     }
 
-    public function canUpdate() {
+    public function canUpdate()
+    {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:edit']));
     }
 
-    public function canDelete() {
+    public function canDelete()
+    {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:delete']));
     }
 
-    public function canSetPassword() {
+    public function canSetPassword()
+    {
         return true;
     }
 
-    public function canSetConfirmation() {
+    public function canSetConfirmation()
+    {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:set_confirmation']));
     }
 
     /**
      * Decorators
      */
-    
+
     protected $type;
 
     public function getTypeAttribute()
@@ -224,41 +235,48 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
 
     public function getDomainAttribute($value)
     {
-        GLOBAL $app;
-        return $value . '.' . $app->domain;        
+        $domain = '.cloudhrd.com';
+        if (App::environment('local')) {
+            $domain = '.cloudhrd.dev';
+        }
+
+        return $value . $domain;
     }
 
     /**
      * Relationships
      */
-    
-    public function organizationunit() {
+
+    public function organizationunit()
+    {
         return $this->belongsTo('OrganizationUnit', 'organization_unit_id');
     }
-    
-    public function reseller() {
+
+    public function reseller()
+    {
         return $this->belongsTo('User', 'reseller_id');
     }
-   
-   public function subscriptions()
-   {
-    return $this->hasMany('Subscription', 'user_id');
-   }
 
-   public function cloudhrdmail($view, $subject)
-   {
+    public function subscriptions()
+    {
+        return $this->hasMany('Subscription', 'user_id');
+    }
+
+    public function cloudhrdmail($view, $subject)
+    {
         $user = $this;
-        Mail::send('emails.' . $view, compact('user'), function($mail) use ($user, $subject) {
+        Mail::send('emails.' . $view, compact('user'), function ($mail) use ($user, $subject) {
             $mail->to($user->email);
             $mail->subject($subject);
         });
-   }
+    }
 
     /**
      * Boot
      */
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
         // self::BootSubscriptionHandler();
 
@@ -268,6 +286,14 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
 
         self::updated(function () {
             Cache::tags('User')->flush();
+        });
+
+        self::deleting(function ($user) {
+            if ($user->database) {
+                try {
+                    DB::select("drop database {$user->database}");
+                } catch (Exception $e) {}
+            }
         });
 
         self::deleted(function () {
