@@ -151,7 +151,7 @@ class AuthController extends BaseController
     public function __construct()
     {
         View::share('controller', 'Authentication');
-        Asset::push('css', 'auth');
+        Asset::push('css', 'login');
     }
 
 }
