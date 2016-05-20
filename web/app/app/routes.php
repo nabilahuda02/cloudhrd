@@ -22,7 +22,7 @@ Route::group(['before' => 'auth'], function () {
     View::share('user', Auth::user());
     Route::controller('wall', 'WallController');
     Route::resource('shares', 'SharesController');
-    Route::resource('profile', 'ProfileController');
+    // Route::resource('profile', 'ProfileController');
     Route::resource('profile_contacts', 'ProfileContactsController');
     Route::resource('profile_educations', 'ProfileEducationController');
     Route::resource('profile_emergencies', 'ProfileEmergencyController');
