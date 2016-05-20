@@ -8,15 +8,22 @@
     @yield('styles')
 </head>
 <body class="login">
-    <div class="container login-container">
-        <div class="col-md-7 col-md-offset-4 col-sm-12 col-sm-offset-0">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    @yield('login_heading')
-                </div>
-                <div class="panel-body">
-                    @include('partials.notification')
-                    @yield('content')
+    <div class="container">
+        <div class="row login-logo">
+            <div class="col logo">
+                <h1><img src="/images/logo.png" alt="CloudHRD"></h1>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 login-card">
+                @yield('login_heading')
+                @include('partials.notification')
+                @yield('content')
+                <div class="login-card-footer">
+                    {{link_to_action('AuthController@login', 'Login')}} | 
+                    {{link_to_action('AuthController@forgotPassword', 'Forgot Password')}}
                 </div>
             </div>
         </div>
