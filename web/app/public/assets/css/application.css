@@ -14903,6 +14903,10 @@ button.bootbox-close-button.close {
 .big-header .big-header-menu > ul > li > a:focus {
   background-color: rgba(255, 255, 255, 0.3);
 }
+.big-header .big-header-menu > ul > li > a.active {
+  border-bottom: 5px solid #fff;
+  padding-bottom: 5px;
+}
 #wall h2 {
   font-family: 'Roboto-Bold';
   color: #2980B9;

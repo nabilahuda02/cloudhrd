@@ -4,10 +4,10 @@
             <div class="col-md-12">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                       <span class="sr-only">Toggle navigation</span>
-                       <span class="icon-bar"></span>
-                       <span class="icon-bar"></span>
-                       <span class="icon-bar"></span>
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="#" id="logo">
                         <img src="/assets/images/logo-sands.png" alt="">
@@ -42,22 +42,22 @@
     <div class="row">
         <a href="{{action('WallController@getProfile')}}" class="col-md-12 col-xs-12 big-header-profile-list">
             <ul>
-               <li>{{$user->email}}</li>
-               <li><h5>{{$user->getFullName()}}</h5></li>
-               <li><small>{{$user->profile->position}}</small></li>
-           </ul>
-       </a>
+                <li>{{$user->email}}</li>
+                <li><h5>{{$user->getFullName()}}</h5></li>
+                <li><small>{{$user->profile->position}}</small></li>
+            </ul>
+        </a>
     </div>
     <div class="row">
         <div class="col-md-8 hidden-xs col-md-offset-2 big-header-menu">
             <ul class="nav nav-pills nav-justified">
-               <li><a href="/index.html">Wall</a></li>
-               <li><a href="/task.html">Task</a></li>
-               <li><a href="{{action('LeaveController@index')}}">Leaves</a></li>
-               <li><a href="/medical-claim.html">Medical Claims</a></li>
-               <li><a href="/general-claim.html">General Claims</a></li>
-               <li><a href="#">Payroll</a></li>
-           </ul>
+                <li><a class="{{ ($controller == 'Public Wall') ? 'active' : '' }}" href="{{url('/wall')}}">Wall</a></li>
+                <li><a class="{{ ($controller == 'Tasks') ? 'active' : '' }}" href="{{action('TasksController@index')}}">Task</a></li>
+                <li><a class="{{ ($controller == 'Leaves') ? 'active' : '' }}" href="{{action('LeaveController@index')}}">Leaves</a></li>
+                <li><a class="{{ ($controller == 'Medical Claims') ? 'active' : '' }}" href="{{action('MedicalController@index')}}">Medical Claims</a></li>
+                <li><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">General Claims</a></li>
+                <li><a class="{{ ($controller == 'Payrolls') ? 'active' : '' }}" href="{{action('PayrollsController@index')}}">Payroll</a></li>
+            </ul>
         </div>
     </div>
 </div>
