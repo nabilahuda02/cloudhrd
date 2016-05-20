@@ -8,7 +8,7 @@ class WallController extends \BaseController {
      * @return Response
      */
     public function getIndex() {
-        Asset::push('js', 'wall');
+        // Asset::push('js', 'wall');
         $user_image = Auth::user()->avatar();
         if (!$user_image) {
             $user_image = '/images/user.jpg';
