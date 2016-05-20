@@ -1,15 +1,22 @@
 @extends('layouts.module')
 @section('content')
 {{Asset::push('js','profile')}}
+<div class="col-sm-12">
+    <h2>
+        Personal Detail
+    </h2>
+    <hr>
+    <br>
+</div>
+<div class="col-sm-2">
+    <img src="{{ $user->profile->user_image }}" id="profile_image_editable" class="image-responsive"/>
+    <hr>
+    <a href="/wall/change-password" class="btn btn-block btn-primary">Change Password</a>
+    <a href="{{action('ProfileController@requestUpdate')}}" class="btn btn-block btn-primary">Update Details</a>
+
+</div>
 <div class="col-sm-10">
     <div>
-        <br>
-        <h2>
-            <a href="/wall/change-password" class="btn btn-small btn-primary pull-right"><i class="fa fa-key"></i> Change Password</a>
-            Personal Detail
-        </h2>
-        <hr>
-        <br>
         {{ Former::open() }}
         <div class="row">
             <div class="col-md-3">
@@ -98,12 +105,6 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <br>
-                <a href="{{action('ProfileController@requestUpdate')}}" class="btn btn-primary">Update Personal Details</a>
-            </div>
-        </div>
-        <div class="row">
             <?php $i = 0;?>
             @foreach (app()->user_locale->profile_custom_fields as $key => $value)
               @if($value)
@@ -140,143 +141,145 @@
         </ul>
     </div>
     @endif
-    <div id="profile_contacts">
-        <br>
-        <h4>
-        Contact Detail
-        </h4>
-        <br>
-        <div class="row">
-            <div class="col-md-6">
-                {{ Former::text('name')
-                -> label('Contact Type') }}
+    <div style="display:none">
+        <div id="profile_contacts">
+            <br>
+            <h4>
+            Contact Detail
+            </h4>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ Former::text('name')
+                    -> label('Contact Type') }}
+                </div>
+                <div class="col-md-6">
+                    {{ Former::text('number')
+                    -> label('Contact Number') }}
+                </div>
+                <div class="clearfix"></div>
+                <br>
             </div>
-            <div class="col-md-6">
-                {{ Former::text('number')
-                -> label('Contact Number') }}
-            </div>
-            <div class="clearfix"></div>
+            <hr>
             <br>
         </div>
-        <hr>
-        <br>
-    </div>
-    <div id="profile_educations">
-        <br>
-        <h4>
-        Education Detail
-        </h4>
-        <br>
-        <div class="row">
-            <div class="col-md-8">
-                {{ Former::text('institution')
-                -> label('Institution') }}
+        <div id="profile_educations">
+            <br>
+            <h4>
+            Education Detail
+            </h4>
+            <br>
+            <div class="row">
+                <div class="col-md-8">
+                    {{ Former::text('institution')
+                    -> label('Institution') }}
+                </div>
+                <div class="col-md-4">
+                    {{ Former::input('start_date')
+                    -> type('date')
+                    -> label('Start Date') }}
+                </div>
+                <div class="col-md-8">
+                    {{ Former::text('course')
+                    -> label('Course') }}
+                </div>
+                <div class="col-md-4">
+                    {{ Former::input('end_date')
+                    -> type('date')
+                    -> label('End Date') }}
+                </div>
+                <div class="clearfix"></div>
+                <br>
             </div>
-            <div class="col-md-4">
-                {{ Former::input('start_date')
-                -> type('date')
-                -> label('Start Date') }}
-            </div>
-            <div class="col-md-8">
-                {{ Former::text('course')
-                -> label('Course') }}
-            </div>
-            <div class="col-md-4">
-                {{ Former::input('end_date')
-                -> type('date')
-                -> label('End Date') }}
-            </div>
-            <div class="clearfix"></div>
+            <hr>
             <br>
         </div>
-        <hr>
-        <br>
-    </div>
-    <div id="profile_emergency">
-        <br>
-        <h4>
-        Emergency Contact Information
-        </h4>
-        <br>
-        <div class="row">
-            <div class="col-md-6">
-                {{ Former::text('name')
-                -> label('Contact Person') }}
+        <div id="profile_emergency">
+            <br>
+            <h4>
+            Emergency Contact Information
+            </h4>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ Former::text('name')
+                    -> label('Contact Person') }}
+                </div>
+                <div class="col-md-6">
+                    {{ Former::text('phone')
+                    -> label('Contact Person Number') }}
+                </div>
+                <div class="col-md-12">
+                    {{ Former::textarea('address')
+                    -> id('profile_emaddress')
+                    -> label('Address') }}
+                </div>
+                <div class="clearfix"></div>
+                <br>
             </div>
-            <div class="col-md-6">
-                {{ Former::text('phone')
-                -> label('Contact Person Number') }}
-            </div>
-            <div class="col-md-12">
-                {{ Former::textarea('address')
-                -> id('profile_emaddress')
-                -> label('Address') }}
-            </div>
-            <div class="clearfix"></div>
+            <hr>
             <br>
         </div>
-        <hr>
-        <br>
-    </div>
-    <div id="profile_employment">
-        <br>
-        <h4>
-        Employment History
-        </h4>
-        <br>
-        <div class="row">
-            <div class="col-md-3">
-                {{ Former::text('company_name')
-                -> label('Company Name') }}
+        <div id="profile_employment">
+            <br>
+            <h4>
+            Employment History
+            </h4>
+            <br>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ Former::text('company_name')
+                    -> label('Company Name') }}
+                </div>
+                <div class="col-md-3">
+                    {{ Former::text('position')
+                    -> label('Position') }}
+                </div>
+                <div class="col-md-3">
+                    {{ Former::input('start_date')
+                    -> label('Start Date')
+                    -> type('date') }}
+                </div>
+                <div class="col-md-3">
+                    {{ Former::input('end_date')
+                    -> label('End Date')
+                    -> type('date') }}
+                </div>
+                <div class="clearfix"></div>
+                <br>
             </div>
-            <div class="col-md-3">
-                {{ Former::text('position')
-                -> label('Position') }}
-            </div>
-            <div class="col-md-3">
-                {{ Former::input('start_date')
-                -> label('Start Date')
-                -> type('date') }}
-            </div>
-            <div class="col-md-3">
-                {{ Former::input('end_date')
-                -> label('End Date')
-                -> type('date') }}
-            </div>
-            <div class="clearfix"></div>
+            <hr>
             <br>
         </div>
-        <hr>
-        <br>
-    </div>
-    <div id="profile_family">
-        <br>
-        <h4>
-        Family Members
-        </h4>
-        <br>
-        <div class="row">
-            <div class="col-md-4">
-                {{ Former::text('name')
-                -> label('Family Member Name')
-                -> placeholder('John Doe') }}
+        <div id="profile_family">
+            <br>
+            <h4>
+            Family Members
+            </h4>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    {{ Former::text('name')
+                    -> label('Family Member Name')
+                    -> placeholder('John Doe') }}
+                </div>
+                <div class="col-md-4">
+                    {{ Former::input('dob')
+                    -> type('date')
+                    -> label('Date of Birth')
+                    -> placeholder('01-01-1990') }}
+                </div>
+                <div class="col-md-4">
+                    {{ Former::select('lookup_family_relationship_id')
+                    -> label('Family Relation')
+                    -> options(Lookup__FamilyRelationship::all()->lists('name', 'id')) }}
+                </div>
+                <div class="clearfix"></div>
+                <br>
             </div>
-            <div class="col-md-4">
-                {{ Former::input('dob')
-                -> type('date')
-                -> label('Date of Birth')
-                -> placeholder('01-01-1990') }}
-            </div>
-            <div class="col-md-4">
-                {{ Former::select('lookup_family_relationship_id')
-                -> label('Family Relation')
-                -> options(Lookup__FamilyRelationship::all()->lists('name', 'id')) }}
-            </div>
-            <div class="clearfix"></div>
+            <hr>
             <br>
         </div>
-        <hr>
-        <br>
     </div>
 </div>
 @stop
