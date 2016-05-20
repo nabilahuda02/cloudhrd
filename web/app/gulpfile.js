@@ -35,7 +35,7 @@ gulp.task('css', function(){
             paths: [__dirname + '/app/assets/stylesheets']
         }))
         .pipe(gulp.dest(destinations.css))
-        .pipe(cssnano())
+        .pipe(cssnano({discardUnused: false}))
         .pipe(rename({
             suffix: '.min'
         }))
