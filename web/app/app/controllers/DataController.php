@@ -317,8 +317,8 @@ class DataController extends BaseController
             'audits.type',
             'user_profiles.first_name',
         ])
-            ->join('users', 'users.id', '=', 'audits.user_id')
-            ->join('user_profiles', 'user_profiles.user_id', '=', 'users.id')
+            ->leftJoin('users', 'users.id', '=', 'audits.user_id')
+            ->leftJoin('user_profiles', 'user_profiles.user_id', '=', 'users.id')
             ->orderBy('audits.updated_at', 'desc');
         return Datatables::of($audits)
             ->add_column('action', "<button class='btn btn-primary btn-xs viewauditdetails' data-auditdata='{{json_encode(\$data)}}'><i class='fa fa-eye'></i></button>")
