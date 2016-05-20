@@ -22,7 +22,7 @@
               @yield('login_heading')
               @yield('content')
               <div class="login-card-footer">
-                  Login | Forget Password
+                  <a href="{{action('AuthController@getForgotPassword')}}" class="btn btn-link btn-block">Forgot Password</a>
               </div>
             </div>
         </div>

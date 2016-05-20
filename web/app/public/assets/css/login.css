@@ -31,19 +31,22 @@ body.login .login-card {
   background-blend-mode: multiply;
   border-radius: 4px;
   opacity: 0.9;
+  font-weight: normal;
 }
 body.login .login-card a {
   color: #fff;
   text-decoration: none;
 }
 body.login .login-card h2 {
-  font-family: "Roboto-Regular";
+  font-family: "Oswald-Regular";
+  font-family: "VarelaRound-Regular";
   color: #fff;
   font-size: 26px;
   text-align: center;
   margin-top: 29px;
   margin-bottom: 44px;
   text-transform: capitalize;
+  font-weight: inherit;
 }
 body.login .login-card label {
   font-family: "Roboto-Light";
@@ -52,6 +55,7 @@ body.login .login-card label {
   display: inline-block;
   max-width: 100%;
   margin: 0px 0px 10px 5px;
+  font-weight: inherit;
 }
 body.login .login-card input {
   margin-bottom: 15px;

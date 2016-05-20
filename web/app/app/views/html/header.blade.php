@@ -1,89 +1,63 @@
-<div class="navbar hidden-print main navbar-default" role="navigation">
-    <div class="row">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                </button>
-                <a id="logo" href="{{ action('LeaveController@index') }}" class="navbar-brand">
-                    CloudHRD <span class="hidden-xs">| {{ $controller }}</span>
-                </a>
-            </div>
-            <div class="navbar-collapse collapse navbar-right navbar-form search-container">
-                <div class="hidden-sm hidden-xs">
-                    <div class="form-group">
-                        <input type="search" class="form-control input-sm" id="searchinput" placeholder="Search ...">
-                    </div>
-                    <button class="btn btn-blue" type="button"><i class="fa fa-search"></i></button>
-                    <div id="search-results"></div>
-                    <div class="clearfix"></div>
+<nav class="navbar" role="navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                       <span class="sr-only">Toggle navigation</span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#" id="logo">
+                        <img src="/assets/images/logo-sands.png" alt="">
+                    </a> 
                 </div>
-                <ul class="nav hidden-md hidden-lg hidden-sm main-nav">
-                    {{-- <li class="bg-blue border-top-none {{ ($controller === 'Public Wall') ? 'active' : '' }}">
-                            <a href="{{ action('WallController@getIndex') }}">
-                                Wall
-                            </a>
+                <div class="col-md-6 hidden-xs navbar-extra-padding-top navbar-company-title">
+                    <h4>Sands Consulting Sdn Bhd</h4>      
+                </div>
+                <div class="collapse navbar-collapse navbar-extra-padding-top" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right nav-style">
+                        <li>
+                            <a href="#"><i class="fa fa-search"></i></a>
                         </li>
-                        <li class="{{ ($controller === 'Tasks') ? 'active' : '' }}">
-                            <a href="{{ action('TasksController@index') }}">
-                                Tasks</a>
-                        </li> --}}
-                    <li class="{{ ($controller === 'Leaves') ? 'active' : '' }}">
-                        <a href="{{ action('LeaveController@index') }}">
-                            Leaves</a>
-                    </li>
-                    <li class="{{ ($controller === 'Medical Claims') ? 'active' : '' }}">
-                        <a href="{{ action('MedicalController@index') }}">
-                            Medical Claims
-                        </a>
-                    </li>
-                    <li class="{{ ($controller === 'General Claims') ? 'active' : '' }}">
-                        <a href="{{ action('GeneralClaimsController@index') }}">
-                            General Claims
-                        </a>
-                    </li>
-                    @if($user->is_admin)
-                    <li class="">
-                        <a href="#admin_menu" class="" data-toggle="collapse">Administrator <span class="fa fa-raquo"></span></a>
-                        <ul class="collapse list-unstyled @if(in_array($controller, ['Unit Admin', 'User Admin', 'Module Admin', 'Audit', 'Organization', 'Subscription'])) in @endif" id="admin_menu">
-                            <li class="{{ ($controller === 'User Admin') ? 'active' : '' }}">
-                                <a href="{{ action('AdminUserController@index') }}">
-                                    Manage User</a>
-                            </li>
-                            <li class="{{ ($controller === 'Unit Admin') ? 'active' : '' }}">
-                                <a href="{{ action('AdminUnitController@index') }}">
-                                    Manage Units</a>
-                            </li>
-                            <li class="{{ ($controller === 'Module Admin') ? 'active' : '' }}">
-                                <a href="{{ action('AdminModuleController@index') }}">
-                                    Manage Modules</a>
-                            </li>
-                            <li class="{{ ($controller === 'Audit') ? 'active' : '' }}">
-                                <a href="{{ action('AdminAuditController@getIndex') }}">
-                                    Security Audits</a>
-                            </li>
-                            <li class="{{ ($controller === 'Organization') ? 'active' : '' }}">
-                                <a href="{{ action('AdminOrganizationController@index') }}">
-                                    Organization</a>
-                            </li>
-                            <li class="{{ ($controller === 'Subscription') ? 'active' : '' }}">
-                                <a href="{{ action('SubscriptionController@getIndex') }}">
-                                    Subscription</a>
-                            </li>
-                        </ul>
-                    </li>
-                    @endif
-                    <li class="border-bottom-none">
-                        <a href="{{ action('AuthController@getLogout') }}">
-                            Logout
-                        </a>
-                    </li>
-                </ul>
+                        <li>
+                            <a href="#"><i class="fa fa-bell"></i></a>
+                        </li>
+                        <li>
+                            <a href="#">Luis Santos <i class="fa fa-caret-down"></i></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+</nav>
+<div class="container-fluid big-header big-header-background">
+    <div class="row">
+        <div class="col-md-12 col-xs-12 big-header-profile">
+            <img src="/assets/images/img-profile-big.png" alt="">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs-12 big-header-profile-list">
+            <ul>
+               <li>@luis</li>
+               <li><h5>Luis Santos</h5></li>
+               <li><small>Software Engineer</small></li>
+           </ul>
+       </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 hidden-xs col-md-offset-2 big-header-menu">
+            <ul class="nav nav-pills nav-justified">
+               <li><a href="/index.html">Wall</a></li>
+               <li><a href="/task.html">Task</a></li>
+               <li><a href="/leaves.html">Leaves</a></li>
+               <li><a href="/medical-claim.html">Medical Claims</a></li>
+               <li><a href="/general-claim.html">General Claims</a></li>
+               <li><a href="#">Payroll</a></li>
+           </ul>
+        </div>
+    </div>
 </div>
-<div class="row row-app margin-none">
