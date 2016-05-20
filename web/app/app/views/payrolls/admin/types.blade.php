@@ -1,6 +1,6 @@
 @extends('layouts.module')
 @section('content')
-<div class="col-md-10 col-sm-8">
+<div class="col-md-12">
     @include('html.notifications')
     <div class="col-md-12">
         <div id="generalclaim_type_rows">

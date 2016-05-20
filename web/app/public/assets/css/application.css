@@ -14893,9 +14893,14 @@ button.bootbox-close-button.close {
 .big-header .big-header-menu {
   font-size: 16px;
   margin-top: 36px;
+  margin-bottom: -1px;
 }
-.big-header .big-header-menu a {
+.big-header .big-header-menu > ul > li > a {
   color: #fff;
+}
+.big-header .big-header-menu > ul > li > a:hover,
+.big-header .big-header-menu > ul > li > a:focus {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 #wall h2 {
   font-family: 'Roboto-Bold';

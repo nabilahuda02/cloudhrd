@@ -3,7 +3,7 @@
 
 {{Asset::push('js', 'upload')}}
 
-<div class="col-md-10 col-sm-8">
+<div class="col-md-12">
 
   @include('html.notifications')
 

@@ -1,7 +1,7 @@
 @extends('layouts.module')
 @section('content')
-<div class="col-md-10 col-sm-8">
-  
+<div class="col-md-12">
+
   @include('html.notifications')
   <div class="col-md-12">
     <div>
@@ -94,7 +94,7 @@
 
   <div class="clearfix"></div>
   <br>
-  
+
   @if(isset($tables))
 
   <div class="col-md-12">

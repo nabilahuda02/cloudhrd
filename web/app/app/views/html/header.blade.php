@@ -11,10 +11,10 @@
                     </button>
                     <a class="navbar-brand" href="#" id="logo">
                         <img src="/assets/images/logo-sands.png" alt="">
-                    </a> 
+                    </a>
                 </div>
                 <div class="col-md-6 hidden-xs navbar-extra-padding-top navbar-company-title">
-                    <h4>Sands Consulting Sdn Bhd</h4>      
+                    <h4>Sands Consulting Sdn Bhd</h4>
                 </div>
                 <div class="collapse navbar-collapse navbar-extra-padding-top" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right nav-style">
@@ -53,7 +53,7 @@
             <ul class="nav nav-pills nav-justified">
                <li><a href="/index.html">Wall</a></li>
                <li><a href="/task.html">Task</a></li>
-               <li><a href="/leaves.html">Leaves</a></li>
+               <li><a href="{{action('LeaveController@index')}}">Leaves</a></li>
                <li><a href="/medical-claim.html">Medical Claims</a></li>
                <li><a href="/general-claim.html">General Claims</a></li>
                <li><a href="#">Payroll</a></li>

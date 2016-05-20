@@ -7,7 +7,7 @@
     </style>
 @stop
 @section('content')
-<div class="col-md-10 col-sm-8">
+<div class="col-md-12">
     <div class="row">
         <div class="col-md-12">
             @include('html.notifications')

@@ -1,5 +1,3 @@
-$('.donut-charts .chart-legend')
-  .height($('.donut-charts .widget-body').width());
 $('.donut-charts .widget-body')
   .height($('.donut-charts .widget-body').width())
   .each(function(){

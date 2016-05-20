@@ -1,19 +1,19 @@
 @extends('layouts.module')
 @section('content')
-<div class="col-md-10 col-sm-8">
+<div class="col-md-12">
+    <div class="page-header">
+        @include('leaves.menu')
+        <h3>
+            Leaves
+            <button class="btn btn-link help-btn" onclick="HelpFile.show('USER_LEAVE.md', 'Leaves')">
+                <i class="fa fa-question-circle"></i>
+            </button>
+        </h3>
+    </div>
+</div>
+<div class="col-md-9">
   @include('html.notifications')
     <div class="col-md-12">
-        <div class="page-header">
-            @include('leaves.menu')
-            <h3>
-                Leaves
-                <button class="btn btn-link help-btn" onclick="HelpFile.show('USER_LEAVE.md', 'Leaves')">
-                    <i class="fa fa-question-circle"></i>
-                </button>
-            </h3>
-        </div>
-        @include('leaves.entitlementtable')
-        
         <table data-path="leaves" class="DT table table-striped table-bordered">
             <thead>
                 <tr>
@@ -58,5 +58,8 @@
         <hr>
     </div>
     @endif
+</div>
+<div class="col-md-3">
+    @include('leaves.entitlementtable')
 </div>
 @stop
