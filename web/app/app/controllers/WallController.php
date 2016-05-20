@@ -1,13 +1,15 @@
 <?php
 
-class WallController extends \BaseController {
+class WallController extends \BaseController
+{
 
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function getIndex() {
+    public function getIndex()
+    {
         // Asset::push('js', 'wall');
         $user_image = Auth::user()->avatar();
         if (!$user_image) {
@@ -16,7 +18,8 @@ class WallController extends \BaseController {
         return View::make('wall.index', compact('user_image', 'user'));
     }
 
-    public function getShares($length) {
+    public function getShares($length)
+    {
         $response = new Symfony\Component\HttpFoundation\StreamedResponse(function () use ($length) {
             set_time_limit(660);
             $old_data = null;
@@ -54,7 +57,8 @@ class WallController extends \BaseController {
         return $response;
     }
 
-    public function getComments($length) {
+    public function getComments($length)
+    {
         $response = new Symfony\Component\HttpFoundation\StreamedResponse(function () use ($length) {
             set_time_limit(660);
             $old_data = null;
@@ -99,7 +103,8 @@ class WallController extends \BaseController {
         return $response;
     }
 
-    public function postCreateShare() {
+    public function postCreateShare()
+    {
         $data = Input::all();
         $data['user_id'] = Auth::user()->id;
         $share = Share::create($data);
@@ -107,7 +112,8 @@ class WallController extends \BaseController {
         return $share;
     }
 
-    public function postCreateComment($share_id) {
+    public function postCreateComment($share_id)
+    {
         if ($share = Share::find($share_id)) {
             $data = Input::all();
             $data['user_id'] = Auth::user()->id;
@@ -119,7 +125,8 @@ class WallController extends \BaseController {
         return;
     }
 
-    public function getRemoveShare($id) {
+    public function getRemoveShare($id)
+    {
         if ($share = Share::find($id)) {
             if ($share->user_id === Auth::user()->id) {
                 ShareComment::where('share_id', $id)->delete();
@@ -128,7 +135,8 @@ class WallController extends \BaseController {
         }
     }
 
-    public function getRemoveComment($id) {
+    public function getRemoveComment($id)
+    {
         if ($comment = ShareComment::find($id)) {
             if ($comment->user_id === Auth::user()->id) {
                 $comment->delete();
@@ -136,7 +144,8 @@ class WallController extends \BaseController {
         }
     }
 
-    public function getSetPin($share_id) {
+    public function getSetPin($share_id)
+    {
         if ($share = Share::find($share_id)) {
             $pin = new UserSharePin();
             $pin->share_id = $share_id;
@@ -146,7 +155,8 @@ class WallController extends \BaseController {
         return;
     }
 
-    public function getUnsetPin($share_id) {
+    public function getUnsetPin($share_id)
+    {
         if ($share = Share::find($share_id)) {
             UserSharePin::where('user_id', Auth::user()->id)
                 ->where('share_id', $share_id)
@@ -155,7 +165,8 @@ class WallController extends \BaseController {
         return;
     }
 
-    public function getProfile() {
+    public function getProfile()
+    {
         $currentuser = Auth::user();
         return View::make('profiles.form', compact('currentuser'));
     }
@@ -192,7 +203,8 @@ class WallController extends \BaseController {
         return Redirect::action('AuthController@getLogin');
     }
 
-    public function postFeedback() {
+    public function postFeedback()
+    {
         /**
          * Datetime
          * User Reporter
@@ -223,7 +235,8 @@ class WallController extends \BaseController {
         });
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         View::share('controller', 'Public Wall');
     }
 
