@@ -9,12 +9,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#" id="logo">
+                    <a class="navbar-brand" href="{{url('/wall')}}" id="logo">
                         <img src="/assets/images/logo-sands.png" alt="">
                     </a>
                 </div>
                 <div class="col-md-6 hidden-xs navbar-extra-padding-top navbar-company-title">
-                    <h4>Sands Consulting Sdn Bhd</h4>
+                    <h4>{{$app->master_user->name}}</h4>
                 </div>
                 <div class="collapse navbar-collapse navbar-extra-padding-top" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right nav-style">
