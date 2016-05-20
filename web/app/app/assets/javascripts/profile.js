@@ -939,6 +939,7 @@
                     width: imageWidth,
                     'padding-top': '45%',
                     position: 'absolute',
+                    'text-align': 'center',
                     top: '0px',
                     left: '0px',
                     cursor: 'pointer'
@@ -952,6 +953,7 @@
                     width: imageWidth,
                     'padding-top': '18%',
                     position: 'absolute',
+                    'text-align': 'center',
                     top: '0px',
                     left: '0px',
                     cursor: 'pointer'
@@ -1010,4 +1012,4 @@
 
 }).call(this, window, jQuery);
 
-$('#profile_image').avatar('/ajax/upload-image');;
+$('#profile_image_editable').avatar('/ajax/upload-image');;

@@ -22,6 +22,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface
             'password' => 'required|min:6',
             'confirm_password' => 'same:password',
         ],
+        'change_own_password' => [
+            'old_password' => 'required',
+            'password' => 'required|min:6',
+            'confirm_password' => 'same:password',
+        ],
     ];
 
     public function uploads()

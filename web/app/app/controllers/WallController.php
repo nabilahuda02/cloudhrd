@@ -160,17 +160,25 @@ class WallController extends \BaseController {
         return View::make('profiles.form', compact('currentuser'));
     }
 
-    public function getChangePassword() {
+    public function getChangePassword()
+    {
         $currentuser = Auth::user();
-        return View::make('wall.change_pw', compact('currentuser'));
+        return View::make('wall.change-password', compact('currentuser'));
     }
 
-    public function postChangePassword() {
+    public function postChangePassword()
+    {
         $user = Auth::user();
-        $validator = Validator::make($data = Input::all(), User::$validation_rules['changepw']);
+        $validator = Validator::make($data = Input::all(), User::$validation_rules['change_own_password']);
         if ($validator->fails()) {
-            Session::flash('NotifyDanger', 'Password successfully unsuccessful');
-            return Redirect::back()->withErrors($validator)->withInput();
+            return Redirect::back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('NotifyDanger', 'Validation error');
+        }
+        if (!Hash::check($data['old_password'], $user->password)) {
+            return Redirect::back()
+                ->with('NotifyDanger', 'Invalid old password');
         }
         $user->password = Hash::make($data['password']);
         $user->save();

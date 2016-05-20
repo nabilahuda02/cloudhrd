@@ -1,6 +1,7 @@
 @extends('layouts.module')
 @section('content')
-<div class="col-md-12">
+<br>
+<div class="col-sm-6 col-sm-offset-3">
     @include('html.notifications')
     <div class="row">
         <div class="col-md-12">
@@ -16,6 +17,9 @@
         <div class="col-md-12">
             {{ Former::vertical_open('/wall/change-password')
                 -> method('POST') }}
+            {{ Former::password('old_password')
+                ->label('Current Password')
+                ->required() }}
             {{ Former::password('password')
                 ->label('New Password')
                 ->required() }}
