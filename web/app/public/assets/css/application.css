@@ -14831,14 +14831,6 @@ button.bootbox-close-button.close {
 .main-nav li {
   background-color: white;
 }
-.help-btn {
-  font-size: 24px;
-}
-#help-modal img {
-  width: 80%;
-  display: block;
-  margin: 0px auto 20px;
-}
 @media (max-width: 991px) {
   .profile-avatar {
     display: none;
@@ -14902,15 +14894,33 @@ button.bootbox-close-button.close {
 .big-header .big-header-menu > ul > li > a:focus {
   background-color: rgba(255, 255, 255, 0.3);
 }
-#wall h2 {
+.big-header .big-header-menu > ul > li > a:active {
+  color: black;
+}
+section h2 {
   font-family: 'Roboto-Bold';
   color: #2980B9;
   font-size: 20px;
 }
-#wall h5 {
+section h2 .help-btn {
+  font-size: 20px;
+  padding: 0px 0px 4px 0px;
+}
+section h5 {
   font-family: 'Roboto-Bold';
 }
-#wall .wall-poster {
+section hr {
+  margin-top: 10px;
+}
+section .section-drop-menu {
+  margin-top: 20px;
+}
+section #help-modal img {
+  width: 80%;
+  display: block;
+  margin: 0px auto 20px;
+}
+section#wall .wall-poster {
   background: #f4f4f4;
   padding: 10px;
   height: 146px;
@@ -14918,59 +14928,59 @@ button.bootbox-close-button.close {
   position: relative;
   margin-top: 10px;
 }
-#wall .wall-poster textarea {
+section#wall .wall-poster textarea {
   border: 1px solid #e5e5e5;
   width: 100%;
   outline: none;
   resize: none;
   border-radius: 4px;
 }
-#wall .wall-poster textarea::-webkit-input-placeholder {
+section#wall .wall-poster textarea::-webkit-input-placeholder {
   text-align: center;
   color: #ccc;
 }
 @media screen and (max-width: 1200px) {
-  #wall .wall-poster textarea::-webkit-input-placeholder {
+  section#wall .wall-poster textarea::-webkit-input-placeholder {
     font-size: 12px;
     padding-top: 40px;
   }
 }
 @media screen and (min-width: 1201px) {
-  #wall .wall-poster textarea::-webkit-input-placeholder {
+  section#wall .wall-poster textarea::-webkit-input-placeholder {
     font-size: 16px;
     padding-top: 50px;
   }
 }
-#wall .wall-post {
+section#wall .wall-post {
   border: 1px solid #CCCCCC;
   border-radius: 4px;
   margin-top: 15px;
 }
-#wall .wall-post i {
+section#wall .wall-post i {
   font-size: 14px;
   color: #aeaeae;
 }
-#wall .wall-post .wall-post-profile-pic {
+section#wall .wall-post .wall-post-profile-pic {
   margin: 10px;
   height: 33px;
 }
-#wall .wall-post .wall-post-profile-pic p {
+section#wall .wall-post .wall-post-profile-pic p {
   display: inline-block;
   font-family: 'robotoregular', sans-serif;
   padding-left: 8px;
 }
-#wall .wall-post .wall-post-body {
+section#wall .wall-post .wall-post-body {
   margin: 5px 15px 15px 15px;
 }
-#wall .wall-post .wall-post-body > p {
+section#wall .wall-post .wall-post-body > p {
   margin-left: 35px;
 }
-#wall .wall-post .wall-post-timestamp {
+section#wall .wall-post .wall-post-timestamp {
   margin: 15px;
   text-align: right;
   color: #aeaeae;
 }
-#wall .wall-post .wall-post-footer {
+section#wall .wall-post .wall-post-footer {
   background: #f4f4f4;
   border-top: 1px solid #e5e5e5;
   min-height: 37px;
@@ -14978,96 +14988,96 @@ button.bootbox-close-button.close {
   font-size: 12px;
   padding: 5px;
 }
-#wall .wall-post .wall-post-footer i {
+section#wall .wall-post .wall-post-footer i {
   font-size: 12px;
   margin-right: 5px;
 }
-#wall .wall-post .wall-post-footer a {
+section#wall .wall-post .wall-post-footer a {
   color: #aeaeae;
 }
-#wall .wall-post .wall-post-footer a:hover {
+section#wall .wall-post .wall-post-footer a:hover {
   text-decoration: none;
   color: #3498DB;
 }
-#wall .wall-post .wall-post-footer.wall-post-reply-btn {
+section#wall .wall-post .wall-post-footer.wall-post-reply-btn {
   text-align: right;
 }
-#wall .wall-post .wall-post-footer.wall-post-holder {
+section#wall .wall-post .wall-post-footer.wall-post-holder {
   border-top: 1px solid #ccc;
   background-color: #e5e5e5;
 }
-#wall .wall-post .wall-post-footer.wall-post-holder div > .wall-post-profile-pic {
+section#wall .wall-post .wall-post-footer.wall-post-holder div > .wall-post-profile-pic {
   padding-left: 30px;
   margin: 7px 0px;
 }
-#wall .wall-post .wall-post-footer.wall-post-holder .wall-post-holder-poster {
+section#wall .wall-post .wall-post-footer.wall-post-holder .wall-post-holder-poster {
   padding-top: 4px;
 }
-#wall .wall-post .wall-post-footer.wall-post-holder .wall-post-holder-poster textarea {
+section#wall .wall-post .wall-post-footer.wall-post-holder .wall-post-holder-poster textarea {
   border: 1px solid #e5e5e5;
   width: 100%;
   outline: none;
   resize: vertical;
   border-radius: 4px;
 }
-#wall .wall-task {
+section#wall .wall-task {
   display: block;
   margin-bottom: 15px;
 }
-#wall .wall-task.task-gray {
+section#wall .wall-task.task-gray {
   border-left: 3px solid #AEAEAE;
 }
-#wall .wall-task.task-orange {
+section#wall .wall-task.task-orange {
   border-left: 3px solid #E67E22;
 }
-#wall .wall-task.task-red {
+section#wall .wall-task.task-red {
   border-left: 3px solid #E74C3C;
 }
-#wall .wall-task.task-green {
+section#wall .wall-task.task-green {
   border-left: 3px solid #118F46;
 }
-#wall .wall-task .wall-task-img {
+section#wall .wall-task .wall-task-img {
   width: 8%;
   margin: 0 5px;
   display: inline-block;
 }
-#wall .wall-task .wall-task-img img {
+section#wall .wall-task .wall-task-img img {
   vertical-align: baseline;
   margin-top: 4px;
 }
-#wall .wall-task .wall-task-content {
+section#wall .wall-task .wall-task-content {
   margin: 0px 0px 0px 10px;
   display: inline-block;
 }
-#wall .wall-task .wall-task-content p {
+section#wall .wall-task .wall-task-content p {
   display: inline-block;
   margin: 0;
   vertical-align: top;
 }
-#wall .wall-task .wall-task-content small {
+section#wall .wall-task .wall-task-content small {
   color: #aeaeae;
   display: block;
 }
-#wall .wall-leave {
+section#wall .wall-leave {
   display: block;
   margin-bottom: 15px;
 }
-#wall .wall-leave .wall-leave-icon {
+section#wall .wall-leave .wall-leave-icon {
   display: inline-block;
 }
-#wall .wall-leave .wall-leave-icon i {
+section#wall .wall-leave .wall-leave-icon i {
   font-size: 30px;
   color: #F39C12;
   position: relative;
 }
-#wall .wall-leave .wall-leave-icon .wall-leave-inner-date {
+section#wall .wall-leave .wall-leave-icon .wall-leave-inner-date {
   position: relative;
   font-family: 'robotobold', sans-serif;
   font-size: 16px;
   color: #E67E22;
   left: -26px;
 }
-#wall .wall-leave .wall-leave-category {
+section#wall .wall-leave .wall-leave-category {
   display: inline-block;
   vertical-align: middle;
 }
