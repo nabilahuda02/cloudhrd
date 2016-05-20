@@ -25,15 +25,15 @@ $('.donut-charts .widget-body')
         $('.utilized > div', parent).text(response.utilized);
         $('.balance > div', parent).text(response.balance);
       }
-      Morris.Donut({
-        element: target[0].id,
-        data: [
-          {label: "Utilized", value: response.utilized},
-          {label: "Balance", value: response.balance}
-        ],
-        formatter: formatter,
-        colors: response.colors
-      });
+      // Morris.Donut({
+      //   element: target[0].id,
+      //   data: [
+      //     {label: "Utilized", value: response.utilized},
+      //     {label: "Balance", value: response.balance}
+      //   ],
+      //   formatter: formatter,
+      //   colors: response.colors
+      // });
       $('.legend-inner').fadeIn();
     });
   });

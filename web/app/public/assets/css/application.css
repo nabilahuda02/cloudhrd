@@ -15131,6 +15131,9 @@ footer {
   color: #aeaeae;
   display: block;
 }
+.donut-charts {
+  margin-bottom: 24px;
+}
 .tab-nav {
   font-size: 16px;
   color: #fff;
