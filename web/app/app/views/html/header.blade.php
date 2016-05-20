@@ -25,7 +25,7 @@
                             <a href="#"><i class="fa fa-bell"></i></a>
                         </li>
                         <li>
-                            <a href="#">Luis Santos <i class="fa fa-caret-down"></i></a>
+                            <a href="#" data-toggle="collapse">{{$user->getFullName()}} <i class="fa fa-caret-down"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -36,17 +36,17 @@
 <div class="container-fluid big-header big-header-background">
     <div class="row">
         <div class="col-md-12 col-xs-12 big-header-profile">
-            <img src="/assets/images/img-profile-big.png" alt="">
+            <img src="{{ $user->profile->user_image }}" id="profile_image"/>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 col-xs-12 big-header-profile-list">
+        <a href="{{action('WallController@getProfile')}}" class="col-md-12 col-xs-12 big-header-profile-list">
             <ul>
-               <li>@luis</li>
-               <li><h5>Luis Santos</h5></li>
-               <li><small>Software Engineer</small></li>
+               <li>{{$user->email}}</li>
+               <li><h5>{{$user->getFullName()}}</h5></li>
+               <li><small>{{$user->profile->position}}</small></li>
            </ul>
-       </div>
+       </a>
     </div>
     <div class="row">
         <div class="col-md-8 hidden-xs col-md-offset-2 big-header-menu">
