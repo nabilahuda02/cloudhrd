@@ -62,7 +62,6 @@
                 @endif
                 --}}
                 @yield('content')
-                @include('html.footer')
             </div>
         </div>
         <div id="help-modal" class="modal fade" role="dialog">
@@ -79,6 +78,7 @@
                 </div>
             </div>
         </div>
+        @include('html.footer')
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pagedown/1.0/Markdown.Converter.min.js"></script>
         {{ Asset::tags('js') }}
         @yield('script')

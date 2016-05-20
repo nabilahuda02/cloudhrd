@@ -393,10 +393,16 @@ button.bootbox-close-button.close {
             resize: none;
             border-radius: 4px;
             &::-webkit-input-placeholder {
+                @media screen and (max-width: 1200px) {
+                    font-size: 12px;
+                    padding-top: 40px;
+                }
+                @media screen and (min-width: 1201px) {
+                    font-size: 16px;
+                    padding-top: 50px;
+                }
                 text-align: center;
-                padding-top: 50px;
                 color: #ccc;
-                font-size: 16px;
             }
         }
     }
@@ -532,6 +538,17 @@ button.bootbox-close-button.close {
     }
 }
 
+footer {
+    background: #e5e5e5;
+    color: #aeaeae;
+    font-size: 12px;
+    height: 44px;
+    margin-top: 20px;
+    padding-top: 15px;
+    font-family: 'robotoregular', sans-serif;
+    text-align: center;
+}
+
 
 .leave-bal {
   margin-top: 30px;
@@ -634,7 +651,7 @@ button.bootbox-close-button.close {
 
 /* brand bg */
 a.navbar-brand {
-    background: #2980B9;
+    background: #f4f4f4;
     color: #fff;
     padding: 10px;
     img {

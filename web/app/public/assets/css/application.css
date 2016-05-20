@@ -14922,9 +14922,19 @@ button.bootbox-close-button.close {
 }
 #wall .wall-poster textarea::-webkit-input-placeholder {
   text-align: center;
-  padding-top: 50px;
   color: #ccc;
-  font-size: 16px;
+}
+@media screen and (max-width: 1200px) {
+  #wall .wall-poster textarea::-webkit-input-placeholder {
+    font-size: 12px;
+    padding-top: 40px;
+  }
+}
+@media screen and (min-width: 1201px) {
+  #wall .wall-poster textarea::-webkit-input-placeholder {
+    font-size: 16px;
+    padding-top: 50px;
+  }
 }
 #wall .wall-post {
   border: 1px solid #CCCCCC;
@@ -15056,6 +15066,16 @@ button.bootbox-close-button.close {
   display: inline-block;
   vertical-align: middle;
 }
+footer {
+  background: #e5e5e5;
+  color: #aeaeae;
+  font-size: 12px;
+  height: 44px;
+  margin-top: 20px;
+  padding-top: 15px;
+  font-family: 'robotoregular', sans-serif;
+  text-align: center;
+}
 .leave-bal {
   margin-top: 30px;
 }
@@ -15134,7 +15154,7 @@ button.bootbox-close-button.close {
 }
 /* brand bg */
 a.navbar-brand {
-  background: #2980B9;
+  background: #f4f4f4;
   color: #fff;
   padding: 10px;
 }
