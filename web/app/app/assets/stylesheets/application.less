@@ -69,7 +69,11 @@ textarea {
 }
 
 #profile_image {
-    width:100%;
+    display: block;
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    margin: 17px auto 10px;
 }
 
 .upload-preview .modal-dialog {
@@ -324,13 +328,9 @@ button.bootbox-close-button.close {
         background-size: cover;
         background-position: center center;
         min-height: 211px;
-        border-bottom: 1px solid #2980B9;
     }
     .big-header-profile {
         text-align: center;
-        img {
-            margin: 17px 0px 10px;
-        } 
     }
     .big-header-profile-list {
         ul {
@@ -353,7 +353,6 @@ button.bootbox-close-button.close {
     .big-header-menu {
         font-size: 16px;
         margin-top: 36px;
-        margin-bottom: -1px;
         > ul {
             > li {
                 > a {
@@ -361,8 +360,9 @@ button.bootbox-close-button.close {
                     &:hover, &:focus {
                         background-color: rgba(255,255,255,0.3)
                     }
-                    &:active {
-                        color: black;
+                    &.active {
+                        border-bottom: 3px solid rgba(255,255,255,0.6);
+                        padding-bottom: 7px;
                     }
                 }
             }

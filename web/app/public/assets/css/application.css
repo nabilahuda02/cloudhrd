@@ -14640,7 +14640,11 @@ textarea {
   margin-right: 8px;
 }
 #profile_image {
-  width: 100%;
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  margin: 17px auto 10px;
 }
 .upload-preview .modal-dialog {
   width: 80%;
@@ -14858,13 +14862,9 @@ button.bootbox-close-button.close {
   background-size: cover;
   background-position: center center;
   min-height: 211px;
-  border-bottom: 1px solid #2980B9;
 }
 .big-header .big-header-profile {
   text-align: center;
-}
-.big-header .big-header-profile img {
-  margin: 17px 0px 10px;
 }
 .big-header .big-header-profile-list ul {
   font-family: 'Roboto-Light';
@@ -14885,7 +14885,6 @@ button.bootbox-close-button.close {
 .big-header .big-header-menu {
   font-size: 16px;
   margin-top: 36px;
-  margin-bottom: -1px;
 }
 .big-header .big-header-menu > ul > li > a {
   color: #fff;
@@ -14894,10 +14893,11 @@ button.bootbox-close-button.close {
 .big-header .big-header-menu > ul > li > a:focus {
   background-color: rgba(255, 255, 255, 0.3);
 }
-.big-header .big-header-menu > ul > li > a:active {
-  color: black;
+.big-header .big-header-menu > ul > li > a.active {
+  border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+  padding-bottom: 7px;
 }
-section h2 {
+#wall h2 {
   font-family: 'Roboto-Bold';
   color: #2980B9;
   font-size: 20px;
