@@ -14639,13 +14639,6 @@ textarea {
 .list-group-item i {
   margin-right: 8px;
 }
-#profile_image {
-  display: block;
-  width: 60px;
-  height: 60px;
-  border-radius: 4px;
-  margin: 17px auto 10px;
-}
 .upload-preview .modal-dialog {
   width: 80%;
 }
@@ -14866,6 +14859,13 @@ button.bootbox-close-button.close {
 .big-header .big-header-profile {
   text-align: center;
 }
+.big-header .big-header-profile #profile_image {
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  margin: 17px auto 10px;
+}
 .big-header .big-header-profile-list ul {
   font-family: 'Roboto-Light';
   margin: 0;
@@ -14897,7 +14897,7 @@ button.bootbox-close-button.close {
   border-bottom: 3px solid rgba(255, 255, 255, 0.6);
   padding-bottom: 7px;
 }
-#wall h2 {
+section h2 {
   font-family: 'Roboto-Bold';
   color: #2980B9;
   font-size: 20px;
