@@ -17,13 +17,10 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4 login-card">
+            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 login-card">
               @include('html.notifications')
               @yield('login_heading')
               @yield('content')
-              <div class="login-card-footer">
-                  <a href="{{action('AuthController@getForgotPassword')}}" class="btn btn-link btn-block">Forgot Password</a>
-              </div>
             </div>
         </div>
     </div>

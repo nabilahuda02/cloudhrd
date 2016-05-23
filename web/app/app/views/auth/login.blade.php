@@ -35,4 +35,7 @@
       <div class="form-actions form-group">
       </div>
   {{Former::close()}}
+  <div class="login-card-footer">
+      <a href="{{action('AuthController@getForgotPassword')}}" class="btn btn-link btn-block">Forgot Password</a>
+  </div>
 @stop
