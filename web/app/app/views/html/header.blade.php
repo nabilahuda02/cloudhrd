@@ -56,20 +56,9 @@
                 <li><a class="{{ ($controller == 'Leaves') ? 'active' : '' }}" href="{{action('LeaveController@index')}}">Leaves</a></li>
                 <li><a class="{{ ($controller == 'Medical Claims') ? 'active' : '' }}" href="{{action('MedicalController@index')}}">Medical Claims</a></li>
                 <li><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">General Claims</a></li>
+                <li><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">Change Request</a></li>
                 <li><a class="{{ ($controller == 'Payrolls') ? 'active' : '' }}" href="{{action('PayrollsController@index')}}">Payroll</a></li>
             </ul>
-        </div>
-        <div class="row">
-            <div class="col-md-12 hidden-xs big-header-menu">
-                <ul class="nav nav-pills nav-justified">
-                   <li><a href="/index.html">Wall</a></li>
-                   <li><a href="/task.html">Task</a></li>
-                   <li><a href="{{action('LeaveController@index')}}">Leaves</a></li>
-                   <li><a href="/medical-claim.html">Medical Claims</a></li>
-                   <li><a href="/general-claim.html">General Claims</a></li>
-                   <li><a href="#">Payroll</a></li>
-               </ul>
-            </div>
         </div>
     </div>
 </div>
