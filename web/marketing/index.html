@@ -1,177 +1,285 @@
-<html>
-    
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/styles/style.min.css">
         <title>CloudHRD</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link href='http://fonts.googleapis.com/css?family=Lato:300|Titillium+Web:600' rel='stylesheet' type='text/css'>
-            <link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
-            <link href="style.css" rel="stylesheet"/>
-            <style>
-            </style>
-        </head>
-        
-        <body>
-            <div class="jumbotron">
-                <div class="navbar navbar-default navbar-static-top">
-                    <div class="container">
-                        <div class="navbar-header">
-                            <a type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"></a>
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <a class="navbar-brand" href="#">CloudHRD</a>
-                        </div>
-                        <div class="collapse navbar-collapse navbar-ex1-collapse">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li>
-                                    <a href="https://register.cloudhrd.com/">Signup</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        <img src="/images/cloudhrd-logo.png" alt="">
+                    </a>
                 </div>
-                <div class="container">
-                    <h1 class="text-center">Simple and Useful HR System</h1>
-                    <p class="text-center">to simplify your work and make managing easier</p>
-                    <p class="text-center text-success">
-                    <a href="https://register.cloudhrd.com/" class="btn btn-large btn-lg btn-success">Request Free Trial</a>
-                    </p>
+                <div id="navbar" class="hide-mobile">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="https://register.cloudhrd.com/auth/register" class="btn btn-primary navbar-btn">Signup</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <section id="haikal">
+        </nav>
+        <section id="hero">
+            <div class="has-bg">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <img src="/images/haikal.png" class="img-responsive">
-                        </div>
-                        <div class="col-md-5">
-                            <h1>What is CloudHRD</h1>
-                            <p style="" class="">CloudHRD is an intuitive software-as-a-service application of self-service
-                            HR suite that are accessible over the Internet specifically designed to
-                            serve small-to-medium sized organisations with the need of efficient and
-                            cost-effective Human Resource Solution</p>
-                            <a class="btn btn-lg btn-primary">Explore Features<br></a>
-                        </div>
+                    <h1 class="hero-title">Simple & Useful HR System</h1>
+                    <p class="hero-subtitle">To simplify your work and make managing easier</p>
+                    <a href="https://register.cloudhrd.com/auth/register" class="btn btn-primary hero-btn">
+                        Register For Free Trial!
+                    </a>
+                </div>
+                <div class="imac">
+                    <img src="/images/imac.png" alt="">
+                </div>
+            </div>
+            <div class="container">
+                <h2 class="section-title">What is CloudHRD?</h2>
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <p>CloudHRD is an intuitive software-as-a-service application of self-service HR suite that are accessible over the Internet specifically designed to serve small-to-medium sized organisations with the need of efficient and cost-effective Human Resource Solution</p>
                     </div>
                 </div>
-            </section>
-            <section id="tangkap-muat">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="text-center">How CloudHRD fits you?</h1>
-                            <div class="row">
-                                <div class="col-md-4 text-center" style="">
-                                    <img src="images/icon-leave.png">
-                                    <h4 class="text-center">Absent &amp; Leave</h4>
-                                    <p class="text-center">Our intuitive leave management module allows employees to apply leave and get update on their leave allocation status online.</p>
-                                </div>
-                                <div class="col-md-4 text-center" style="">
-                                    <img src="images/icon-management.png">
-                                    <h4 class="text-center">HR Management</h4>
-                                    <p class="text-center">This will indirectly minimise routine HR tasks and helps them focus more on the company business goal.</p>
-                                </div>
-                                <div class="col-md-4 text-center" style="">
-                                    <img src="images/icon-medical.png">
-                                    <h4 class="text-center">Medical &amp; Claim </h4>
-                                    <p class="text-center">Claim module eliminates the messy paperwork involved in a traditional manual claims process.</p>
-                                </div>
+            </div>
+        </section>
+        <section id="how">
+            <div class="container">
+                <h2 class="section-title">How CloudHRD Fits You?</h2>
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="row how-row">
+                            <div class="col-sm-4">
+                                <img src="/images/icon-leave.png" alt="">
+                                <h5>Leave Management</h5>
+                                <p>Our intuitive leave management module allows employees to apply leave and get update on their leave allocation status online.</p>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4 text-center">
-                                    <img src="images/icon-payrol.png">
-                                    <h4 class="text-center">Payrol</h4>
-                                    <p class="text-center">Payrol provide employer with ease for worker salary on time</p>
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <img src="images/icon-task.png">
-                                    <h4 class="text-center">Task &amp; Event</h4>
-                                    <p class="text-center">Employee will always get their task notification and event updated in on time.</p>
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <img src="images/icon-report.png">
-                                    <h4 class="text-center">Report &amp; Audit</h4>
-                                    <p class="text-center">Easy reporting generator and auditing for employer and employee.</p>
-                                </div>
+                            <div class="col-sm-4">
+                                <img src="/images/icon-hr.png" alt="">
+                                <h5>Employee Information</h5>
+                                <p>This will indirectly minimise routine HR tasks and helps them focus more on the company business goal.</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <img src="/images/icon-payroll.png" alt="">
+                                <h5>Payroll</h5>
+                                <p>Payroll provide employer with ease for worker salary on time.</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <section id="i-see-grey">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-5 col-md-offset-1">
-                            <ul>
-                                <li>Telephone consultation to get you started</li>
-                                <li>Ongoing online support via a dedicated portal</li>
-                                <li>Automatic updates to subscribed-to modules</li>
-                                <li>Update bulletins explaining new features</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-5">
-                            <ul>
-                                <li>Data storage, including file attachments and photos</li>
-                                <li>Regular data back ups &amp; usage reports</li>
-                                <li>Return of data at end of subscription period if requested</li>
-                                <li>ISO27001-certified data-centre and associated IT </li>
-                            </ul>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <img src="/images/icon-medical.png" alt="">
+                                <h5>Medical Claims</h5>
+                                <p>Claim module eliminates the messy paperwork involved in a traditional manual claims process.</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <img src="/images/icon-general.png" alt="">
+                                <h5>General Claims</h5>
+                                <p>Employee can snap, upload the receipt and submit using their smartphone and your dedicated manager will manage it.</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <img src="/images/icon-tasks.png" alt="">
+                                <h5>Tasks</h5>
+                                <p>Employee will always get their task notification and event updated in on time.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section id="blue-bg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <h1>All Modules . $10 / Month</h1>
-                            <p class="lead">Upgrade with modules as your business grows,&nbsp;
-                            <br>starting from just $10 per month.</p>
-                            <a class="btn btn-large btn-lg btn-success">Request Free Trial</a>
-                            <div class="trial-days">You also get a 30-day trial of all features</div>
+            </div>
+        </section>
+        <section id="features">
+            <div class="container">
+                <h2 class="section-title">CloudHRD Features</h2>
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="row">
+                            <div class="col-sm-6 text-right">
+                                <img class="wall-img" src="/images/wall.jpg" alt="">
+                            </div>
+                            <div class="col-sm-6 text-left">
+                                <h4>Social</h4>
+                                <p>
+                                    Great things happen when teams are connected and communicating. Ideas flow freely, employees bond together and productivity goes up.
+                                </p>
+                                <hr>
+                                <h5>Increase Productivity</h5>
+                                <p>
+                                    Share information across teams, keep everyone in sync, and improve employee performance.
+                                </p>
+                                <h5>Strengthen Teamwork</h5>
+                                <p>
+                                    Post comments and start discussions. Work together effectively as a team.
+                                </p>
+                                <h5>Support Innovation</h5>
+                                <p>
+                                    Social lets employees share thoughts and ideas. The modern internal social networking platform promotes dialogue and makes communication fun.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 text-left">
+                                <h4>Easy Task Management</h4>
+                                <p>Daily task and team collaboration in a simple, powerful and so much more than a standard task management system. It's so easy to use you'll be up and running in minutes</p>
+                            </div>
+                            <div class="col-sm-6 text-left">
+                                <img class="tasks-img" src="/images/tasks.jpg" alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section id="join-newsletter">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-2">
-                            <h3 class="text-right">Join our monthly newsletter</h3>
+            </div>
+        </section>
+        <section id="mobile">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <img src="/images/iphone.png" class="iphone img-responsive">
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>Coming Soon</h3>
+                                <img src="/images/app-icon.png" class="app-icon">
+                                <img src="/images/app-stores.png" alt="" class="app-stores">
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <h3>
-                                <div class="input-group">
-                                    <input type="email" class="form-control">
-                                    <span class="input-group-btn">
-                                        <a class="btn btn-primary" href="https://register.cloudhrd.com/">Subscribe</a>
-                                    </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="testimonial">
+            <div class="container">
+                <h2 class="section-title">What Our Users Say</h2>
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4>
+                                <img src="/images/quote.png" alt="" class="quote">
+                                <img src="/images/avatar.png" alt="" class="avatar">
+                                <h5>Mohd Idrus Salleh</h5>
+                                <p>
+                                    Corporate Communication at IBFIM
+                                </p>
+                            </div>
+                            <div class="col-sm-4">
+                                <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4>
+                                <img src="/images/quote.png" alt="" class="quote">
+                                <img src="/images/avatar.png" alt="" class="avatar">
+                                <h5>Mohd Idrus Salleh</h5>
+                                <p>
+                                    Corporate Communication at IBFIM
+                                </p>
+                            </div>
+                            <div class="col-sm-4">
+                                <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4>
+                                <img src="/images/quote.png" alt="" class="quote">
+                                <img src="/images/avatar.png" alt="" class="avatar">
+                                <h5>Mohd Idrus Salleh</h5>
+                                <p>
+                                    Corporate Communication at IBFIM
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="pricing">
+            <div class="container">
+                <h2 class="section-title">Super Simple Pricing</h2>
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                        <div class="panel pricing-table">
+                            <div class="panel-body">
+                                <img src="/images/1token.png" class="onetoken" alt="">
+                                <div class="all-features">
+                                    All Features
                                 </div>
-                            </h3>
+                            </div>
+                            <div class="panel-body panel-body-2">
+                                <p>
+                                    Awesome deal that you can never resist. Get start now with this super simple package.
+                                </p>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="per">per</div>
+                                        <img class="pricing-icons" src="/images/pricing-user.png" alt="">
+                                        <h4>User</h4>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="per">per</div>
+                                        <img class="pricing-icons" src="/images/pricing-calendar.png" alt="">
+                                        <h4>Month</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer has-btn-block">
+                                <a href="https://register.cloudhrd.com/auth/register" class="btn btn-primary btn-block btn-lg">Get Started Now</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h5>Get to Know Us</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Disclaimer</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- <h5>Subscribe to Newsletter</h5>
+                                <form action="#"></form> -->
+                            </div>
+                            <div class="col-sm-6">
+                                <h5>Let's Get Social!</h5>
+                                <ul class="list-inline">
+                                    <li>
+                                        <a href="#">
+                                            <img width="40px" src="/images/footer-icon-fb.png" alt="">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img width="40px" src="/images/footer-icon-twit.png" alt="">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img width="40px" src="/images/footer-icon-insta.png" alt="">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img width="40px" src="/images/footer-icon-gplus.png" alt="">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section id="very-the-bottom">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p class="lead text-center">&copy; CloudHRD 2015</p>
-                        </div>
-                    </div>
+            </div>
+        </section>
+        <section id="legal">
+            <div class="container">
+                <div class="text-muted">
+                    © CloudHRD 2016 All Rights Reserved. Product of Sands Consulting Sdn Bhd.<br/>Made in Bangi with lotsa <span style="color:red">♥</span>.
                 </div>
-            </section>
-        </body>
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-            ga('create', 'UA-56564848-1', 'auto');
-            ga('send', 'pageview');
-        </script>
-    </html>
+            </div>
+        </section>
+    </body>
+</html>
