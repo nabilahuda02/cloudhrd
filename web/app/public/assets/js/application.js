@@ -4195,8 +4195,8 @@ var tbl;
         var btn = $(this);
         if(btn.parents('form')[0].checkValidity()) {
             btn.button('loading')
-                .val('Submitting...')
-                .text('Submitting...');
+            .val('Submitting...')
+            .text('Submitting...');
         }
     });
     // 
@@ -4215,9 +4215,9 @@ var tbl;
       setTimeout(function() {
         if(!result.is(':hidden'))
           result.hide();
-          search.val('');
-      }, 300);
-    });
+      search.val('');
+  }, 300);
+  });
 
     search.keyup(function(e) {
         var value = search.val().trim();
@@ -4240,8 +4240,29 @@ var tbl;
           tbl = target.DataTable({
             "ajax": '/data/' + target.data('path'),
             "aaSorting": []
-          });
-        });;
+        });
+      });;
     };
+
+    // menu begin
+    $('#cssmenu li.active').addClass('open').children('ul').show();
+    $('#cssmenu li.has-sub>a').on('click', function(){
+        console.log('click');
+        $(this).removeAttr('href');
+        var element = $(this).parent('li');
+        if (element.hasClass('open')) {
+            element.removeClass('open');
+            element.find('li').removeClass('open');
+            element.find('ul').slideUp(200);
+        } else {
+            element.addClass('open');
+            element.children('ul').slideDown(200);
+            element.siblings('li').children('ul').slideUp(200);
+            element.siblings('li').removeClass('open');
+            element.siblings('li').find('li').removeClass('open');
+            element.siblings('li').find('ul').slideUp(200);
+        }
+    });
+    // menu end
 
 }).call(this);
