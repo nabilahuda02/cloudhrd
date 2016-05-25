@@ -3697,7 +3697,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   max-width: 480px;
 }
 #features .row {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 #features h4 {
   font-weight: bold;
@@ -3796,15 +3796,18 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   border-top-right-radius: 0px;
 }
 #mobile {
-  padding-top: 80px;
+  padding-top: 50px;
   text-align: center;
   background-color: #F4F4F4;
+}
+#mobile .section-title {
+  margin-bottom: 56px;
 }
 #mobile .iphone {
   width: 350px;
 }
 #mobile h3 {
-  margin-top: 140px;
+  margin-top: 30px;
 }
 #mobile .app-icon {
   width: 120px;
@@ -3815,6 +3818,9 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   width: 278px;
   display: block;
   margin: 0 auto;
+}
+#mobile .list-unstyled {
+  line-height: 26px;
 }
 #testimonial {
   display: none;
@@ -3955,6 +3961,9 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   }
   #mobile h3 {
     margin-top: 30px;
+  }
+  #mobile .iphone {
+    width: 100%;
   }
   #footer {
     text-align: center;
