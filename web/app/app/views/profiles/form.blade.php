@@ -104,7 +104,7 @@
                 <a href="{{action('ProfileController@requestUpdate')}}" class="btn btn-primary">Update Personal Details</a>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none">
             <?php $i = 0;?>
             @foreach (app()->user_locale->profile_custom_fields as $key => $value)
               @if($value)
