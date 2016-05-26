@@ -98,7 +98,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox" value="Bank Name" name="update[profile.position]" class="enable-control">
+                        <input type="checkbox" value="Position" name="update[profile.position]" class="enable-control">
                     </td>
                     <td>
                         Position
