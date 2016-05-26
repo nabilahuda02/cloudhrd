@@ -69,8 +69,8 @@ class PayrollsController extends \BaseController
                 Payroll__EPFContribution::create([
                     'payroll_user_id' => $payrollUser->id,
                     'name' => "EPF Contribution",
-                    'employee_contribution' => -1 * $epf,
-                    'employer_contribution' => $user->profile->salary * ($user->profile->kwsp_employer_contribution / 100),
+                    'employee_contribution' => -1 * $epf ?: 0,
+                    'employer_contribution' => $user->profile->salary * ($user->profile->kwsp_employer_contribution / 100) ?: 0,
                 ]);
             }
 
@@ -84,8 +84,8 @@ class PayrollsController extends \BaseController
                 Payroll__SOCSOContribution::create([
                     'payroll_user_id' => $payrollUser->id,
                     'name' => "SOCSO Contribution",
-                    'employee_contribution' => -1 * $socso,
-                    'employer_contribution' => $user->profile->socso_employer_contribution,
+                    'employee_contribution' => -1 * $socso ?: 0,
+                    'employer_contribution' => $user->profile->socso_employer_contribution ?: 0,
                 ]);
             }
 
@@ -99,7 +99,7 @@ class PayrollsController extends \BaseController
                 Payroll__PCBContribution::create([
                     'payroll_user_id' => $payrollUser->id,
                     'name' => "PCB Contribution",
-                    'employee_contribution' => -1 * $pcb,
+                    'employee_contribution' => -1 * $pcb ?: 0,
                 ]);
             }
 
