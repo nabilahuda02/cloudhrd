@@ -115,6 +115,10 @@ class ProfileController extends \BaseController
         unset($data['_token']);
         $updates = [];
         foreach ($data['update'] as $key => $field_name) {
+            if ($key == 'unit_id' && !Input::get('new_value.' . $key)) {
+                continue;
+            }
+
             $updates[] = new ChangeRequest__Item([
                 'field_name' => $field_name,
                 'key' => $key,
