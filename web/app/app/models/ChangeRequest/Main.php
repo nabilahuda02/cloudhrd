@@ -183,29 +183,10 @@ class ChangeRequest__Main extends Eloquent
          * If status is not cancelled
          */
 
-        if ($this->status_id !== 4) {
-            /**
-             * If user is admin or module owner
-             */
+        if ($this->status_id == 1) {
             if (Auth::user()->administers(static::$moduleId)) {
                 return true;
             }
-
-            /**
-             * If module verifier
-             */
-
-            if (Auth::user()->isVerifier(static::$moduleId, $this->user_id)) {
-                return true;
-            }
-
-            /**
-             * If module custodian is unit head and user belongs to the same unit (custodian)
-             */
-            if (Auth::user()->isApprover(static::$moduleId, $this->user_id)) {
-                return true;
-            }
-
         }
         /**
          * Else return false
@@ -215,38 +196,6 @@ class ChangeRequest__Main extends Eloquent
 
     public function canCancel()
     {
-
-        /**
-         * If user is the owner and status is pending
-         */
-        if ($this->status_id === 1) {
-            if (Auth::user()->id === $this->user_id) {
-                return true;
-            }
-        }
-
-        /**
-         * If status is not cancelled
-         */
-        if ($this->status_id !== 5) {
-            /**
-             * If user is admin or module owner
-             */
-            if (Auth::user()->administers(static::$moduleId)) {
-                return true;
-            }
-
-            /**
-             * If module custodian is unit head and user belongs to the same unit (custodian)
-             */
-            if (Auth::user()->isApprover(static::$moduleId, $this->user_id)) {
-                return true;
-            }
-
-        }
-        /**
-         * Else return false
-         */
         return false;
     }
 

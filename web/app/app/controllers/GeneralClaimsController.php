@@ -179,7 +179,7 @@ class GeneralClaimsController extends \BaseController
 
     public function togglePaid($id)
     {
-        Session::flash('NotifySuccess', 'Medical Claim Paid Status Updated Successfully');
+        Session::flash('NotifySuccess', 'General Claim Paid Status Updated Successfully');
         $claim = GeneralClaim__Main::find($id);
         $claim->update([
             'is_paid' => !$claim->is_paid,
