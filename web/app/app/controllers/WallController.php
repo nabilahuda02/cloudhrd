@@ -157,7 +157,7 @@ class WallController extends \BaseController
 
     public function getUnsetPin($share_id)
     {
-        if ($share = Share::find($share_id)) {wallco
+        if ($share = Share::find($share_id)) {
             UserSharePin::where('user_id', Auth::user()->id)
                 ->where('share_id', $share_id)
                 ->delete();
