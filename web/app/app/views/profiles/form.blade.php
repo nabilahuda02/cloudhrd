@@ -1,22 +1,36 @@
 @extends('layouts.module')
 @section('content')
 {{Asset::push('js','profile')}}
-<div class="col-sm-12">
-    <h2>
-        Personal Detail
-    </h2>
-    <hr>
-    <br>
-</div>
-<div class="col-sm-2">
-    <img src="{{ $user->profile->user_image }}" id="profile_image_editable" class="image-responsive"/>
-    <hr>
-    <a href="/wall/change-password" class="btn btn-block btn-primary">Change Password</a>
-    <a href="{{action('ProfileController@requestUpdate')}}" class="btn btn-block btn-primary">Update Details</a>
 
-</div>
-<div class="col-sm-10">
-    <div>
+<section id="profile">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>
+                    Personal Detail
+                </h2>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="{{ $user->profile->user_image }}" id="profile_image_editable" class="image-responsive"/>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="/wall/change-password" class="btn btn-block btn-primary btn-profile">Change Password</a>
+            </div>
+            <div class="col-sm-6">
+                <a href="{{action('ProfileController@requestUpdate')}}" class="btn btn-block btn-primary btn-profile">Update Details</a>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin-top:20px;">
         {{ Former::open() }}
         <div class="row">
             <div class="col-md-3">
@@ -123,6 +137,31 @@
         <hr>
         <br>
     </div>
+
+    <!-- if current user have upload thing -->
+    @if($currentuser->uploads->count() > 0)
+    <div class="container" style="margin-top:20px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h3>Attached Documents</h3>
+                    <hr>
+                    <ul class="media-list">
+                        @foreach ($currentuser->uploads as $upload)
+                        <li class="media">
+                            <a class="pull-left" download href="{{$upload->file_url}}"><img class="media-object" src="{{$upload->thumb_url}}" width="64px" height="64px"></a>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{$upload->file_name}}</h4>
+                                <p>{{$upload->humanSize()}}</p>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 
     @if($currentuser->uploads->count() > 0)
     <div class="form-group">
@@ -277,9 +316,10 @@
                 <div class="clearfix"></div>
                 <br>
             </div>
-            <hr>
             <br>
         </div>
     </div>
 </div>
+</section>
+
 @stop

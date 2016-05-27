@@ -1,28 +1,44 @@
 @extends('layouts.module')
 @section('content')
-<div class="col-md-12">
-  @include('html.notifications')
-  <div class="col-md-12">
-    <div class="page-header">
-      <h3>Audits</h3>
+<section id="units">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2>
+                    Audits
+                    {{-- <button class="btn btn-link help-btn" onclick="HelpFile.show('MANAGE_USER.md', 'Manage Users')">
+                        <i class="fa fa-question-circle"></i>
+                    </button> --}}
+                </h2>
+            </div>
+            <div class="col-sm-6 section-drop-menu" >
+                {{-- @include('admin.units.menu') --}}
+            </div>
+        </div>
     </div>
-    <table data-path="audits" class="DT table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th class="text-center">Timestamp</th>
-          <th class="text-center">Module</th>
-          <th class="text-center">Ref</th>
-          <th class="text-center">Changes</th>
-          <th class="text-center">Action By</th>
-          <th class="text-center">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-    <hr>
-  </div>
-</div>
+    <hr/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @include('html.notifications')
+                <table data-path="audits" class="DT table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Timestamp</th>
+                            <th class="text-center">Module</th>
+                            <th class="text-center">Ref</th>
+                            <th class="text-center">Changes</th>
+                            <th class="text-center">Action By</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
 @stop
 @section('script')
 <script>
