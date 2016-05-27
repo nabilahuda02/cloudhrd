@@ -3,51 +3,65 @@
 
 {{Asset::push('js', 'upload')}}
 
-<div class="col-md-12">
+<section id="leaves">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>
+                    Leaves Application Form
+                    <button class="btn btn-link help-btn" onclick="HelpFile.show('USER_LEAVE.md', 'Leaves')">
+                        <i class="fa fa-question-circle"></i>
+                    </button>
+                </h2>
+            </div>
+            <div class="col-xs-6 section-drop-menu" >
+                @include('leaves.menu')
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                @include('html.notifications')
+                {{ Former::horizontal_open(action('LeaveController@store'))
+                    -> id('MyForm')
+                    -> rules(['name' => 'required'])
+                    -> method('POST') }}
+                {{Former::hidden('noonce', Helper::noonce())}}
+                @if(count(Auth::user()->getDownline(Leave__Main::$moduleId)) > 0)
+                    {{ Former::select('user_id')
+                        -> label('For User')
+                        -> options(Helper::userArray(Auth::user()->getDownline(Leave__Main::$moduleId, true)), null)
+                        -> class('form-control col-md-4')
+                        ->required() }}
+                @endif
 
-  @include('html.notifications')
+                @include('leaves.form')
 
-	<div class="col-md-12">
-		<div class="page-header">
-			@include('leaves.menu')
-			<h3>Leave Application Form</h3>
-		</div>
+                <div class="form-group">
+                    <label for="dates" class="control-label col-lg-2 col-sm-4">Upload</label>
+                    <div class="col-lg-10 col-sm-8">
+                        <div class="dropzone" id="upload" data-path="leave/temp/{{ Helper::noonce() }}" data-type="image/jpeg,image/png,application/pdf"></div>
+                    </div>
+                </div>
 
-		@include('leaves.entitlementtable')
-		{{ Former::horizontal_open(action('LeaveController@store'))
-			-> id('MyForm')
-			-> rules(['name' => 'required'])
-			-> method('POST') }}
-		{{Former::hidden('noonce', Helper::noonce())}}
-		@if(count(Auth::user()->getDownline(Leave__Main::$moduleId)) > 0)
-			{{ Former::select('user_id')
-			    -> label('For User')
-			    -> options(Helper::userArray(Auth::user()->getDownline(Leave__Main::$moduleId, true)), null)
-			    -> class('form-control col-md-4')
-			    ->required() }}
-		@endif
+                {{ Former::textarea('remarks') }}
 
-		@include('leaves.form')
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
+                        <input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
+                    </div>
+                </div>
 
-		<div class="form-group">
-			<label for="dates" class="control-label col-lg-2 col-sm-4">Upload</label>
-			<div class="col-lg-10 col-sm-8">
-				<div class="dropzone" id="upload" data-path="leave/temp/{{ Helper::noonce() }}" data-type="image/jpeg,image/png,application/pdf"></div>
-			</div>
-		</div>
-
-		{{ Former::textarea('remarks') }}
-
-		<div class="form-group">
-			<div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
-				<input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
-			</div>
-		</div>
-
-		{{ Former::close() }}
-	</div>
-
-</div>
+                {{ Former::close() }}
+            </div>
+            <div class="col-md-3">
+                @include('leaves.entitlementtable')
+            </div>
+        </div>
+    </div>
+</section>
 @stop
 
 @section('script')
