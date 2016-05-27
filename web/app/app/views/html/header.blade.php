@@ -47,8 +47,8 @@
                                         <a href="{{ action('SubscriptionController@getIndex') }}">
                                             Subscription</a>
                                     </li> -->
-                                @endif
                             </ul>
+                            @endif
                         </li>
                         <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Public Wall') ? 'active' : '' }}" href="{{url('/wall')}}">Wall</a></li>
                         <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Tasks') ? 'active' : '' }}" href="{{action('TasksController@index')}}">Task</a></li>
