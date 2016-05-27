@@ -1,6 +1,7 @@
+@if($user->administers(Payroll__Main::$moduleId))
 <div class="btn-group pull-right">
     @if(Route::currentRouteAction() === 'PayrollsController@index')
-        <a class="btn btn-primary" href="{{action('AdminPayrollController@getGenerated')}}">Generated Payrolls</a>
+        <a class="btn btn-primary" href="{{action('AdminPayrollController@getGenerated')}}">Generated</a>
     @elseif(Route::currentRouteAction() === 'AdminPayrollController@getDetails')
         <a href="<?php echo url('payroll/admin/generated'); ?>" class="btn btn-primary">Back</a>
     @elseif(Route::currentRouteAction() === 'AdminPayrollController@getUserDetails')
@@ -21,3 +22,4 @@
         <li><a disabled>Reports</a></li> -->
     </ul>
 </div>
+@endif
