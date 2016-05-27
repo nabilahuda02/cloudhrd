@@ -14959,6 +14959,12 @@ button.bootbox-close-button.close {
     padding: 0px;
   }
 }
+.navbar .dropdown > .dropdown-menu {
+  background-color: #3498DB;
+}
+.navbar .dropdown a:hover {
+  background-color: #2180BF;
+}
 @media screen and (max-width: 767px) {
   .navbar .navbar-header .navbar-toggle {
     margin-right: 5px;
@@ -15248,6 +15254,111 @@ section#wall .wall-leave .wall-leave-category {
   display: inline-block;
   vertical-align: middle;
 }
+.tasks-card {
+  border: 1px solid #E5E5E5;
+  border-radius: 4px;
+  margin: 20px 0;
+  padding: 15px;
+  font-family: 'robotoregular', sans-serif;
+  min-height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+.tasks-card p {
+  border: none;
+}
+.tasks-card hr {
+  margin-top: 10px;
+}
+.tasks-card > .tasks-card-success > hr {
+  border-top: 2px solid #aeaeae !important;
+}
+.tasks-card > .tasks-card-info > hr {
+  border-top: 2px solid #136399 !important;
+}
+.tasks-card > .tasks-card-default > hr {
+  border-top: 2px solid #E67E22 !important;
+}
+.tasks-card > .tasks-card-danger > hr {
+  border-top: 2px solid #CA2F2C !important;
+}
+.tasks-card > .tasks-card-warning > hr {
+  border-top: 2px solid #E67E22 !important;
+}
+.tasks-card > .tasks-card-high > hr {
+  border-top: 2px solid #118F46 !important;
+}
+.tasks-card .task-inner {
+  display: block;
+  margin-bottom: 15px;
+}
+.tasks-card .task-inner .task-img {
+  width: 8%;
+  margin: 0 0 0 5px;
+  display: inline-block;
+  width: 30px;
+}
+.tasks-card .task-inner .task-img img {
+  vertical-align: baseline;
+  border-radius: 4px;
+}
+.tasks-card .task-inner .task-cont {
+  margin-left: 5px;
+  display: inline-block;
+}
+.tasks-card .task-inner .task-cont p {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+}
+.tasks-card .task-inner .task-cont small {
+  color: #aeaeae;
+  display: block;
+}
+.tasks-card textarea {
+  border: 1px solid #e5e5e5;
+  /* width: 320px;
+        height: 50px; */
+  outline: none;
+  resize: none;
+  position: absolute;
+  bottom: 14px;
+  border-radius: 4px;
+  max-width: 89%;
+}
+@media screen and (min-width: 600px) and (max-width: 991px) {
+  .tasks-card textarea {
+    max-width: 95%;
+  }
+}
+.tasks-card textarea:focus {
+  border: 1px solid #3498DB;
+}
+.tasks-card textarea::placeholder {
+  text-align: center;
+  padding-top: 50px;
+  color: #ccc;
+  font-size: 16px;
+}
+.tasks-card textarea::-webkit-input-placeholder {
+  text-align: left;
+  padding-top: 5px;
+  padding-left: 10px;
+  color: #ccc;
+  font-size: 12px;
+}
+.tasks-card textarea::-moz-placeholder {
+  text-align: center;
+  padding-top: 50px;
+  color: #ccc;
+  font-size: 16px;
+}
+.tasks-card textarea::-ms-input-placeholder {
+  text-align: center;
+  padding-top: 50px;
+  color: #ccc;
+  font-size: 16px;
+}
 .login .help-block {
   color: #fff;
 }
@@ -15285,31 +15396,6 @@ footer {
   font-size: 16px;
   color: #E67E22;
   left: -26px;
-}
-.task-inner {
-  display: block;
-  margin-bottom: 15px;
-}
-.task-cont {
-  margin-left: 5px;
-  display: inline-block;
-}
-.task-img {
-  width: 8%;
-  margin: 0 0 0 5px;
-  display: inline-block;
-}
-.task-img img {
-  vertical-align: baseline;
-}
-.task-inner p {
-  display: inline-block;
-  margin: 0;
-  vertical-align: top;
-}
-.task-inner small {
-  color: #aeaeae;
-  display: block;
 }
 .donut-charts {
   margin-bottom: 24px;
