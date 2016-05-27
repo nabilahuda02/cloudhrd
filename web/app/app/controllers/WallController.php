@@ -128,7 +128,7 @@ class WallController extends \BaseController
     public function getRemoveShare($id)
     {
         if ($share = Share::find($id)) {
-            if ($share->user_id === Auth::user()->id) {
+            if ($share->user_id === Auth::user()->id || Auth::user()->is_admin) {
                 ShareComment::where('share_id', $id)->delete();
                 $share->delete();
             }
@@ -138,7 +138,7 @@ class WallController extends \BaseController
     public function getRemoveComment($id)
     {
         if ($comment = ShareComment::find($id)) {
-            if ($comment->user_id === Auth::user()->id) {
+            if ($comment->user_id === Auth::user()->id || Auth::user()->is_admin) {
                 $comment->delete();
             }
         }
@@ -157,7 +157,7 @@ class WallController extends \BaseController
 
     public function getUnsetPin($share_id)
     {
-        if ($share = Share::find($share_id)) {
+        if ($share = Share::find($share_id)) {wallco
             UserSharePin::where('user_id', Auth::user()->id)
                 ->where('share_id', $share_id)
                 ->delete();

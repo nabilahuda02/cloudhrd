@@ -357,9 +357,9 @@ class DataController extends BaseController
     {
         $payroll = Payroll__Main::select([
             'payrolls.id',
+            'status.name as status_name',
             'payrolls.name',
             'payrolls.total',
-            'status.name as status_name',
         ])
             ->join('status', 'status.id', '=', 'payrolls.status_id');
         $payroll->where('status_id', 7);

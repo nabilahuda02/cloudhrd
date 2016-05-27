@@ -104,7 +104,7 @@
                 ->disabled() }}
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none">
             <?php $i = 0;?>
             @foreach (app()->user_locale->profile_custom_fields as $key => $value)
               @if($value)

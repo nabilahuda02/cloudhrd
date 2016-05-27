@@ -77,28 +77,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox" value="Unit" name="update[unit_id]" class="enable-control">
-                    </td>
-                    <td>
-                        Unit
-                    </td>
-                    <td>
-                        <select class="form-control current-value" id="unit_id" name="old_value[unit_id]" readonly>
-                            <option value="{{@$currentuser->unit_id}}">{{@$currentuser->unit->name}}</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select disabled readonly class="form-control" id="unit_id" name="new_value[unit_id]">
-                            <option value="">Choose One</option>
-                            @foreach(UserUnit::all()->lists('name', 'id') as $id => $name)
-                                <option value="{{$id}}">{{$name}}</option>
-                            @endforeach
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" value="Bank Name" name="update[profile.position]" class="enable-control">
+                        <input type="checkbox" value="Position" name="update[profile.position]" class="enable-control">
                     </td>
                     <td>
                         Position
