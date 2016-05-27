@@ -45,7 +45,6 @@ Header set Cache-Control "max-age=86400, private, proxy-revalidate"
                                   "image/svg+xml" \
                                   "image/vnd.microsoft.icon" \
                                   "image/x-icon" \
-                                  "text/cache-manifest" \
                                   "text/html" \
                                   "text/javascript" \
                                   "text/plain" \

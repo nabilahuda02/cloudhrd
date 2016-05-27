@@ -29,7 +29,6 @@ Header set Cache-Control "max-age=86400, private, proxy-revalidate"
                                   "image/svg+xml" \
                                   "image/vnd.microsoft.icon" \
                                   "image/x-icon" \
-                                  "text/cache-manifest" \
                                   "text/css" \
                                   "text/html" \
                                   "text/javascript" \
@@ -39,6 +38,7 @@ Header set Cache-Control "max-age=86400, private, proxy-revalidate"
                                   "text/vtt" \
                                   "text/x-component" \
                                   "text/x-cross-domain-policy" \
-                                  "text/xml"
+                                  "text/xml" \
+                                  "text/cache-manifest"
 
 </IfModule>
