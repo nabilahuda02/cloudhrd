@@ -14907,7 +14907,7 @@ button.bootbox-close-button.close {
 }
 @media screen and (max-width: 767px) {
   .big-header.big-header-background {
-    min-height: 155px;
+    min-height: 175px;
   }
 }
 @media screen and (min-width: 768px) {
