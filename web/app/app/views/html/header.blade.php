@@ -17,11 +17,37 @@
                 <div class="collapse navbar-collapse navbar-extra-padding-top" id="navcol-1">
                     <ul class="nav navbar-nav navbar-right nav-style">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$user->getFullName()}} <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$user->getFullName()}}
+                                @if($user->is_admin)<span class="caret"></span>@endif
+                            </a>
+
+                            @if($user->is_admin)
+                                <ul class="dropdown-menu">
+                                    <li class="{{ ($controller === 'User Admin') ? 'active' : '' }}">
+                                        <a href="{{ action('AdminUserController@index') }}">
+                                            Manage User</a>
+                                    </li>
+                                    <li class="{{ ($controller === 'Unit Admin') ? 'active' : '' }}">
+                                        <a href="{{ action('AdminUnitController@index') }}">
+                                            Manage Units</a>
+                                    </li>
+                                    <li class="{{ ($controller === 'Module Admin') ? 'active' : '' }}">
+                                        <a href="{{ action('AdminModuleController@index') }}">
+                                            Manage Modules</a>
+                                    </li>
+                                    <li class="{{ ($controller === 'Audit') ? 'active' : '' }}">
+                                        <a href="{{ action('AdminAuditController@getIndex') }}">
+                                            Security Audits</a>
+                                    </li>
+                                    <li class="{{ ($controller === 'Organization') ? 'active' : '' }}">
+                                        <a href="{{ action('AdminOrganizationController@index') }}">
+                                            Organization</a>
+                                    </li>
+                                    <!-- <li class="{{ ($controller === 'Subscription') ? 'active' : '' }}">
+                                        <a href="{{ action('SubscriptionController@getIndex') }}">
+                                            Subscription</a>
+                                    </li> -->
+                                @endif
                             </ul>
                         </li>
                         <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Public Wall') ? 'active' : '' }}" href="{{url('/wall')}}">Wall</a></li>
