@@ -18,37 +18,45 @@
                     <ul class="nav navbar-nav navbar-right nav-style">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{$user->getFullName()}}
-                                @if($user->is_admin)<span class="caret"></span>@endif
+                                <span class="caret"></span>
                             </a>
-
-                            @if($user->is_admin)
-                                <ul class="dropdown-menu">
-                                    <li class="{{ ($controller === 'User Admin') ? 'active' : '' }}">
-                                        <a href="{{ action('AdminUserController@index') }}">
-                                            Manage User</a>
+                            <ul class="dropdown-menu">
+                                @if($user->is_admin)
+                                <li class="{{ ($controller === 'User Admin') ? 'active' : '' }}">
+                                    <a href="{{ action('AdminUserController@index') }}">
+                                        Manage User</a>
+                                </li>
+                                <li class="{{ ($controller === 'Unit Admin') ? 'active' : '' }}">
+                                    <a href="{{ action('AdminUnitController@index') }}">
+                                        Manage Units</a>
+                                </li>
+                                <li class="{{ ($controller === 'Module Admin') ? 'active' : '' }}">
+                                    <a href="{{ action('AdminModuleController@index') }}">
+                                        Manage Modules</a>
+                                </li>
+                                <li class="{{ ($controller === 'Audit') ? 'active' : '' }}">
+                                    <a href="{{ action('AdminAuditController@getIndex') }}">
+                                        Security Audits</a>
+                                </li>
+                                <li class="{{ ($controller === 'Organization') ? 'active' : '' }}">
+                                    <a href="{{ action('AdminOrganizationController@index') }}">
+                                        Organization</a>
+                                </li>
+                                @endif
+                                @if(Session::has('original_user_id'))
+                                    <li>
+                                        <a href="/resume">
+                                            Resume
+                                        </a>
                                     </li>
-                                    <li class="{{ ($controller === 'Unit Admin') ? 'active' : '' }}">
-                                        <a href="{{ action('AdminUnitController@index') }}">
-                                            Manage Units</a>
+                                @else
+                                    <li>
+                                        <a href="{{ action('AuthController@getLogout') }}">
+                                            Logout
+                                        </a>
                                     </li>
-                                    <li class="{{ ($controller === 'Module Admin') ? 'active' : '' }}">
-                                        <a href="{{ action('AdminModuleController@index') }}">
-                                            Manage Modules</a>
-                                    </li>
-                                    <li class="{{ ($controller === 'Audit') ? 'active' : '' }}">
-                                        <a href="{{ action('AdminAuditController@getIndex') }}">
-                                            Security Audits</a>
-                                    </li>
-                                    <li class="{{ ($controller === 'Organization') ? 'active' : '' }}">
-                                        <a href="{{ action('AdminOrganizationController@index') }}">
-                                            Organization</a>
-                                    </li>
-                                    <!-- <li class="{{ ($controller === 'Subscription') ? 'active' : '' }}">
-                                        <a href="{{ action('SubscriptionController@getIndex') }}">
-                                            Subscription</a>
-                                    </li> -->
+                                @endif
                             </ul>
-                            @endif
                         </li>
                         <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Public Wall') ? 'active' : '' }}" href="{{url('/wall')}}">Wall</a></li>
                         <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Tasks') ? 'active' : '' }}" href="{{action('TasksController@index')}}">Task</a></li>
