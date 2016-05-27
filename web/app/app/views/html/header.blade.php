@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="{{url('/wall')}}" id="logo"><img src="/assets/images/logo-sands.png" alt=""></a>
+                    <!-- <a class="navbar-brand" href="{{url('/wall')}}" id="logo"><img src="/assets/images/logo-sands.png" alt=""></a> -->
                     <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
@@ -24,13 +24,13 @@
                                 <li><a href="#">Something else here</a></li>
                             </ul>
                         </li>
-                        <li class="visible-xs-block"><a class="{{ ($controller == 'Public Wall') ? 'active' : '' }}" href="{{url('/wall')}}">Wall</a></li>
-                        <li class="visible-xs-block"><a class="{{ ($controller == 'Tasks') ? 'active' : '' }}" href="{{action('TasksController@index')}}">Task</a></li>
-                        <li class="visible-xs-block"><a class="{{ ($controller == 'Leaves') ? 'active' : '' }}" href="{{action('LeaveController@index')}}">Leaves</a></li>
-                        <li class="visible-xs-block"><a class="{{ ($controller == 'Medical Claims') ? 'active' : '' }}" href="{{action('MedicalController@index')}}">Medical Claims</a></li>
-                        <li class="visible-xs-block"><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">General Claims</a></li>
-                        <li class="visible-xs-block"><a class="{{ ($controller == 'Change Requests') ? 'active' : '' }}" href="{{action('ChangeRequestsController@index')}}">Change Request</a></li>
-                        <li class="visible-xs-block"><a class="{{ ($controller == 'Payrolls') ? 'active' : '' }}" href="{{action('PayrollsController@index')}}">Payroll</a></li>
+                        <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Public Wall') ? 'active' : '' }}" href="{{url('/wall')}}">Wall</a></li>
+                        <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Tasks') ? 'active' : '' }}" href="{{action('TasksController@index')}}">Task</a></li>
+                        <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Leaves') ? 'active' : '' }}" href="{{action('LeaveController@index')}}">Leaves</a></li>
+                        <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Medical Claims') ? 'active' : '' }}" href="{{action('MedicalController@index')}}">Medical Claims</a></li>
+                        <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">General Claims</a></li>
+                        <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Change Requests') ? 'active' : '' }}" href="{{action('ChangeRequestsController@index')}}">Change Request</a></li>
+                        <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Payrolls') ? 'active' : '' }}" href="{{action('PayrollsController@index')}}">Payroll</a></li>
                 </ul>
             </div>
         </div>
