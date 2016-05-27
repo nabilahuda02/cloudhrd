@@ -5,10 +5,7 @@
         <div class="row">
             <div class="col-xs-6">
                 <h2>
-                    General Claims
-                    <button class="btn btn-link help-btn" onclick="HelpFile.show('USER_GC.md', 'General Claims')">
-                        <i class="fa fa-question-circle"></i>
-                    </button>
+                    Payrolls
                 </h2>
             </div>
             <div class="col-xs-6 section-drop-menu" >
