@@ -27,7 +27,6 @@
                             <tr>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Period</th>
-                                <th class="text-center">Amount</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>

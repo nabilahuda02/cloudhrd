@@ -359,7 +359,6 @@ class DataController extends BaseController
             'payrolls.id',
             'status.name as status_name',
             'payrolls.name',
-            'payrolls.total',
         ])
             ->join('status', 'status.id', '=', 'payrolls.status_id');
         $payroll->where('status_id', 7);

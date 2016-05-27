@@ -15082,11 +15082,6 @@ section hr {
 section .section-drop-menu {
   margin-top: 20px;
 }
-section #help-modal img {
-  width: 80%;
-  display: block;
-  margin: 0px auto 20px;
-}
 section#wall .wall-poster {
   background: #f4f4f4;
   padding: 10px;
@@ -15248,6 +15243,11 @@ section#wall .wall-leave .wall-leave-category {
   display: inline-block;
   vertical-align: middle;
 }
+#help-modal img {
+  width: 80%;
+  display: block;
+  margin: 0px auto 20px;
+}
 .login .help-block {
   color: #fff;
 }
@@ -15348,4 +15348,7 @@ a.navbar-brand {
 }
 a.navbar-brand img {
   max-height: 30px;
+}
+.nav-justified > li {
+  vertical-align: bottom;
 }

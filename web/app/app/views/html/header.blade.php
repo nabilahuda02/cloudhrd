@@ -29,7 +29,7 @@
                         <li class="visible-xs-block"><a class="{{ ($controller == 'Leaves') ? 'active' : '' }}" href="{{action('LeaveController@index')}}">Leaves</a></li>
                         <li class="visible-xs-block"><a class="{{ ($controller == 'Medical Claims') ? 'active' : '' }}" href="{{action('MedicalController@index')}}">Medical Claims</a></li>
                         <li class="visible-xs-block"><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">General Claims</a></li>
-                        <li class="visible-xs-block"><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">Change Request</a></li>
+                        <li class="visible-xs-block"><a class="{{ ($controller == 'Change Requests') ? 'active' : '' }}" href="{{action('ChangeRequestsController@index')}}">Change Request</a></li>
                         <li class="visible-xs-block"><a class="{{ ($controller == 'Payrolls') ? 'active' : '' }}" href="{{action('PayrollsController@index')}}">Payroll</a></li>
                 </ul>
             </div>
@@ -60,7 +60,7 @@
                 <li><a class="{{ ($controller == 'Leaves') ? 'active' : '' }}" href="{{action('LeaveController@index')}}">Leaves</a></li>
                 <li><a class="{{ ($controller == 'Medical Claims') ? 'active' : '' }}" href="{{action('MedicalController@index')}}">Medical Claims</a></li>
                 <li><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">General Claims</a></li>
-                <li><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">Change Request</a></li>
+                <li><a class="{{ ($controller == 'Change Requests') ? 'active' : '' }}" href="{{action('ChangeRequestsController@index')}}">Change Request</a></li>
                 <li><a class="{{ ($controller == 'Payrolls') ? 'active' : '' }}" href="{{action('PayrollsController@index')}}">Payroll</a></li>
             </ul>
         </div>
