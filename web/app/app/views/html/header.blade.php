@@ -59,7 +59,7 @@
                             </ul>
                         </li>
                         <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Public Wall') ? 'active' : '' }}" href="{{url('/wall')}}">Wall</a></li>
-                        <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Tasks') ? 'active' : '' }}" href="{{action('TasksController@index')}}">Task</a></li>
+                        <!-- <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Tasks') ? 'active' : '' }}" href="{{action('TasksController@index')}}">Task</a></li> -->
                         <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Leaves') ? 'active' : '' }}" href="{{action('LeaveController@index')}}">Leaves</a></li>
                         <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'Medical Claims') ? 'active' : '' }}" href="{{action('MedicalController@index')}}">Medical Claims</a></li>
                         <li class="dropdown visible-xs-block"><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">General Claims</a></li>
@@ -90,7 +90,7 @@
         <div class="col-md-8 hidden-xs col-md-offset-2 big-header-menu">
             <ul class="nav nav-pills nav-justified">
                 <li><a class="{{ ($controller == 'Public Wall') ? 'active' : '' }}" href="{{url('/wall')}}">Wall</a></li>
-                <li><a class="{{ ($controller == 'Tasks') ? 'active' : '' }}" href="{{action('TasksController@index')}}">Task</a></li>
+                <!-- <li><a class="{{ ($controller == 'Tasks') ? 'active' : '' }}" href="{{action('TasksController@index')}}">Task</a></li> -->
                 <li><a class="{{ ($controller == 'Leaves') ? 'active' : '' }}" href="{{action('LeaveController@index')}}">Leaves</a></li>
                 <li><a class="{{ ($controller == 'Medical Claims') ? 'active' : '' }}" href="{{action('MedicalController@index')}}">Medical Claims</a></li>
                 <li><a class="{{ ($controller == 'General Claims') ? 'active' : '' }}" href="{{action('GeneralClaimsController@index')}}">General Claims</a></li>
