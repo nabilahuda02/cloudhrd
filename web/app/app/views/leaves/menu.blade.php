@@ -23,7 +23,7 @@
 @else
 <div class="pull-right">
     @if(Route::currentRouteAction() !== 'LeaveController@index')
-    <a href="<?php echo url('leave/index'); ?>" class="btn btn-primary">List Leaves</a>
+    <a href="<?php echo url('leave'); ?>" class="btn btn-primary">List Leaves</a>
     @endif
     <a href="<?php echo url('leave/create'); ?>" class="btn btn-primary">New Leave</a>
 </div>
