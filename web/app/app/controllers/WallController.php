@@ -15,6 +15,7 @@ class WallController extends \BaseController
         if (!$user_image) {
             $user_image = '/images/user.jpg';
         }
+        Asset::push('js', 'wall');
         return View::make('wall.index', compact('user_image', 'user'));
     }
 

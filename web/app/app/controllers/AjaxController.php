@@ -182,6 +182,21 @@ class AjaxController extends BaseController
         }
     }
 
+    public function getEntitlementBalances()
+    {
+        $response = [
+            'leave' => [],
+            'medical' => [],
+        ];
+        foreach (Leave__Type::all() as $leave) {
+            $response['leave'][$leave->name] = $leave->user_entitlement_balance();
+        }
+        foreach (MedicalClaim__Type::all() as $medicalClaim) {
+            $response['medical'][$medicalClaim->name] = $medicalClaim->user_entitlement_balance();
+        }
+        return $response;
+    }
+
     public function getStatus($module)
     {
 

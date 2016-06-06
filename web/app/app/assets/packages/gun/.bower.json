@@ -1,0 +1,49 @@
+{
+  "name": "gun",
+  "main": "gun.js",
+  "version": "0.3.4",
+  "homepage": "http://gunDB.io",
+  "authors": [
+    {
+      "name": "Mark Nadal",
+      "email": "mark@accelsor.com"
+    },
+    {
+      "name": "Alex LaFroscia",
+      "email": "alex@lafroscia.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amark/gun"
+  },
+  "description": "A distributed, embedded, graph database engine.",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "graph",
+    "database",
+    "gun",
+    "gundb",
+    "nodb"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.3.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.3.4",
+    "commit": "3bcfccc1a932eeafc5413fa6d064b49c98b34311"
+  },
+  "_source": "https://github.com/amark/gun.git",
+  "_target": "^0.3.4",
+  "_originalSource": "gun",
+  "_direct": true
+}

@@ -1,0 +1,10 @@
+{
+  "name": "jquery-eventsource",
+  "_cacheHeaders": {
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "main": "index.eventsource",
+  "_source": "https://github.com/danni/jquery.eventsource",
+  "_target": "*",
+  "_originalSource": "https://github.com/danni/jquery.eventsource"
+}

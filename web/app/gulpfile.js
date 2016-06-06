@@ -24,11 +24,13 @@ var gulp       = require("gulp"),
     cssnano    = require('gulp-cssnano'),
     path       = require('path'),
     uglify     = require('gulp-uglify'),
-    rename     = require('gulp-rename');
+    rename     = require('gulp-rename')
+    plumber    = require('gulp-plumber');
 
 
 gulp.task('css', function(){
     gulp.src(sources.less)
+        .pipe(plumber())
         .pipe(include())
         .on('error', console.error)
         .pipe(less({
@@ -45,14 +47,15 @@ gulp.task('css', function(){
 
 gulp.task('js', function(){
     gulp.src(sources.js)
+        .pipe(plumber())
         .pipe(include())
         .on('error', console.error)
         .pipe(gulp.dest(destinations.js))
-        .pipe(uglify())
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe(gulp.dest(destinations.js));
+        // .pipe(uglify())
+        // .pipe(rename({
+        //     suffix: '.min'
+        // }))
+        // .pipe(gulp.dest(destinations.js));
         ;
 });
 
