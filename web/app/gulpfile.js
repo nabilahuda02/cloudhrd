@@ -51,11 +51,11 @@ gulp.task('js', function(){
         .pipe(include())
         .on('error', console.error)
         .pipe(gulp.dest(destinations.js))
-        // .pipe(uglify())
-        // .pipe(rename({
-        //     suffix: '.min'
-        // }))
-        // .pipe(gulp.dest(destinations.js));
+        .pipe(uglify())
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(gulp.dest(destinations.js));
         ;
 });
 

@@ -7809,294 +7809,8 @@ function toArray(list, index) {
 },{}]},{},[31])(31)
 });
 
-(function (global, factory) {
-    if(typeof exports === 'object' && typeof module !== 'undefined') {
-        factory(exports);
-    } else if (typeof define === 'function' && define.amd) {
-        define(['exports'], factory);
-    } else {
-        factory((global.CastMyData = global.CastMyData || {}));
-    }
-}(this, function (exports) { 'use strict';
-
-    // https://github.com/chrisdavies/eev
-    var Eev = (function() {
-        var id = 0;
-
-        // A relatively generic LinkedList impl
-        function LinkedList(linkConstructor) {
-            this.head = new RunnableLink();
-            this.tail = new RunnableLink(this.head);
-            this.head.next = this.tail;
-            this.linkConstructor = linkConstructor;
-            this.reg = {};
-        }
-
-        LinkedList.prototype = {
-            insert: function(data) {
-                var link = new RunnableLink(this.tail.prev, this.tail, data);
-                link.next.prev = link.prev.next = link;
-                return link;
-            },
-
-            remove: function(link) {
-                link.prev.next = link.next;
-                link.next.prev = link.prev;
-            }
-        };
-
-        // A link in the linked list which allows
-        // for efficient execution of the callbacks
-        function RunnableLink(prev, next, fn) {
-            this.prev = prev;
-            this.next = next;
-            this.fn = fn || noop;
-        }
-
-        RunnableLink.prototype.run = function(data) {
-            this.fn(data);
-            this.next && this.next.run(data);
-        };
-
-        function noop() {}
-
-        function Eev() {
-            this._events = {};
-        }
-
-        Eev.prototype = {
-            on: function(names, fn) {
-                var me = this;
-                names.split(/\W+/g).forEach(function(name) {
-                    var list = me._events[name] || (me._events[name] = new LinkedList());
-                    var eev = fn._eev || (fn._eev = (++id));
-
-                    list.reg[eev] || (list.reg[eev] = list.insert(fn));
-                });
-            },
-
-            off: function(names, fn) {
-                var me = this;
-                names.split(/\W+/g).forEach(function(name) {
-                    var list = me._events[name];
-                    var link = list.reg[fn._eev];
-
-                    list.reg[fn._eev] = undefined;
-
-                    list && link && list.remove(link);
-                });
-            },
-
-            emit: function(name, data) {
-                var evt = this._events[name];
-                evt && evt.head.run(data);
-            }
-        };
-
-        return Eev;
-    }());
-
-    var each = function(obj, callback) {
-        for (var key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                callback(obj[key], key);
-            }
-        }
-    };
-
-    var Model = function(point, params) {
-        var params = params || {};
-        var that = this;
-
-        each(params, function(val, key) {
-            that[key] = val;
-        });
-
-        this._events = {};
-        this._endpoint = point;
-    }
-
-    Model.prototype = Object.create(Eev.prototype);
-
-    Model.prototype.delete = function() {
-        this._endpoint.delete(this.id);
-    },
-    Model.prototype.put = function(params) {
-        var params = params || {};
-        var that = this;
-
-        each(params, function(val, key) {
-            that[key] = val;
-        });
-        this._endpoint.put(this.id, params);
-    }
-
-    var Endpoint = function(CastMyDataServer, path) {
-        var socketioClient = ((typeof io !== 'undefined') ? io : require('socket.io-client'));
-        var socket = this._socket = socketioClient(CastMyDataServer, {
-            multiplex: false
-        });
-        var models = [];
-        var that = this;
-
-        this._events = {};
-        socket.path = path;
-
-        socket.on('records', function(data) {
-            models.splice(0, models.length);
-            var datas = data.forEach(function(model) {
-                model = new Model(that, model);
-                model.emit('post', model);
-                models.push(model);
-            });
-            that.emit('records', models);
-        });
-
-        socket.on('post', function(data) {
-            var model = new Model(that, data.payload);
-            models.push(model);
-            that.emit('post', model);
-        });
-
-        socket.on('put', function(data) {
-            var model = models.filter(function(model) {
-                return model.id == data.id;
-            }).pop();
-            if (model) {
-                each(data.payload, function(val, key) {
-                    model[key] = val;
-                });
-                model.emit('put', data.payload);
-                that.emit('put', model, data.payload);
-            }
-        });
-
-        socket.on('delete', function(data) {
-            var model = models.filter(function(model) {
-                return model.id == data.id;
-            }).pop();
-            var index = models.indexOf(model);
-            if (model) {
-                models.splice(index, 1);
-                model.emit('delete');
-                that.emit('delete', model);
-            }
-        });
-
-        socket.on('broadcast', function(data){
-            that.emit('broadcast', data.payload);
-        });
-
-        socket.on('connect', function(){
-            socket.emit('join', path);
-        });
-    };
-
-    Endpoint.prototype = Object.create(Eev.prototype);
-
-    Endpoint.prototype.post = function(record) {
-        this._socket.emit('post', {
-            path: this._socket.path,
-            payload: record
-        });
-        return this;
-    }
-
-    Endpoint.prototype.put = function(id, record) {
-        this._socket.emit('put', {
-            path: this._socket.path,
-            payload: record,
-            id: id
-        });
-        return this;
-    }
-
-    Endpoint.prototype.delete = function(id) {
-        this._socket.emit('delete', {
-            path: this._socket.path,
-            id: id
-        });
-        return this;
-    }
-
-    Endpoint.prototype.broadcast = function(payload) {
-        this._socket.emit('broadcast', {
-            path: this._socket.path,
-            payload: payload
-        });
-        return this;
-    }
-
-    exports.Model = Model;
-    exports.Endpoint = Endpoint;
-}));
-(function() {
-
-    angular.module('NgCastMyData', [])
-        .value('CastMyDataServer', '')
-        .factory('NgCastMyDataEndpoint', ['CastMyDataServer', '$timeout', function(CastMyDataServer, $timeout) {
-        
-            var each = function(obj, callback) {
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        callback(obj[key], key);
-                    }
-                }
-            };
-
-            return function(path) {
-
-                var NgCastMyData = new CastMyData.Endpoint(CastMyDataServer, path);
-
-                NgCastMyData.__proto__.bindToScope = function($scope, param) {
-                    var that = this;
-                    var datas = $scope[param] = [];
-
-                    this.on('records', function(models) {
-                        datas.splice(0, datas.length);
-                        models.forEach(function(data) {
-                            datas.push(data);
-                        });
-                    });
-
-                    this.on('post', function(data) {
-                        datas.push(data);
-                    });
-
-                    this.on('put', function(data) {
-                        var model = datas.filter(function(model) {
-                            return model.id == data.id;
-                        }).pop();
-                        if (model) {
-                            each(data, function(val, key) {
-                                model[key] = val;
-                            });
-                        }
-                    });
-
-                    this.on('delete', function(data) {
-                        var model = datas.filter(function(model) {
-                            return model.id == data.id;
-                        }).pop();
-                        var index = datas.indexOf(model);
-                        if (model && index > -1) {
-                            datas.splice(index, 1);
-                        }
-                    });
-
-                    this.on('records post put delete broadcast', function() {
-                        $timeout(function(){
-                            $scope.$digest();
-                        });
-                    });
-
-                    return this;
-                }
-
-                return NgCastMyData;
-            };
-        }]);
-}).call(this);
+!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e(t.CastMyData=t.CastMyData||{})}(this,function(t){"use strict";var e=function(){function t(t){this.head=new e,this.tail=new e(this.head),this.head.next=this.tail,this.linkConstructor=t,this.reg={}}function e(t,e,i){this.prev=t,this.next=e,this.fn=i||n}function n(){}function i(){this._events={}}var o=0;return t.prototype={insert:function(t){var n=new e(this.tail.prev,this.tail,t);return n.next.prev=n.prev.next=n,n},remove:function(t){t.prev.next=t.next,t.next.prev=t.prev}},e.prototype.run=function(t){this.fn(t),this.next&&this.next.run(t)},i.prototype={on:function(e,n){var i=this;e.split(/\W+/g).forEach(function(e){var r=i._events[e]||(i._events[e]=new t),s=n._eev||(n._eev=++o);r.reg[s]||(r.reg[s]=r.insert(n))})},off:function(t,e){var n=this;t.split(/\W+/g).forEach(function(t){var i=n._events[t],o=i.reg[e._eev];i.reg[e._eev]=void 0,i&&o&&i.remove(o)})},emit:function(t,e){var n=this._events[t];n&&n.head.run(e)}},i}(),n=function(t,e){for(var n in t)t.hasOwnProperty(n)&&e(t[n],n)},i=function(t,e){var e=e||{},i=this;n(e,function(t,e){i[e]=t}),this._events={},this._endpoint=t};i.prototype=Object.create(e.prototype),i.prototype["delete"]=function(){this._endpoint["delete"](this.id)},i.prototype.put=function(t){var t=t||{},e=this;n(t,function(t,n){e[n]=t}),this._endpoint.put(this.id,t)};var o=function(t,e){var o="undefined"!=typeof io?io:require("socket.io-client"),r=this._socket=o(t,{multiplex:!1}),s=[],p=this;this._events={},r.path=e,r.on("records",function(t){s.splice(0,s.length);t.forEach(function(t){t=new i(p,t),t.emit("post",t),s.push(t)});p.emit("records",s)}),r.on("post",function(t){var e=new i(p,t.payload);s.push(e),p.emit("post",e)}),r.on("put",function(t){var e=s.filter(function(e){return e.id==t.id}).pop();e&&(n(t.payload,function(t,n){e[n]=t}),e.emit("put",t.payload),p.emit("put",e,t.payload))}),r.on("delete",function(t){var e=s.filter(function(e){return e.id==t.id}).pop(),n=s.indexOf(e);e&&(s.splice(n,1),e.emit("delete"),p.emit("delete",e))}),r.on("broadcast",function(t){p.emit("broadcast",t.payload)}),r.on("connect",function(){r.emit("join",e)})};o.prototype=Object.create(e.prototype),o.prototype.post=function(t){return this._socket.emit("post",{path:this._socket.path,payload:t}),this},o.prototype.put=function(t,e){return this._socket.emit("put",{path:this._socket.path,payload:e,id:t}),this},o.prototype["delete"]=function(t){return this._socket.emit("delete",{path:this._socket.path,id:t}),this},o.prototype.broadcast=function(t){return this._socket.emit("broadcast",{path:this._socket.path,payload:t}),this},t.Model=i,t.Endpoint=o});
+(function(){angular.module("NgCastMyData",[]).value("CastMyDataServer","").factory("NgCastMyDataEndpoint",["CastMyDataServer","$timeout",function(t,n){var o=function(t,n){for(var o in t)t.hasOwnProperty(o)&&n(t[o],o)};return function(i){var r=new CastMyData.Endpoint(t,i);return r.__proto__.bindToScope=function(t,i){var r=t[i]=[];return this.on("records",function(t){r.splice(0,r.length),t.forEach(function(t){r.push(t)})}),this.on("post",function(t){r.push(t)}),this.on("put",function(t){var n=r.filter(function(n){return n.id==t.id}).pop();n&&o(t,function(t,o){n[o]=t})}),this.on("delete",function(t){var n=r.filter(function(n){return n.id==t.id}).pop(),o=r.indexOf(n);n&&o>-1&&r.splice(o,1)}),this.on("records post put delete broadcast",function(){n(function(){t.$digest()})}),this},r}}])}).call(this);
 
 var app = angular.module('wall', ['angularMoment', 'nl2br', 'NgCastMyData'])
 
@@ -8110,15 +7824,15 @@ var app = angular.module('wall', ['angularMoment', 'nl2br', 'NgCastMyData'])
         };
     }])
 
-    .factory('Session', function($interval) {
+    .factory('Session', ['$interval', function($interval) {
         var last = localStorage.getItem('session');
         var session = {};
         return session;
-    })
+    }])
 
-    .run(function($rootScope, Session){
+    .run(['$rootScope', 'Session', function($rootScope, Session){
         $rootScope.Session = Session;
-    })
+    }])
 
 
     .directive('enterSubmit', function () {
@@ -8149,7 +7863,7 @@ var app = angular.module('wall', ['angularMoment', 'nl2br', 'NgCastMyData'])
         return user;
     })
 
-    .controller('WallController', function(NgCastMyDataEndpoint, $scope, User, Session){
+    .controller('WallController', ['NgCastMyDataEndpoint', '$scope', 'User', 'Session', function(NgCastMyDataEndpoint, $scope, User, Session){
 
         var feeds = NgCastMyDataEndpoint(window.location.host + '-wall-feeds').bindToScope($scope, 'feeds');
 
@@ -8217,13 +7931,13 @@ var app = angular.module('wall', ['angularMoment', 'nl2br', 'NgCastMyData'])
             }
             Session.editReply = null;
         }
-    })
+    }])
 
-    .controller('SidebarController', function($scope, $http){
+    .controller('SidebarController', ['$scope', '$http', function($scope, $http){
         $scope.entitlements = {};
         $http.get('/ajax/entitlement-balances')
             .then(function(response){
                 $scope.entitlements = response.data;
             })
-    })
+    }])
 

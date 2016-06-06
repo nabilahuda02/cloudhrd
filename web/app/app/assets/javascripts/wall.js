@@ -5,8 +5,8 @@
 //=require ../packages/angular-moment/angular-moment.min.js
 //=require ../packages/angular-nl2br/angular-nl2br.min.js
 //=require ../packages/socket.io-client/socket.io.js
-//=require ../packages/castmydata-jsclient/src/castmydata.js
-//=require ../packages/castmydata-jsclient/src/ng-castmydata.js
+//=require ../packages/castmydata-jsclient/dist/castmydata.min.js
+//=require ../packages/castmydata-jsclient/dist/ng-castmydata.min.js
 
 var app = angular.module('wall', ['angularMoment', 'nl2br', 'NgCastMyData'])
 
@@ -20,15 +20,15 @@ var app = angular.module('wall', ['angularMoment', 'nl2br', 'NgCastMyData'])
         };
     }])
 
-    .factory('Session', function($interval) {
+    .factory('Session', ['$interval', function($interval) {
         var last = localStorage.getItem('session');
         var session = {};
         return session;
-    })
+    }])
 
-    .run(function($rootScope, Session){
+    .run(['$rootScope', 'Session', function($rootScope, Session){
         $rootScope.Session = Session;
-    })
+    }])
 
 
     .directive('enterSubmit', function () {
@@ -59,7 +59,7 @@ var app = angular.module('wall', ['angularMoment', 'nl2br', 'NgCastMyData'])
         return user;
     })
 
-    .controller('WallController', function(NgCastMyDataEndpoint, $scope, User, Session){
+    .controller('WallController', ['NgCastMyDataEndpoint', '$scope', 'User', 'Session', function(NgCastMyDataEndpoint, $scope, User, Session){
 
         var feeds = NgCastMyDataEndpoint(window.location.host + '-wall-feeds').bindToScope($scope, 'feeds');
 
@@ -127,13 +127,13 @@ var app = angular.module('wall', ['angularMoment', 'nl2br', 'NgCastMyData'])
             }
             Session.editReply = null;
         }
-    })
+    }])
 
-    .controller('SidebarController', function($scope, $http){
+    .controller('SidebarController', ['$scope', '$http', function($scope, $http){
         $scope.entitlements = {};
         $http.get('/ajax/entitlement-balances')
             .then(function(response){
                 $scope.entitlements = response.data;
             })
-    })
+    }])
 
