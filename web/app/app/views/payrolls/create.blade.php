@@ -12,7 +12,7 @@
             -> rules(['name' => 'required'])
             -> method('POST') }}
         {{Former::hidden('noonce', Helper::noonce())}}
-        {{Former::text('name')->label('Period')->value(date('Y/m'))}}
+        {{Former::text('name')->label('Period')->value(date('Y-m'))}}
         <div class="form-group">
             <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
                 <input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
@@ -21,4 +21,11 @@
         {{ Former::close() }}
     </div>
 </div>
+@stop
+@section('script')
+    <script type="text/javascript">
+        $('#name').datetimepicker({
+            format: 'YYYY/MM'
+        });
+    </script>
 @stop

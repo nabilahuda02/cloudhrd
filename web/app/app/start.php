@@ -30,6 +30,11 @@ if (!App::runningInConsole()) {
         $app->master_user->locale = json_encode($app->user_locale);
         $app->master_user->save();
     }
+    if (!isset($app->user_locale->working_days)) {
+        $app->user_locale->working_days = '0111110';
+        $app->master_user->locale = json_encode($app->user_locale);
+        $app->master_user->save();
+    }
     View::share('user_locale', $app->user_locale);
     if ($token = Input::get('token')) {
         if ($ltoken = Master__LoginToken::where('token', $token)->first()) {

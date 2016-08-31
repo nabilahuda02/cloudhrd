@@ -15,6 +15,8 @@
 //=require ../packages/tapatar/dist/tapatar.min.js
 //=require ../packages/colpick/js/colpick.js
 //=require ../packages/compare-versions/index.js
+//=require ../packages/moment/min/moment.min.js
+//=require ../packages/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js
 //=require app/help.js
 //=require app/changelog.js
 

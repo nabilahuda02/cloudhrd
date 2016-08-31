@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class PayrollsController extends \BaseController
 {
 
@@ -24,6 +26,20 @@ class PayrollsController extends \BaseController
         return View::make('payrolls.create');
     }
 
+    protected function getWorkingDays($realStart, $realEnd)
+    {
+
+        $workingDays = 0;
+        for ($i = $realStart->day; $i <= $realEnd->day; $i++) {
+            $date = Carbon::parse($realStart->year . '-' . $realStart->month . '-' . str_pad($i, 2, '0', STR_PAD_LEFT));
+            $day = $date->dayOfWeek;
+            if (app('user_locale')->working_days[$day] == 1) {
+                $workingDays++;
+            }
+        }
+        return $workingDays;
+    }
+
     /**
      * Store a newly created payroll in storage.
      *
@@ -37,8 +53,16 @@ class PayrollsController extends \BaseController
             Session::flash('NotifyDanger', 'Error Creating Payroll');
             return Redirect::back()->withErrors($validator)->withInput();
         }
-        Session::flash('NotifySuccess', 'Payroll Created Successfully');
         $data['status_id'] = 6;
+        $parts = explode('/', $data['name']);
+        $year = $parts[0];
+        $month = $parts[1];
+        $startDate = Carbon::parse($year . '-' . $month . '-01 00:00:00');
+        $endDate = Carbon::parse($year . '-' . $month . '-' . cal_days_in_month(CAL_GREGORIAN, $month, $year) . ' 23:59:59');
+
+        // calculate working days
+        $totalWorkingDays = $this->getWorkingDays(Carbon::parse($year . '-' . $month . '-01'), Carbon::parse($year . '-' . $month . '-' . cal_days_in_month(CAL_GREGORIAN, $month, $year)));
+
         $payroll = Payroll__Main::create($data);
 
         // process salary
@@ -47,6 +71,41 @@ class PayrollsController extends \BaseController
         })->get();
 
         foreach ($users as $user) {
+
+            // do not process payroll as staff already long passed resigned
+            if ($user->profile->resigned_date !== '0000-00-00' && Carbon::parse($user->profile->resigned_date)->lt($startDate)) {
+                continue;
+            }
+
+            $startWork = Carbon::parse($user->profile->date_join);
+            if ($user->profile->resigned_date != '0000-00-00') {
+                $endWork = Carbon::parse($user->profile->resigned_date . ' 23:59:59');
+            } else {
+                $endWork = Carbon::parse('2222-12-31 23:59:59');
+            }
+
+            // means user started working before the start current generated month
+            if ($startWork->lt($startDate)) {
+                $realStart = $startDate;
+            } else {
+                $realStart = $startWork;
+            }
+            // means user resigned before the end current generated month
+            if ($endWork->lt($endDate)) {
+                $realEnd = $endWork;
+            } else {
+                $realEnd = $endDate;
+            }
+
+            // if start date of work or resigned date of work is inside the generating month, then calculate days
+            if ($startWork->between($startDate, $endDate) || $endWork->between($startDate, $endDate)) {
+                $daysEmployed = $this->getWorkingDays($realStart, $realEnd);
+                $multiplier = 1 - ($daysEmployed / $totalWorkingDays);
+            } else {
+                $daysEmployed = $totalWorkingDays;
+                $multiplier = 1;
+            }
+
             // create payroll_user
             $payrollUser = $payroll->payrollUsers()->create([
                 'user_id' => $user->id,
@@ -58,6 +117,12 @@ class PayrollsController extends \BaseController
                 'amount' => $user->profile->salary,
                 'name' => 'Pay for ' . $payroll->name,
             ]);
+            if ($multiplier < 1) {
+                $payrollUser->items()->create([
+                    'amount' => -1 * $user->profile->salary * $multiplier,
+                    'name' => "Adjustment Pro Rate Pay for {$payroll->name}: ({$realStart->toDateString()} - {$realEnd->toDateString()})",
+                ]);
+            }
 
             // Deduct KWSP
             $epf = $user->profile->salary * ($user->profile->kwsp_contribution / 100) * -1;
@@ -70,7 +135,7 @@ class PayrollsController extends \BaseController
                     'payroll_user_id' => $payrollUser->id,
                     'name' => "EPF Contribution",
                     'employee_contribution' => -1 * $epf ?: 0,
-                    'employer_contribution' => $user->profile->salary * ($user->profile->kwsp_employer_contribution / 100) ?: 0,
+                    'employer_contribution' => $user->profile->salary * $multiplier * ($user->profile->kwsp_employer_contribution / 100) ?: 0,
                 ]);
             }
 
@@ -107,6 +172,7 @@ class PayrollsController extends \BaseController
             $payroll->updateTotal();
         }
         $payroll->setStatus(6);
+        Session::flash('NotifySuccess', 'Payroll Created Successfully');
         return Redirect::action('AdminPayrollController@getDetails', $payroll->id);
     }
 

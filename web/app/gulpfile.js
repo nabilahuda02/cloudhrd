@@ -68,7 +68,7 @@ gulp.task('js', function(){
 
 gulp.task('watch', function() {
     livereload.listen();
-    gulp.watch(sources.js, ['/app/assets/javascripts/**/.js']);
+    gulp.watch(__dirname + '/app/assets/javascripts/**/*.js', ['js']);
     gulp.watch(sources.less, ['css']);
 });
 

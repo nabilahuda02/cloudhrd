@@ -16,6 +16,10 @@ class AdminOrganizationController extends BaseController
         $data = Input::all();
         $user = app()->master_user;
         $user->support_email = $data['support_email'];
+        $working_days = '';
+        foreach ($data['working_days'] as $value) {
+            $working_days .= $value;
+        }
         $locale = [
             'decimal_places' => $data['decimal_places'],
             'decimal_separator' => $data['decimal_separator'],
@@ -26,9 +30,10 @@ class AdminOrganizationController extends BaseController
             'long_date' => $data['long_date'],
             'short_date' => $data['short_date'],
             'time_format' => $data['time_format'],
+            'working_days' => $data['working_days'],
         ];
         $user->locale = json_encode($locale);
-        if($user->save()) {
+        if ($user->save()) {
             DynamicDatabase::flush_cache();
             Session::flash('NotifySuccess', 'Organization Config Updated');
         } else {

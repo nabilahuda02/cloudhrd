@@ -21,10 +21,29 @@
         <div class="row">
             <div class="col-md-12">
             {{Former::populate($master_user)}}
-            {{Former::open_horizontal(action('AdminOrganizationController@index'))}}
+            {{Former::open_horizontal(action('AdminOrganizationController@store'))}}
                 {{ Former::email('support_email')
                     ->label('Support Email')
                     ->required() }}
+                <div class="form-group required" id="currency-format">
+                    <label class="control-label col-lg-2 col-sm-4">Working Days<sup>*</sup></label>
+                    <div class="col-lg-10 col-sm-8">
+                        <ul class="list-unstyled">
+<?php
+$dow = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+for ($i = 0; $i < 7; $i++):
+?>
+                            <li>
+                                <input type="hidden" name="working_days[{{$i}}]" value="0">
+                                <label>
+                                    <input type="checkbox" name="working_days[{{$i}}]" value="1" {{($locale->working_days[$i] == 1 ? 'checked' : '')}}>
+                                    &nbsp;{{$dow[$i]}}
+                                </label>
+                            </li>
+<?php endfor;?>
+                        </ul>
+                    </div>
+                </div>
                 <hr>
                 <div class="form-group required" id="currency-format">
                     <label class="control-label col-lg-2 col-sm-4">Currency Localization<sup>*</sup></label>
