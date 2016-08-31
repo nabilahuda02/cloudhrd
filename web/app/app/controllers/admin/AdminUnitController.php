@@ -77,6 +77,11 @@ class AdminUnitController extends \BaseController
 
         $validator = Validator::make($data = Input::all(), UserUnit::$validation_rules);
 
+        if ($data['parent_id'] == $id) {
+            Session::flash('NotifyDanger', 'Unit cannot be the parent of itself');
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
         if ($validator->fails()) {
             Session::flash('NotifyDanger', 'Error Updating Unit');
             return Redirect::back()->withErrors($validator)->withInput();
