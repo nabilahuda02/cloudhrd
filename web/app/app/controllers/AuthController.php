@@ -212,17 +212,23 @@ class AuthController extends BaseController
         $to = app_path() . '/database/donemigrations/';
         $dbs = array_filter(Master__User::all()->lists('database'));
         $dbs[] = 'cloudhrd_app';
+        $messages = '';
 
         foreach (scandir($from) as $file) {
             if (!in_array($file, ['.', '..']) && !file_exists($to . $file)) {
+                $messages .= "Migrating {$file}...<br/>";
                 foreach ($dbs as $db) {
-                    shell_exec('mysql -f -h 127.0.0.1 -u root ' . $db . ' < ' . $from . $file);
+                    $command = 'mysql -f -h 127.0.0.1 -u root ' . $db . ' < ' . $from . $file;
+                    $messages .= "DB: {$db}<br/> Command: {$command}<br/>.....<br/>";
+                    shell_exec($command);
                 }
                 touch($to . $file);
             }
         }
 
-        return Redirect::to('/');
+        $messages .= 'Done! <br><br><a href="/">Home</a>';
+
+        return $messages;
 
     }
 
