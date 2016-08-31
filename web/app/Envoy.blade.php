@@ -1,28 +1,27 @@
-@servers(['web' => '192.168.1.1'])
+@servers(['web' => 'cloudhrd', 'local' => '127.0.0.1'])
 
-@task('branchproduction')
+@task('branchproduction', ['on' => 'local'])
+    cd /private/var/www/cloudhrd.dev/
     git checkout production
     git merge master
     git push
 @endtask
 
-@servers(['web' => 'cloudhrd'])
-
 @task('deploylive', ['on' => 'web'])
     cd /var/www/html/ihr
-    git checkout production
     ./deploy
 @endtask
 
-@task('branchmaster')
+@task('branchmaster', ['on' => 'local'])
     git checkout master
     git merge production
     git push
-    curl http://sands.cloudhrd.com/backend/migratedb
+    curl https://sands.cloudhrd.com/backend/migratedb
+    cd /private/var/www/cloudhrd.dev/web/app
 @endtask
 
-@story('deploy')
+@macro('deploy')
     branchproduction
     deploylive
     branchmaster
-@endstory
+@endmacro
