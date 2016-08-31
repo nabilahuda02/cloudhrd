@@ -25,12 +25,15 @@ var gulp       = require("gulp"),
     path       = require('path'),
     uglify     = require('gulp-uglify'),
     rename     = require('gulp-rename')
+    changed    = require('gulp-changed'),
+    livereload = require('gulp-livereload'),
     plumber    = require('gulp-plumber');
 
 
 gulp.task('css', function(){
-    gulp.src(sources.less)
+    return gulp.src(sources.less)
         .pipe(plumber())
+        .pipe(changed(destinations.css))
         .pipe(include())
         .on('error', console.error)
         .pipe(less({
@@ -41,13 +44,16 @@ gulp.task('css', function(){
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(gulp.dest(destinations.css));
+        .pipe(gulp.dest(destinations.css))
+        .pipe(livereload())
         ;
 });
 
 gulp.task('js', function(){
-    gulp.src(sources.js)
+    return gulp.src(sources.js)
         .pipe(plumber())
+        .pipe(ngAnnotate())
+        .pipe(changed(destinations.js))
         .pipe(include())
         .on('error', console.error)
         .pipe(gulp.dest(destinations.js))
@@ -55,13 +61,15 @@ gulp.task('js', function(){
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(gulp.dest(destinations.js));
+        .pipe(gulp.dest(destinations.js))
+        .pipe(livereload())
         ;
 });
 
 gulp.task('watch', function() {
-  gulp.watch(sources.js, ['js']);
-  gulp.watch(sources.less, ['css']);
+    livereload.listen();
+    gulp.watch(sources.js, ['js']);
+    gulp.watch(sources.less, ['css']);
 });
 
 gulp.task('default', ['watch']);

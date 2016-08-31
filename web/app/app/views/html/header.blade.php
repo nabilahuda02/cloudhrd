@@ -12,7 +12,7 @@
                     </button>
                 </div>
                 <div class="col-sm-6 hidden-xs navbar-extra-padding-top navbar-company-title">
-                    <h4>{{$app->master_user->name}}</h4>
+                    <h4><a href="/wall">{{$app->master_user->name}}</a></h4>
                 </div>
                 <div class="collapse navbar-collapse navbar-extra-padding-top" id="navcol-1">
                     <ul class="nav navbar-nav navbar-right nav-style">

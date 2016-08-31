@@ -14603,6 +14603,7 @@ html,
 body {
   min-height: 100vh;
   font-family: 'Roboto-Regular';
+  padding-bottom: 44px;
 }
 li.active a {
   color: white;
@@ -14889,9 +14890,10 @@ button.bootbox-close-button.close {
     border: 1px;
   }
 }
-.navbar .navbar-extra-padding-top.navbar-company-title {
+.navbar .navbar-extra-padding-top.navbar-company-title a {
   color: #fff;
   font-family: 'VarelaRound-Regular', 'sand-serif';
+  text-decoration: none;
 }
 .navbar .nav .open > a,
 .navbar .nav .open > a:focus,
@@ -15051,6 +15053,9 @@ section#wall .wall-post .wall-post-timestamp {
   margin: 15px;
   text-align: right;
   color: #aeaeae;
+}
+section#wall .wall-post .wall-post-timestamp i {
+  cursor: pointer;
 }
 section#wall .wall-post .wall-post-footer {
   background: #f4f4f4;
@@ -15267,6 +15272,9 @@ footer {
   padding-top: 15px;
   font-family: 'robotoregular', sans-serif;
   text-align: center;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
 }
 .leave-bal {
   margin-top: 30px;
@@ -15354,4 +15362,9 @@ a.navbar-brand img {
 .ng-cloak,
 .x-ng-cloak {
   display: none !important;
+}
+@media (max-width: 991px) {
+  footer {
+    display: none;
+  }
 }

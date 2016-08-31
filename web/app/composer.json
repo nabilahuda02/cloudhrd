@@ -9,7 +9,8 @@
 		"anahkiasen/former": "3.4.2",
 		"baum/baum": "1.0.*",
 		"bllim/datatables": "1.*",
-		"maatwebsite/excel": "1.*"
+		"maatwebsite/excel": "1.*",
+		"pusher/pusher-php-server": "^2.6"
 	},
 	"autoload": {
 		"classmap": [

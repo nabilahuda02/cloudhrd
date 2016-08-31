@@ -15,47 +15,63 @@ class WallController extends \BaseController
         if (!$user_image) {
             $user_image = '/images/user.jpg';
         }
+        Asset::push('js', 'wall-vendor');
         Asset::push('js', 'wall');
         return View::make('wall.index', compact('user_image', 'user'));
     }
 
-    public function getShares($length)
+    public function getFeeds($length = 10)
     {
-        $response = new Symfony\Component\HttpFoundation\StreamedResponse(function () use ($length) {
-            set_time_limit(660);
-            $old_data = null;
-            $start = time();
-            $heartbeat = time();
-            $user_id = Auth::user()->id;
-            while (true) {
-                $new_data = Share::with('pins', 'user', 'user.profile')
-                    ->select('*', DB::raw("(select count(*) from user_share_pins where user_id = {$user_id} and share_id = shares.id) as is_pinned"))
-                    ->orderBy('is_pinned', 'desc')
-                    ->orderBy('updated_at', 'desc')
-                    ->take($length)
-                    ->get()
-                    ->toJson();
-                if ($old_data !== $new_data) {
-                    $old_data = $new_data;
-                    echo 'data: ' . $new_data . "\n\n";
-                    ob_flush();
-                    flush();
-                } else if (time() - $heartbeat > 50) {
-                    $heartbeat = time();
-                    echo 'id: ' . uniqid() . "\n\n";
-                    ob_flush();
-                    flush();
-                }
-                if (time() - $start > 600) {
-                    exit(0);
-                }
-
-                sleep(1);
-            }
-        });
-        $response->headers->set('Content-Type', 'text/event-stream');
-        $response->headers->set('X-Accel-Buffering', 'no');
+        $user_id = Auth::user()->id;
+        return Share::with('pins', 'user', 'user.profile')
+            ->select('*', DB::raw("(select count(*) from user_share_pins where user_id = {$user_id} and share_id = shares.id) as is_pinned"))
+            ->orderBy('is_pinned', 'desc')
+            ->orderBy('updated_at', 'desc')
+            ->take($length)
+            ->get()
+            ->toJson();
         return $response;
+    }
+
+    public function getFeed($id)
+    {
+        return Share::find($id)->load('pins', 'user', 'user.profile');
+    }
+
+    public function postFeed()
+    {
+        $data = Input::all();
+        $data['user_id'] = Auth::user()->id;
+        $share = Share::create($data);
+        $share->save();
+        app('pusher')->fire('wall', [
+            'action' => 'created',
+            'data' => $share->load('pins', 'user', 'user.profile'),
+        ]);
+        return $share;
+    }
+
+    public function putFeed($id)
+    {
+        $data = Input::all();
+        $share = Share::find($id);
+        $share->update(Input::only(['content']));
+        app('pusher')->fire('wall', [
+            'action' => 'updated',
+            'data' => $share->load('pins', 'user', 'user.profile'),
+        ]);
+        return $share;
+    }
+
+    public function deleteFeed($id)
+    {
+        $share = Share::find($id);
+        $share->delete();
+        app('pusher')->fire('wall', [
+            'action' => 'deleted',
+            'id' => $id,
+        ]);
+        return 'ok';
     }
 
     public function getComments($length)
@@ -102,15 +118,6 @@ class WallController extends \BaseController
         $response->headers->set('Content-Type', 'text/event-stream');
         $response->headers->set('X-Accel-Buffering', 'no');
         return $response;
-    }
-
-    public function postCreateShare()
-    {
-        $data = Input::all();
-        $data['user_id'] = Auth::user()->id;
-        $share = Share::create($data);
-        $share->save();
-        return $share;
     }
 
     public function postCreateComment($share_id)

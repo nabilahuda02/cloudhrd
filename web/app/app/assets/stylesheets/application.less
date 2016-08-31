@@ -25,6 +25,7 @@ body.modal-open {
 html, body {
     min-height: 100vh;
     font-family: 'Roboto-Regular';
+    padding-bottom: 44px;
 }
 
 li.active {
@@ -357,8 +358,11 @@ button.bootbox-close-button.close {
             border: 1px;
         }
         &.navbar-company-title {
-            color: #fff;
-            font-family: 'VarelaRound-Regular', 'sand-serif';
+            a {
+                color: #fff;
+                font-family: 'VarelaRound-Regular', 'sand-serif';
+                text-decoration: none;
+            }
         }
     }
     .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
@@ -519,6 +523,9 @@ section {
                 margin: 15px;
                 text-align: right;
                 color: #aeaeae;
+                i {
+                    cursor: pointer;
+                }
             }
             .wall-post-footer {
                 background: #f4f4f4;
@@ -531,7 +538,7 @@ section {
                     font-size: 12px;
                     margin-right: 5px;
                 }
-                a { 
+                a {
                     color: #aeaeae;
                     &:hover {
                         text-decoration: none;
@@ -739,6 +746,9 @@ footer {
     padding-top: 15px;
     font-family: 'robotoregular', sans-serif;
     text-align: center;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
 }
 
 
@@ -816,7 +826,7 @@ a.navbar-brand {
     padding: 10px;
     img {
         max-height: 30px;
-    }   
+    }
 }
 
 .nav-justified > li {
@@ -839,4 +849,10 @@ a.navbar-brand {
 }
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
+}
+
+@media (max-width: 991px) {
+    footer {
+        display: none;
+    }
 }

@@ -1,6 +1,7 @@
 @extends('layouts.module')
 
 @section('content')
+<script src="https://js.pusher.com/3.2/pusher.min.js"></script>
 <script>
     var user = {{json_encode($user)}};
 </script>
@@ -16,35 +17,39 @@
                 <div class="wall-poster">
                     <textarea ng-model="comment" enter-submit="createFeed()" name="" id="" cols="" rows="4" placeholder="Write something then shift + enter to submit"></textarea>
                 </div>
-                <div class="wall-post" ng-repeat="feed in feeds | orderBy: '-updatedAt' track by $index">
+                <div class="wall-post" ng-repeat="feed in feeds track by $index">
                     <div class="row">
                         <div class="col-md-8 col-xs-6">
                             <div class="wall-post-profile-pic">
-                                <img width="33px" ng-src="@{{feed.user.avatar}}" alt="">
+                                <img width="33px" ng-src="@{{feed.user.profile.user_image}}" alt="">
                                 <p>
-                                    <span ng-bind="feed.user.name"></span>
+                                    <span ng-bind="feed.user.profile.first_name"></span>
+                                    <span ng-bind="feed.user.profile.last_name"></span>
                                 </p>
                             </div>
                         </div>
                         <div class="col-md-4 col-xs-6">
                             <div class="wall-post-timestamp">
-                                <i class="fa fa-pencil" ng-show="feed.user.id == user.id" ng-click="Session.editComment = feed.id"></i>
-                                <i class="fa fa-trash" ng-show="feed.user.id == user.id || user.is_admin" ng-click="deleteFeed(feed)"></i>
-                                <i class="fa fa-calendar-o"></i> <small am-time-ago="feed.createdAt"></small>
+                                <i class="fa fa-ban" ng-show="Session.editComment == feed.id" ng-click="Session.editComment = null"></i>
+                                <span ng-hide="Session.editComment == feed.id">
+                                    <i class="fa fa-pencil" ng-show="feed.user.id == user.id" ng-click="Session.editComment = feed.id"></i>
+                                    <i class="fa fa-trash" ng-show="feed.user.id == user.id || user.is_admin" ng-click="deleteFeed(feed)"></i>
+                                </span>
+                                <i class="fa fa-calendar-o"></i> <small am-time-ago="feed.created_at"></small>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="wall-post-body">
-                                <p ng-hide="Session.editComment == feed.id" ng-bind-html="feed.comment | nl2br | trustedHtml"></p>
-                                <textarea class="editingComment" ng-show="Session.editComment == feed.id" ng-focus="Session.editComment == feed.id" ng-model="feed.comment" enter-submit="doEditComment(feed, feed.comment)" name="" id="" cols="" rows="2" placeholder="Shift + Enter to Submit"></textarea>
+                                <p ng-hide="Session.editComment == feed.id" ng-bind-html="feed.content | nl2br | trustedHtml"></p>
+                                <textarea class="editingComment" ng-show="Session.editComment == feed.id" ng-focus="Session.editComment == feed.id" ng-model="feed.content" enter-submit="doEditFeed(feed, feed.content)" name="" id="" cols="" rows="2" placeholder="Shift + Enter to Submit"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12" ng-init="limit=-2">
-                            <div class="wall-post-footer" ng-hide="limit == undefined || feed.replies.length <= 2">
+                            <div class="wall-post-footer hidden" ng-hide="limit == undefined || feed.replies.length <= 2">
                                 <div class="wall-post-recent-btn wall">
                                     <button class="btn btn-link" ng-click="limit = undefined">Older</button>
                                 </div>
@@ -71,12 +76,11 @@
                                     <div class="wall-post-body">
                                         <p ng-hide="Session.editReply == reply" ng-bind-html="reply.comment | nl2br | trustedHtml"></p>
                                         <textarea class="editingComment" ng-show="Session.editReply == reply" ng-focus="Session.editReply == reply" ng-model="reply.comment" enter-submit="doEditReply(feed, reply, reply.comment)" name="" id="" cols="" rows="2" placeholder="Shift + Enter to Submit"></textarea>
-
                                     </div>
                                 </div>
                             </div>
-                            <div ng-hide="Session.editing == feed.id" class="wall-post-footer wall-post-reply-btn">
-                                <button ng-click="Session.editing = feed.id" class="btn btn-link"><i class="fa fa-mail-reply"></i>Reply</button>
+                            <div ng-hide="Session.editing == feed.id" class=" wall-post-footer wall-post-reply-btn">
+                                <button ng-click="Session.editing = feed.id" class="hidden btn btn-link"><i class="fa fa-mail-reply"></i>Reply</button>
                             </div>
                             <div class="wall-post-footer wall-post-holder" ng-show="Session.editing == feed.id">
                                 <div class="row">
@@ -92,9 +96,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3" ng-controller="SidebarController">
+            <div class="col-md-3 hidden-xs hidden-sm" ng-controller="SidebarController">
                 <div class="row">
-                    <div class="col-md-12 hidden">
+                    {{-- <div class="col-md-12 hidden">
                         <h5>Task Notifications</h5>
                         <div class="wall-task task-gray">
                             <div class="wall-task-img">
@@ -132,7 +136,7 @@
                                 <small>Development</small>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-12">
                         <h5>Leave Balance</h5>
                         <div ng-repeat="(name, balance) in entitlements.leave" class="wall-leave">

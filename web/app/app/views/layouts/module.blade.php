@@ -56,11 +56,6 @@
         @include('html.header')
         <div class="container">
             <div class="row">
-                {{--
-                @if(!isset($hideSidebar))
-                    @include('html.sidebar')
-                @endif
-                --}}
                 @yield('content')
             </div>
         </div>
