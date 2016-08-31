@@ -216,17 +216,17 @@ class AuthController extends BaseController
 
         foreach (scandir($from) as $file) {
             if (!in_array($file, ['.', '..']) && !file_exists($to . $file)) {
-                $messages .= "Migrating {$file}...<br/>";
+                $messages .= "Migrating {$file}...\n";
                 foreach ($dbs as $db) {
                     $command = 'mysql -f -h 127.0.0.1 -u root ' . $db . ' < ' . $from . $file;
-                    $messages .= "DB: {$db}<br/> Command: {$command}<br/>.....<br/>";
+                    $messages .= "DB: {$db}\n Command: {$command}\n.....\n";
                     shell_exec($command);
                 }
                 touch($to . $file);
             }
         }
 
-        $messages .= 'Done! <br><br><a href="/">Home</a>';
+        $messages .= "Done! \n\n<a href=\"/\">Home</a>";
 
         return $messages;
 
