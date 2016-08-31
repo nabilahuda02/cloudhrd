@@ -24,3 +24,14 @@
     </div>
 </div>
 @stop
+@section('script')
+<script type="text/javascript">
+    $('body').on('click', '.delete', function(e){
+        e.preventDefault();
+        if(confirm('Are you sure you want to delete this?')) {
+            window.location.href = e.currentTarget.href;
+        }
+        return false;
+    });
+</script>
+@stop

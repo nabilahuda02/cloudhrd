@@ -110,6 +110,14 @@ class AdminPayrollController extends \BaseController
             ->with('NotifySuccess', 'Payroll Unpublished');
     }
 
+    public function getRemove($payroll_id)
+    {
+        $payroll = Payroll__Main::findOrFail($payroll_id);
+        $payroll->delete();
+        return Redirect::back()
+            ->with('NotifySuccess', 'Payroll Deleted');
+    }
+
     public function __construct()
     {
         View::share('controller', 'Payroll Admin');

@@ -347,6 +347,9 @@ class DataController extends BaseController
         return Datatables::of($payroll)
             ->add_column('action', function ($payroll) use ($isAdmin) {
                 $actions = '<a href="' . action('AdminPayrollController@getDetails', $payroll->id) . '" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i></a>';
+                if ($payroll->status_name == 'Draft') {
+                    $actions .= '<a href="' . action('AdminPayrollController@getRemove', $payroll->id) . '" class="delete btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>';
+                }
                 return $actions;
             })
             ->remove_column('id')
