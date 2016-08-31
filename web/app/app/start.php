@@ -38,31 +38,17 @@ if (!App::runningInConsole()) {
             header("Location: {$scheme}://" . $app->domain . '/wall/index');
         }
     }
+
+    $app['pusher'] = new CustomPusher(
+        '8ae2990cab38227cd212',
+        'caa9dc79589092731f08',
+        '243746',
+        [
+            'cluster' => 'ap1',
+            'encrypted' => true,
+        ]
+    );
 }
-
-class CustomPusher extends Pusher
-{
-    public function fire($event, $data = [])
-    {
-        $this->trigger($this->channel, $event, $data);
-    }
-
-    public function __construct($key, $secret, $id, $options = [])
-    {
-        $this->channel = app('domain');
-        parent::__construct($key, $secret, $id, $options);
-    }
-}
-
-$app['pusher'] = new CustomPusher(
-    '8ae2990cab38227cd212',
-    'caa9dc79589092731f08',
-    '243746',
-    [
-        'cluster' => 'ap1',
-        'encrypted' => true,
-    ]
-);
 
 Asset::push('css', 'application');
 Asset::push('js', 'application');
