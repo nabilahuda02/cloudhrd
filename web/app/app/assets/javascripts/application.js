@@ -14,7 +14,9 @@
 //=require app/lib/duplicator.js
 //=require ../packages/tapatar/dist/tapatar.min.js
 //=require ../packages/colpick/js/colpick.js
+//=require ../packages/compare-versions/index.js
 //=require app/help.js
+//=require app/changelog.js
 
 Dropzone.autoDiscover = false;
 
@@ -31,12 +33,14 @@ var tbl;
             .text('Submitting...');
         }
     });
-    // 
 
     window.init_datepicker = function(){
-        $('input[data-type=date]').datepicker({
-            dateFormat: app_locale.short_date
-        });
+        // causes error in login
+        if(window.app_locale) {
+            $('input[data-type=date]').datepicker({
+                dateFormat: app_locale.short_date
+            });
+        }
     }
     init_datepicker();
 

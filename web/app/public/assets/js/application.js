@@ -4154,7 +4154,7 @@ For usage and examples: colpick.com/plugin
 })(jQuery);
 
 (function(window){
-  if(Markdown) {
+  if(window.Markdown) {
     var cache = {};
     var converter = new Markdown.Converter();
     var modal = $('#help-modal');
@@ -4185,6 +4185,12 @@ For usage and examples: colpick.com/plugin
   }
 })(window);
 
+var Changlog = function(callback){
+    localStorage.getItem('LastVersion');
+    $.get('/changelog.txt', function(txt){
+        console.log(txt)
+    });
+}
 
 Dropzone.autoDiscover = false;
 
@@ -4201,12 +4207,14 @@ var tbl;
             .text('Submitting...');
         }
     });
-    // 
 
     window.init_datepicker = function(){
-        $('input[data-type=date]').datepicker({
-            dateFormat: app_locale.short_date
-        });
+        // causes error in login
+        if(window.app_locale) {
+            $('input[data-type=date]').datepicker({
+                dateFormat: app_locale.short_date
+            });
+        }
     }
     init_datepicker();
 

@@ -1,5 +1,5 @@
 (function(window){
-  if(Markdown) {
+  if(window.Markdown) {
     var cache = {};
     var converter = new Markdown.Converter();
     var modal = $('#help-modal');
