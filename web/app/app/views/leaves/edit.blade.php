@@ -43,19 +43,21 @@
                 {{Former::populate($leave)}}
                 @include('leaves.form')
                 {{ Asset::push('js','upload')}}
-                <div class="form-group">
-                    <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
-                    <div class="col-lg-10 col-sm-8">
-                        <ul class="list-inline uploaded">
-                            @foreach ($leave->uploads as $file)
-                            <li class="view_uploaded" data-url="{{$file->file_url}}">
-                                <button type="button" class="btn btn-primary remove_uploaded" data-id="{{$file->id}}">&times;</button>
-                                <a href="{{$file->file_url}}" target="_blank">{{$file->file_name}}</a>
-                            </li>
-                            @endforeach
-                        </ul>
+                @if($leave->uploads()->count() > 0)
+                    <div class="form-group">
+                        <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
+                        <div class="col-lg-10 col-sm-8">
+                            <ul class="list-inline uploaded">
+                                @foreach ($leave->uploads as $file)
+                                <li class="view_uploaded" data-url="{{$file->file_url}}">
+                                    <button type="button" class="btn btn-primary remove_uploaded" data-id="{{$file->id}}">&times;</button>
+                                    <a href="{{$file->file_url}}" target="_blank">{{$file->file_name}}</a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                @endif
                 <div class="form-group">
                     <label for="dates" class="control-label col-lg-2 col-sm-4">Upload<br/>(If Any)</label>
                     <div class="col-lg-10 col-sm-8">
