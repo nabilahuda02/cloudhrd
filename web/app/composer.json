@@ -10,7 +10,8 @@
 		"baum/baum": "1.0.*",
 		"bllim/datatables": "1.*",
 		"maatwebsite/excel": "1.*",
-		"pusher/pusher-php-server": "^2.6"
+		"pusher/pusher-php-server": "^2.6",
+		"eventviva/php-image-resize": "^1.5"
 	},
 	"autoload": {
 		"classmap": [

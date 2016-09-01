@@ -12,6 +12,7 @@ class UserProfile extends Eloquent
         'first_name',
         'last_name',
         'date_join',
+        'user_image',
         'address',
         'user_field_00',
         'user_field_01',
@@ -56,6 +57,14 @@ class UserProfile extends Eloquent
     public function userName()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getUserImageAttribute($value)
+    {
+        if (!$value) {
+            return '/images/user.jpg';
+        }
+        return $value;
     }
 
 }

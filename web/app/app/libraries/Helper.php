@@ -72,23 +72,12 @@ class Helper
         set_time_limit(0);
 
         $original = $folder . '/original.' . $ext;
-
-        $thumb = new Imagick($original);
-
-        $height = ($thumb->getImageHeight() / $thumb->getImageWidth()) * $width;
-
+        $image = new \Eventviva\ImageResize($original);
+        $height = ($image->getSourceHeight() / $image->getSourceWidth()) * $width;
         $width2 = $width / 2;
-        $height2 = ($thumb->getImageHeight() / $thumb->getImageWidth()) * $width2;
-
-        $thumb->thumbnailImage($width, $height, true);
-        $thumb->setImageDepth(8);
-        $thumb->setCompression(Imagick::COMPRESSION_JPEG);
-        $thumb->setCompressionQuality(60);
-        $thumb->setImageUnits(72);
-        $thumb->stripImage();
-        $thumb->writeImage($folder . '/' . $name . '.' . $ext);
-
-        $thumb->destroy();
+        $height2 = ($image->getSourceHeight() / $image->getSourceWidth()) * $width2;
+        $image->resizeToBestFit($width, $height);
+        $image->save($folder . '/' . $name . '.' . $ext);
     }
 
     public static function resizeImage2($source, $dest, $width)
