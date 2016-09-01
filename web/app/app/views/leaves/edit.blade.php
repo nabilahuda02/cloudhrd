@@ -1,68 +1,81 @@
 @extends('layouts.module')
 @section('content')
-<div class="col-md-12">
-
-    @include('html.notifications')
-    <div class="col-md-12">
-        <div class="page-header">
-            @include('leaves.menu')
-            <h3>Leave Application Form</h3>
-        </div>
-
-        @include('leaves.entitlementtable')
-
-        {{ Former::horizontal_open(action('LeaveController@update', $leave->id))
-            -> id('leaveForm')
-            -> rules(['name' => 'required'])
-            -> method('POST') }}
-        {{ Former::hidden('_method', 'PUT') }}
-        {{ Former::text('ref')
-            -> label('Reference')
-            -> value($leave->ref)
-            -> readonly()
-            -> disabled() }}
-        {{ Former::text('user_name')
-            -> label('Employee')
-            -> value(User::fullName($leave->user_id))
-            -> readonly() }}
-        {{ Former::text('status_name')
-            -> label('Status')
-            -> value($leave->status->name)
-            -> readonly()
-            -> disabled() }}
-        {{Former::populate($leave)}}
-
-        @include('leaves.form')
-
-        {{ Asset::push('js','upload')}}
-        <div class="form-group">
-            <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
-            <div class="col-lg-10 col-sm-8">
-                <ul class="list-inline uploaded">
-                    @foreach ($leave->uploads as $file)
-                    <li class="view_uploaded" data-url="{{$file->file_url}}">
-                        <button type="button" class="btn btn-primary remove_uploaded" data-id="{{$file->id}}">&times;</button>
-                        <a href="{{$file->file_url}}" target="_blank">{{$file->file_name}}</a>
-                    </li>
-                    @endforeach
-                </ul>
+<section id="leaves">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>
+                    Leave Application Form: {{$leave->ref}}
+                    <button class="btn btn-link help-btn" onclick="HelpFile.show('USER_LEAVE.md', 'Leaves')">
+                        <i class="fa fa-question-circle"></i>
+                    </button>
+                </h2>
+            </div>
+            <div class="col-xs-6 section-drop-menu" >
+                @include('leaves.menu')
             </div>
         </div>
-        <div class="form-group">
-            <label for="dates" class="control-label col-lg-2 col-sm-4">Upload<br/>(If Any)</label>
-            <div class="col-lg-10 col-sm-8">
-                <div class="dropzone" id="upload" data-path="leave/{{$leave->upload_hash}}/{{$leave->id}}" data-type="image/jpeg,image/png,application/pdf"></div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                @include('html.notifications')
+                {{ Former::horizontal_open(action('LeaveController@update', $leave->id))
+                    -> id('leaveForm')
+                    -> rules(['name' => 'required'])
+                    -> method('POST') }}
+                {{ Former::hidden('_method', 'PUT') }}
+                {{ Former::text('ref')
+                    -> label('Reference')
+                    -> value($leave->ref)
+                    -> readonly()
+                    -> disabled() }}
+                {{ Former::text('user_name')
+                    -> label('Employee')
+                    -> value(User::fullName($leave->user_id))
+                    -> readonly() }}
+                {{ Former::text('status_name')
+                    -> label('Status')
+                    -> value($leave->status->name)
+                    -> readonly()
+                    -> disabled() }}
+                {{Former::populate($leave)}}
+                @include('leaves.form')
+                {{ Asset::push('js','upload')}}
+                <div class="form-group">
+                    <label for="dates" class="control-label col-lg-2 col-sm-4">Uploaded</label>
+                    <div class="col-lg-10 col-sm-8">
+                        <ul class="list-inline uploaded">
+                            @foreach ($leave->uploads as $file)
+                            <li class="view_uploaded" data-url="{{$file->file_url}}">
+                                <button type="button" class="btn btn-primary remove_uploaded" data-id="{{$file->id}}">&times;</button>
+                                <a href="{{$file->file_url}}" target="_blank">{{$file->file_name}}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dates" class="control-label col-lg-2 col-sm-4">Upload<br/>(If Any)</label>
+                    <div class="col-lg-10 col-sm-8">
+                        <div class="dropzone" id="upload" data-path="leave/{{$leave->upload_hash}}/{{$leave->id}}" data-type="image/jpeg,image/png,application/pdf"></div>
+                    </div>
+                </div>
+                {{ Former::textarea('remarks')
+                    -> value($leave->remarks) }}
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
+                        @include('leaves.actions-buttons')
+                        <input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
+                    </div>
+                </div>
+                {{ Former::close() }}
+            </div>
+            <div class="col-md-3">
+                @include('leaves.entitlementtable')
             </div>
         </div>
-        {{ Former::textarea('remarks')
-        -> value($leave->remarks) }}
-        <div class="form-group">
-            <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
-                @include('leaves.actions-buttons')
-                <input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
-            </div>
-        </div>
-        {{ Former::close() }}
     </div>
 </div>
 @stop
