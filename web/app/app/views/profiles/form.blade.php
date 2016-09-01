@@ -15,7 +15,7 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3 col-sm-4 col-sm-offset-4 col-md-offset-0">
                 <div class="row">
                     <div class="col-md-12">
                         <img src="{{ $user->profile->user_image }}" id="profile_image_editable" class="img-responsive center"/>
@@ -23,10 +23,13 @@
                     <div class="col-md-12">
                         <a href="/wall/change-password" class="btn btn-block btn-primary btn-profile">Change Password</a>
                         <a href="{{action('ProfileController@requestUpdate')}}" class="btn btn-block btn-primary btn-profile">Update Details</a>
+                        <a class="btn btn-block btn-primary btn-profile" class="{{ ($controller == 'Change Requests') ? 'active' : '' }}" href="{{action('ChangeRequestsController@index')}}">Change Request</a>
                     </div>
                 </div>
+                <br>
+                <br>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9 col-sm-12">
                 {{ Former::open() }}
                 <div class="row">
                     <div class="col-md-3">
