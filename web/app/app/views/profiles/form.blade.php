@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-3 col-sm-4 col-sm-offset-4 col-md-offset-0">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 profile-wrapper">
                         <img src="{{ $user->profile->user_image }}" id="profile_image_editable" class="img-responsive center"/>
                     </div>
                     <div class="col-md-12">
