@@ -77,6 +77,7 @@ var tbl;
           var target = $(this);
           tbl = target.DataTable({
             "ajax": '/data/' + target.data('path'),
+            stateSave: true,
             "aaSorting": []
         });
       });;
