@@ -99,7 +99,9 @@ Route::group(['before' => 'auth'], function () {
      */
     Route::group(['before' => 'administers_generalclaim'], function () {
         Route::resource('generalclaimtype', 'AdminGeneralClaimTypeController');
+        Route::resource('generalclaimtags', 'AdminGeneralClaimTagsController');
         Route::get('/claims/admin/types', 'GeneralClaimsController@getAdminTypes');
+        Route::get('/claims/admin/tags', 'GeneralClaimsController@getAdminTags');
         Route::get('/claims/admin/reporting', 'GeneralClaimsController@getAdminReporting');
         Route::post('/claims/admin/reporting', 'GeneralClaimsController@postAdminReporting');
         Route::get('/claim/{claim_id}/toggle-paid', 'GeneralClaimsController@togglePaid');

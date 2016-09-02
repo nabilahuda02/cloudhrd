@@ -196,6 +196,11 @@ class GeneralClaimsController extends \BaseController
         return View::make('generalclaims.admin.types');
     }
 
+    public function getAdminTags()
+    {
+        return View::make('generalclaims.admin.tags');
+    }
+
     public function getAdminReporting()
     {
         return View::make('generalclaims.admin.reporting');

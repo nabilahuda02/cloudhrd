@@ -14,8 +14,15 @@
         @if(Route::currentRouteAction() !== 'GeneralClaimsController@index' && Route::currentRouteAction() !== 'GeneralClaimsController@create')
             <li><a href="<?php echo url('claims/create'); ?>">New Claim</a></li>
         @endif
-        <li><a href="<?php echo url('claims/admin/types', $parameters = array(), $secure = null); ?>"> Manage Types</a></li>
-        <li><a href="<?php echo url('claims/admin/reporting', $parameters = array(), $secure = null); ?>"> Reporting</a></li>
+        <li>
+            <a href="<?php echo url('claims/admin/tags', $parameters = array(), $secure = null); ?>"> Manage Tags</a>
+        </li>
+        <li>
+            <a href="<?php echo url('claims/admin/types', $parameters = array(), $secure = null); ?>"> Manage Types</a>
+        </li>
+        <li>
+            <a href="<?php echo url('claims/admin/reporting', $parameters = array(), $secure = null); ?>"> Reporting</a>
+        </li>
     </ul>
 </div>
 @else
