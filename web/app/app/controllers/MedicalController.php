@@ -10,6 +10,12 @@ class MedicalController extends \BaseController
      */
     public function index()
     {
+        foreach (MedicalClaim__Type::all() as $type) {
+            if (strstr($type->colors, ',')) {
+                $type->colors = explode(',', $type->colors)[0];
+                $type->save();
+            }
+        }
         $downlines = Auth::user()->getDownline(MedicalClaim__Main::$moduleId);
         return View::make('medicals.index', compact('downlines'));
     }
