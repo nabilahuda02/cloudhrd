@@ -44,13 +44,28 @@
                     ->class('form-control col-md-4')
                     ->required() }}
                 @endif
+                {{ Former::select('leave_type_id')
+                    -> label('Type')
+                    -> placeholder('Choose')
+                    -> options($types->lists('name', 'id'), $leave->leave_type_id)
+                    ->required() }}
                 {{ Former::text('status_name')
                     ->label('Status')
                     ->value($leave->status->name)
                     ->readonly()
                     ->disabled() }}
                 {{Former::populate($leave)}}
-                @include('leaves.form')
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-2 col-sm-4">Dates</label>
+                    <div class="col-lg-5 col-sm-5" id="datepicker"></div>
+                    <style id="datepicker-style"></style>
+                </div>
+                <div class="form-group required">
+                    <label for="dates" class="control-label col-lg-2 col-sm-4">Dates <sup>*</sup></label>
+                    <div class="col-lg-10 col-sm-8">
+                        <input class="form-control" type="text" readonly disabled name="dates" value="{{implode(', ', Helper::mysqls_to_short_dates($leave->dates->lists('date')))}}">
+                    </div>
+                </div>
                 @if($leave->uploads()->count() > 0)
                     {{ Asset::push('js','upload')}}
                     <div class="form-group">
@@ -86,6 +101,7 @@
 @section('script')
 @include('leaves.actions-scripts')
 <script>
+    var leaveType = {{json_encode($leave->type)}};
     $('input:not([type=hidden],[type=search]),select,textarea').attr({
         readonly: true,
         disabled: true
@@ -94,14 +110,22 @@
         e.preventDefault();
         return false;
     });
+    $('#datepicker').datetimepicker({
+        inline: true,
+        useCurrent: false,
+        defaultDate: moment("{{$leave->dates()->first()->date}}"),
+        format: app_locale.short_date,
+    });
+    $('#datepicker').data("DateTimePicker").date(null);
+    $('#datepicker').on('dp.change', function(e){
+        $('#datepicker').data("DateTimePicker").date(null);
+    });
+    $('#datepicker-style').text('');
+    var style = '';
     var dates = ["{{ implode('","',$leave->dates->lists('date'))}}"].map(function(d){
-        return new Date(d);
+        var select = moment(d).format('MM/DD/YYYY');
+        style += '[data-day="' + select + '"]{background-color:' + leaveType.colors + '; color:white}[data-day="' + select + '"]:hover{background-color:' + leaveType.colors + '!important; color:white}';
     });
-    var dp = $("#datepicker").multiDatesPicker({
-        altField: '#dates',
-        dateFormat: app_locale.short_date,
-        disabled: true,
-        addDates: dates
-    });
+    $('#datepicker-style').text(style);
 </script>
 @stop

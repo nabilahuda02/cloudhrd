@@ -36,24 +36,33 @@
                         -> class('form-control col-md-4')
                         ->required() }}
                 @endif
-
-                @include('leaves.form')
-
-                <div class="form-group">
-                    <label for="dates" class="control-label col-lg-2 col-sm-4">Upload</label>
-                    <div class="col-lg-10 col-sm-8">
-                        <div class="dropzone" id="upload" data-path="leave/temp/{{ Helper::noonce() }}" data-type="image/jpeg,image/png,application/pdf"></div>
+                {{ Former::select('leave_type_id')
+                    -> label('Type')
+                    -> placeholder('Choose')
+                    -> options($types->lists('name', 'id') ,null)
+                    ->required() }}
+                <div id="type-first" class="hidden">
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-2 col-sm-4">Dates</label>
+                        <div class="col-lg-5 col-sm-5" id="datepicker"></div>
+                        <style id="datepicker-style"></style>
+                    </div>
+                    {{ Former::text('dates')
+                        ->readonly()
+                        ->required() }}
+                    <div class="form-group">
+                        <label for="dates" class="control-label col-lg-2 col-sm-4">Upload</label>
+                        <div class="col-lg-10 col-sm-8">
+                            <div class="dropzone" id="upload" data-path="leave/temp/{{ Helper::noonce() }}" data-type="image/jpeg,image/png,application/pdf"></div>
+                        </div>
+                    </div>
+                    {{ Former::textarea('remarks') }}
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
+                            <input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
+                        </div>
                     </div>
                 </div>
-
-                {{ Former::textarea('remarks') }}
-
-                <div class="form-group">
-                    <div class="col-lg-offset-2 col-sm-offset-4 col-lg-10 col-sm-8">
-                        <input class="btn-large btn-primary btn pull-right click-once" type="submit" value="Submit">
-                    </div>
-                </div>
-
                 {{ Former::close() }}
             </div>
             <div class="col-md-3">
@@ -65,70 +74,86 @@
 @stop
 
 @section('script')
-	<script>
-		var leaveTypes = {
-			@foreach($types as $type)
-			{{$type->id}} : {
-				future: {{($type->future) ? 'true' : 'false'}},
-				past: {{($type->past) ? 'true' : 'false'}}
-			},
-			@endforeach
-		};
-		var yyyymmdd = function(date) {
-			var yyyy = date.getFullYear().toString();
-			var mm = (date.getMonth()+1).toString();
-			var dd  = date.getDate().toString();
-			return yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]);
-		};
-		var disabledData = {{ json_encode(Leave__BlockedDate::select(['date', 'name'])->lists('name', 'date')) }};
-		var options = {
-			altField: '#dates',
-			dateFormat: app_locale.short_date,
-			beforeShowDay: function(date){
-				var disabled = disabledData[yyyymmdd(date)];
-				if(disabled) {
-					return [false, 'date-blocked', disabled];
-				}
-				return [true];
-			},
-		};
-		$(document).on("mouseenter", ".date-blocked", function(){
-			var target = $(this);
-			if(!target.attr('title')) {
-				var weekend = target.siblings('.ui-datepicker-week-end').first();
-				var day = $('span', target).text();
-				var month = weekend.data('month')+1;
-				var date = weekend.data('year') + '-' + (month[1]?month:"0"+month) + '-' + (day[1]?day:"0"+day[0]);
-				var disabled = disabledData[date];
-				if(disabled) {
-					target.tooltip({
-						title: disabled,
-						container: 'table'
-					});
-				}
-			}
-
-		});
-		var dp = $("#datepicker").multiDatesPicker(options);
-		$('#leave_type_id').change(function(){
-			$('#dates').val('');
-			dp.multiDatesPicker('resetDates', 'picked');
-			var target = $(this);
-			var current = leaveTypes[target.val()];
-			if(current) {
-				if(current.future === false) {
-					options['maxDate'] = new Date;
-				} else {
-					options['maxDate'] = null;
-				}
-				if(current.past === false) {
-					options['minDate'] = new Date;
-				} else {
-					options['minDate'] = null;
-				}
-				dp.datepicker('destroy');
-				dp.multiDatesPicker(options);
-			}
-		})
-	</script>
+<script>
+    var leaveTypes = {
+        @foreach($types as $type)
+        {{$type->id}} : {
+            future: {{($type->future) ? 'true' : 'false'}},
+            past: {{($type->past) ? 'true' : 'false'}},
+            color: "{{$type->colors}}",
+        },
+        @endforeach
+    };
+    var leaveType = {}
+    var disabledData = {{ json_encode(Leave__BlockedDate::select(['date', 'name'])->lists('name', 'date')) }};
+    var daysOfWeekDisabled = [];
+    for(var i = 0; i <= 6; i++) {
+        if(app_locale.working_days[i] === '0') {
+            daysOfWeekDisabled.push(i);
+        }
+    }
+    $('#datepicker').datetimepicker({
+        inline: true,
+        useCurrent: false,
+        format: app_locale.short_date,
+        disabledDates: Array.prototype.slice.call(Object.keys(disabledData)),
+        daysOfWeekDisabled: daysOfWeekDisabled,
+    });
+    var selected = [];
+    $('#datepicker').on('dp.change', function(e){
+        if(e.date) {
+            var date = e.date.format('MM/DD/YYYY');
+            if(selected.indexOf(date) > -1) {
+                selected.splice(selected.indexOf(date), 1);
+            } else {
+                selected.push(date);
+            }
+            updateStyle();
+            updateDates();
+        }
+        setTimeout(function() {
+            $('#datepicker').data("DateTimePicker").date(null);
+        });
+    });
+    function updateDates() {
+        var str = selected.map(function(date){
+            return moment(date, 'MM/DD/YYYY').format(app_locale.short_date);
+        }).join(', ');
+        $('#dates').val(str);
+    }
+    function updateStyle() {
+        $('#datepicker-style').text('');
+        var style = '';
+        selected.forEach(function(select){
+            style += '[data-day="' + select + '"]{background-color:' + leaveType.color + '; color:white}[data-day="' + select + '"]:hover{background-color:' + leaveType.color + '!important; color:white}'
+        });
+        $('#datepicker-style').text(style);
+    }
+    function create(config) {
+        selected = [];
+        updateStyle();
+        var options = {
+            minDate: false,
+            maxDate: false,
+        };
+        if(!config.future) {
+            options.maxDate = moment();
+        }
+        if(!config.past) {
+            options.minDate = moment();
+        }
+        $('#datepicker')
+            .data("DateTimePicker")
+            .options(options);
+    }
+    $('#leave_type_id').change(function(){
+        if(leaveTypes[this.value]) {
+            $('#type-first').removeClass('hidden');
+            leaveType = leaveTypes[this.value];
+            create(leaveTypes[this.value]);
+        } else {
+            $('#type-first').addClass('hidden');
+        }
+    });
+</script>
 @stop

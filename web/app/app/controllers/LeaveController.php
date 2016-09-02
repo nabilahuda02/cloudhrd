@@ -39,7 +39,7 @@ class LeaveController extends \BaseController
             $data['user_id'] = Auth::user()->id;
         }
 
-        $data['dates'] = explode(',', $data['dates']);
+        $data['dates'] = explode(', ', $data['dates']);
         $data['total'] = count($data['dates']);
         $data['upload_hash'] = md5(microtime());
 
@@ -84,11 +84,9 @@ class LeaveController extends \BaseController
     public function show($id)
     {
         $leave = Leave__Main::findOrFail($id);
-
         if (!$leave->canView()) {
             return Redirect::action('leave.index');
         }
-
         return View::make('leaves.show', compact('leave'));
     }
 
@@ -104,7 +102,6 @@ class LeaveController extends \BaseController
         if (!$leave->canEdit()) {
             return Redirect::action('leave.index');
         }
-
         return View::make('leaves.edit', compact('leave'));
     }
 
@@ -144,7 +141,7 @@ class LeaveController extends \BaseController
 
         $rules = Leave__Main::$rules;
 
-        $data['dates'] = explode(',', $data['dates']);
+        $data['dates'] = explode(', ', $data['dates']);
         $data['total'] = count($data['dates']);
         $data['status_id'] = $leave->status_id;
         unset($rules['user_id']);
