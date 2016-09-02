@@ -1,4 +1,4 @@
-<nav class="navbar" role="navigation">
+<nav class="navbar navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
