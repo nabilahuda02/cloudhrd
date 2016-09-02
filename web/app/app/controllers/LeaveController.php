@@ -10,6 +10,12 @@ class LeaveController extends \BaseController
      */
     public function index()
     {
+        foreach (Leave__Type::all() as $type) {
+            if (strstr($type->colors, ',')) {
+                $type->colors = explode(',', $type->colors)[0];
+                $type->save();
+            }
+        }
         $downlines = Auth::user()->getDownline(Leave__Main::$moduleId);
         return View::make('leaves.index', compact('downlines'));
     }
