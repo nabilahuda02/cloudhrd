@@ -5,7 +5,7 @@
 <script>
     var user = {{json_encode($user)}};
 </script>
-<section id="wall" ng-app="wall">
+<section id="wall">
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-xs-12">

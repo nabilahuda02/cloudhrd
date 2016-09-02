@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
     <head>
         <link href='//fonts.googleapis.com/css?family=Raleway:400,200|Open+Sans' rel='stylesheet' type='text/css'>
         <link href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
