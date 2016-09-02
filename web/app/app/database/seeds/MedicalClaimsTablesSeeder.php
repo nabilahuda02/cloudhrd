@@ -1,6 +1,7 @@
 <?php
 
-class MedicalClaimsTablesSeeder extends Seeder {
+class MedicalClaimsTablesSeeder extends Seeder
+{
     public function run()
     {
         DB::table('medical_claim_user_entitlements')->truncate();
@@ -11,15 +12,15 @@ class MedicalClaimsTablesSeeder extends Seeder {
             [
                 'name' => 'Outpatient',
                 'entitlement' => 600.00,
-                'colors' => '#246e88,#3bafda',
-                'display_wall' => true
+                'colors' => '#246e88',
+                'display_wall' => true,
             ],
             [
                 'name' => 'Dental',
                 'entitlement' => 200.00,
-                'colors' => '#516e30,#8cc152',
-                'display_wall' => true
-            ]
+                'colors' => '#516e30',
+                'display_wall' => true,
+            ],
         ];
 
         foreach ($medicalClaimConfigs as $medicalConfig) {

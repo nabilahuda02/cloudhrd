@@ -1,9 +1,9 @@
 <?php
 
 // Composer: "fzaninotto/faker": "v1.3.0"
-use Faker\Factory as Faker;
 
-class LeavesTableSeeder extends Seeder {
+class LeavesTableSeeder extends Seeder
+{
 
     public function run()
     {
@@ -19,7 +19,7 @@ class LeavesTableSeeder extends Seeder {
                 'default_entitlement' => 21,
                 'future' => true,
                 'past' => false,
-                'colors' => '#9f661c,#f39c30',
+                'colors' => '#9f661c',
                 'display_calendar' => true,
                 'display_wall' => true,
             ],
@@ -28,10 +28,10 @@ class LeavesTableSeeder extends Seeder {
                 'default_entitlement' => 30,
                 'future' => false,
                 'past' => true,
-                'colors' => '#5b4a85,#967adc',
+                'colors' => '#5b4a85',
                 'display_calendar' => false,
                 'display_wall' => true,
-            ]
+            ],
         ];
 
         foreach ($leaveConfigs as $leaveConfig) {
