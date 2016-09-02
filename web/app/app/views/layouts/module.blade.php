@@ -73,7 +73,6 @@
             </div>
         </div>
         @include('html.footer')
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pagedown/1.0/Markdown.Converter.min.js"></script>
         {{ Asset::tags('js') }}
         @yield('script')
     </body>
