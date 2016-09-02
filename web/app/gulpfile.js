@@ -69,7 +69,7 @@ gulp.task('js', function(){
 gulp.task('watch', function() {
     livereload.listen();
     gulp.watch(__dirname + '/app/assets/javascripts/**/*.js', ['js']);
-    gulp.watch(sources.less, ['css']);
+    gulp.watch(__dirname + '/app/assets/stylesheets/*.less', ['css']);
 });
 
 gulp.task('default', ['watch']);
