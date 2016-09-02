@@ -185,7 +185,7 @@
           if(input.length) {
             if(['checkbox', 'radio'].indexOf(input.attr('type')) > -1) {
               if(value)
-                input.attr('checked',true);
+                input.prop('checked',true);
             } else
               input.val(value);
           }
@@ -233,7 +233,7 @@
               options.onRemoveRow.call(window, new_row);
             }
           }
-        }) 
+        })
       },
       save_row: function(event, action, instance, row) {
         var form_data = $('<form></form>')
