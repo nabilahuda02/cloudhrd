@@ -38,6 +38,5 @@
   },
   "_source": "https://github.com/baminteractive/PageDown.git",
   "_target": "^1.1.0",
-  "_originalSource": "pagedown",
-  "_direct": true
+  "_originalSource": "pagedown"
 }

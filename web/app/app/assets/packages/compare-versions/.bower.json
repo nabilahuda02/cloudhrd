@@ -35,6 +35,5 @@
   },
   "_source": "https://github.com/omichelsen/compare-versions.git",
   "_target": "^3.0.0",
-  "_originalSource": "compare-versions",
-  "_direct": true
+  "_originalSource": "compare-versions"
 }

@@ -34,7 +34,7 @@
     "tag": "2.0.0",
     "commit": "3e861f0ed16e94fd9192c49f1e72bc0b10630a86"
   },
-  "_source": "git://github.com/marioizquierdo/jquery.serializeJSON.git",
+  "_source": "https://github.com/marioizquierdo/jquery.serializeJSON.git",
   "_target": "~2.0.0",
   "_originalSource": "jquery.serializeJSON"
 }
