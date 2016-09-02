@@ -1,0 +1,29 @@
+// deprecated packages
+// ../packages/tapatar/dist/tapatar.min.js
+// ../packages/Multiple-Dates-Picker-for-jQuery-UI/jquery-ui.multidatespicker.js
+// ../packages/raphael/raphael-min.js
+// ../packages/morrisjs/morris.min.js
+// ../packages/jqueryui/jquery-ui.min.js
+// ../packages/backbone/backbone.js
+// ../packages/async/dist/async.min.js
+// ../packages/uuid-js/lib/uuid.js
+
+//=require ../packages/jquery/dist/jquery.min.js
+//=require ../packages/lodash/dist/lodash.min.js
+//=require ../packages/jquery.serializeJSON/jquery.serializejson.min.js
+//=require ../packages/bootstrap/dist/js/bootstrap.min.js
+//=require ../packages/bootbox/bootbox.js
+//=require ../packages/dropzone/downloads/dropzone.min.js
+//=require ../packages/datatables/media/js/jquery.dataTables.min.js
+//=require ../packages/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js
+//=require ../packages/compare-versions/index.js
+//=require ../packages/moment/min/moment.min.js
+//=require ../packages/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js
+//=require ../packages/pagedown/Markdown.Converter.js
+//=require ../packages/colpick/js/colpick.js
+//=require ../packages/angular/angular.min.js
+//=require ../packages/angular-moment/angular-moment.min.js
+//=require ../packages/angular-nl2br/angular-nl2br.min.js
+//=require app/lib/duplicator.js
+//=require app/help.js
+//=require app/changelog.js

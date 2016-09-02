@@ -1,7 +1,7 @@
-//=require ../packages/jqueryui/ui/sortable.js
-//=require ../packages/autosize/dist/autosize.min.js
-//=require ../packages/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js
-//=require app/x-edit-task-heading.js
+// ../packages/jqueryui/ui/sortable.js
+// ../packages/autosize/dist/autosize.min.js
+// ../packages/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js
+// app/x-edit-task-heading.js
 
 
 function nl2br(str, is_xhtml) {
@@ -70,7 +70,7 @@ function getNotDone(items) {
 
     // $.eventsource({
     //     url: "/task/stream",
-    //     dataType: "json", 
+    //     dataType: "json",
     //     open: function(data) {
     //     },
     //     message: function(data) {
@@ -423,7 +423,7 @@ function getNotDone(items) {
         template: _.template($('#task-template').text()),
         render: function() {
             this.$el = $('<li data-taskid="' + this.model.get('id') + '" />').html(this.template({
-                model: this.model.toJSON(), 
+                model: this.model.toJSON(),
                 currentCategoryId: actionModel.get('activeCategory')
             }));
             this.$el.appendTo(this.parent);

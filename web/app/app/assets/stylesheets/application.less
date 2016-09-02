@@ -1,20 +1,3 @@
-//=require includes/bootstrap.less
-//=require ../packages/animate.css/animate.min.css
-//=require ../packages/colpick/css/colpick.css
-//=require ../packages/datatables/media/css/jquery.dataTables.min.css
-//=require includes/datatables.less
-//=require ../packages/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.less
-//=require ../packages/dropzone/downloads/css/dropzone.css
-//=require ../packages/morrisjs/less/morris.core.less
-//=require ../packages/fullcalendar/dist/fullcalendar.min.css
-//=require ../packages/fullcalendar/dist/fullcalendar.print.css
-//=require ../packages/jqueryui/themes/flick/jquery-ui.min.css
-//=require ../packages/x-editable/dist/inputs-ext/typeaheadjs/lib/typeahead.js-bootstrap.css
-//=require ../packages/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css
-//=require ../packages/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css
-//=require includes/wall.less
-//=require fonts.less
-
 html {
     overflow-y: scroll;
 }
@@ -26,7 +9,11 @@ body.modal-open {
 html, body {
     min-height: 100vh;
     font-family: 'Roboto-Regular';
+}
+
+body {
     padding-bottom: 44px;
+    padding-top: 50px;
 }
 
 li.active {
@@ -179,7 +166,6 @@ select#user_select {
 }
 
 svg tspan {
-    font-family: "Raleway";
     font-weight: 300;
     margin-top: 9px;
     font-size: 1.1em;
@@ -199,7 +185,6 @@ svg tspan {
 }
 
 th {
-    font-family: 'Raleway';
     font-weight: normal;
     font-size: 1.1em;
 }
@@ -240,20 +225,25 @@ button.bootbox-close-button.close {
     padding-top: 4px;
 }
 
-.view_uploaded {
-    position: relative;
-    vertical-align: top;
-    button {
-        -o-transition: opacity 300ms;
-        -moz-transition: opacity 300ms;
-        -webkit-transition: opacity 300ms;
-        transition: opacity 300ms;
-        position: absolute;
-        bottom: 25px;
-        right: 10px;
-        opacity: 0.5;
-        &:hover {
-            opacity: 1;
+.uploaded {
+    margin-left: 0px;
+    .view_uploaded {
+        position: relative;
+        vertical-align: top;
+        display: block;
+        padding: 5px;
+        button {
+            -o-transition: opacity 300ms;
+            -moz-transition: opacity 300ms;
+            -webkit-transition: opacity 300ms;
+            transition: opacity 300ms;
+            margin-right: 8px;
+            padding: 3px 8px;
+            vertical-align: baseline;
+            opacity: 0.5;
+            &:hover {
+                opacity: 1;
+            }
         }
     }
 }
@@ -305,6 +295,7 @@ button.bootbox-close-button.close {
     border-radius: 0px;
     margin: 0;
     & > .container {
+        margin-top: 6px;
         @media screen and (max-width: 767px) {
             padding:0px;
         }
@@ -355,11 +346,11 @@ button.bootbox-close-button.close {
             border: 0px;
         }
         @media screen and (min-width: 768px) {
-            padding-top:5px;
             border: 1px;
         }
         &.navbar-company-title {
             a {
+                display: inline-block;
                 color: #fff;
                 font-family: 'VarelaRound-Regular', 'sand-serif';
                 text-decoration: none;

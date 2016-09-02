@@ -1,0 +1,229 @@
+@borderColor: #ddd;
+#tasks {
+    a {
+        cursor: pointer;
+    }
+    .task-controls {
+        margin-bottom: 16px;
+        .dropdown-menu {
+            &> div > li > a {
+                display: block;
+                padding: 3px 20px;
+                clear: both;
+                font-weight: normal;
+                line-height: 1.42857143;
+                color: #333;
+                white-space: nowrap;
+                &:hover, &:focus {
+                    text-decoration: none;
+                    color: #FFF;
+                    background-color: #2FA4E7;
+                }
+            }
+            label {
+                font-weight: normal;
+                [type=checkbox] {
+                    margin-right: 4px;
+                }
+            }
+        }
+    }
+    .ui-state-highlight { 
+        height: 38px; 
+        border: 1px dashed #c2c2c2;
+        // margin-bottom: 20px;
+        background-color: #e2e2e2;
+    }
+    .ui-sortable:empty {
+        height: 38px;
+        border: 1px dashed #c2c2c2;
+        background-color: #e2e2e2;
+    }
+    .ui-sortable-helper {
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 1px solid @borderColor;
+    }
+    .panel-title {
+        display: inline-block;
+        cursor: pointer
+    }
+    .panel-body {
+        padding: 0px;
+        ul {
+            margin-bottom: 0px;
+            li {
+                padding: 4px 8px;
+                border-bottom:1px solid @borderColor;
+                position: relative;
+                .archived {
+                    text-decoration: line-through;
+                    color: #666;
+                }
+                .feed-avatar {
+                    width: 42px;
+                    height: 42px;
+                    float:left;
+                    margin-right: 4px;
+                    border-radius: 50%;
+                    cursor: pointer
+                }
+                .label {
+                    cursor: pointer;
+                    margin-right: 1px;
+                    a {
+                        color: white;
+                        text-decoration: none
+                    }
+                }
+                .unarchive, .archive, .delete {
+                    display: none;
+                }
+                &:hover {
+                    .unarchive, .archive, .delete {
+                        display: inline;
+                    }
+                }
+            }
+        }
+    }
+    .panel-footer {
+        padding: 0px;
+        border-top: 0px solid;
+        textarea {
+            border: 0px solid;
+            border-bottom: 1px solid @borderColor;
+            height: 38px;
+        }
+    }
+}
+
+.editable-remove {
+    margin-left: 7px;
+}
+.editable-taskheading {
+    color: black;
+    input {
+        margin-left: 12px;
+        width: 204px;
+    }
+    select {
+        margin-left: 4px;
+        height: 24px;
+        -webkit-appearance: none;
+        width: 204px!important;
+        padding: 2px;
+        border-color: rgba(0, 0, 0, 0.2);
+    }
+}
+
+.modal {
+    z-index: 1062;
+}
+
+.modal-backdrop {
+    z-index: 1061;
+}
+
+.no-padding {padding: 0px!important}
+
+.list-inline li.is-follower {
+    padding-right: 0px;
+    vertical-align: top;
+}
+.user-avatar {
+    border-radius: 50%; 
+    background-color: #ccc; 
+    width: 45px; 
+    height:45px; 
+    display: inline-block; 
+    vertical-align: top; 
+    text-align:center; 
+    overflow: hidden
+}
+
+.new-user {
+    padding-top:14px;
+    color: #222;
+}
+
+.subtask-done {margin-right: 8px; display: inline-block;}
+
+.followers > li:first-child a {
+    border: 3px solid red;
+}
+.followers > li:not(:first-child) a {
+    position: relative;
+    &:after {
+        font-family: 'FontAwesome';
+        content: "\f014";
+        position: absolute;
+        color: #FFF;
+        left: 0px;
+        top: 0px;
+        padding-top: 8px;
+        height: 45px;
+        width: 45px;
+        background-color: rgba(255, 0, 0, 0.5);
+        font-size: 22px;
+        opacity: 0;
+    }
+    &:hover:after {
+        opacity: 1;
+    }
+}
+
+.input-block {
+    display: block;
+    width: 100%;
+    padding: 8px 8px;
+}
+
+#notes{
+    .panel-title {
+        display: block;
+    }
+    .panel-body {
+        padding: 15px;
+    }
+    .panel-footer {
+        border-top: inherit;
+    }
+}
+
+.list-inline {
+    display: inline-block;
+    vertical-align: top;
+}
+#subtasks-list {
+    margin-bottom: 0px;
+    input[type=checkbox] {
+        margin-right: 6px;
+    }
+}
+
+.is_done {
+    label {text-decoration: line-through;}
+}
+
+.modal-title {
+    display: inline-block;
+}
+
+.badge-xs {
+    padding: 1px 3px;
+    font-size: 10px;
+}
+
+.undone-subtasks {
+    position: absolute;
+    left: 5px;
+    top:34px;
+    background-color: red;
+    &:empty {
+        display: none;
+    }
+}
+
+#note-content {
+    min-height: 124px;
+}
