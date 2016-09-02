@@ -1,2 +1,0 @@
-# CastMyData Client for Javascript
-
