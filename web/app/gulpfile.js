@@ -19,8 +19,8 @@ var destinations = {
 
 var gulp       = require("gulp"),
     include    = require("gulp-include"),
-    ngAnnotate = require('gulp-ng-annotate'),
     less       = require('gulp-less'),
+    ngAnnotate = require('gulp-ng-annotate'),
     cssnano    = require('gulp-cssnano'),
     path       = require('path'),
     uglify     = require('gulp-uglify'),
@@ -52,10 +52,10 @@ gulp.task('css', function(){
 gulp.task('js', function(){
     return gulp.src(sources.js)
         .pipe(plumber())
-        .pipe(ngAnnotate())
         .pipe(changed(destinations.js))
         .pipe(include())
         .on('error', console.error)
+        .pipe(ngAnnotate())
         .pipe(gulp.dest(destinations.js))
         .pipe(uglify())
         .pipe(rename({

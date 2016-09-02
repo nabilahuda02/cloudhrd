@@ -5,7 +5,7 @@
 ;(function(){
     angular.module('app')
         .factory('collection',
-            function($q, $http) {
+            ["$q", "$http", function($q, $http) {
     
                 function Collection(path) {
                     this.path = path;
@@ -55,12 +55,12 @@
                     }
                     return cached[collectionName];
                 }
-            }
+            }]
         )
     
-        .factory('WallFeeds', function(collection) {
+        .factory('WallFeeds', ["collection", function(collection) {
             return collection('wall-feeds');
-        })
+        }])
     
         .filter('trustedHtml', ['$sce',
             function($sce) {
@@ -114,7 +114,7 @@
         })
     
         .controller('WallController',
-            function(WallFeeds, $scope, User, Session, $timeout) {
+            ["WallFeeds", "$scope", "User", "Session", "$timeout", function(WallFeeds, $scope, User, Session, $timeout) {
     
                 Pusher.logToConsole = false;
     
@@ -226,7 +226,7 @@
                     }
                     Session.editReply = null;
                 }
-            }
+            }]
         )
     
         .controller('SidebarController', ['$scope', '$http',
