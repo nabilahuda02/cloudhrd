@@ -42,7 +42,7 @@
                     <div class="clearfix"></div>
                     <br>
                     <div>
-                        <h4>Other Leaves</h4>
+                        <h4>Other General Claims</h4>
                         <div class="clearfix"></div>
                     </div>
                     <table data-path="other-general-claims" class="DT table table-striped table-bordered">
