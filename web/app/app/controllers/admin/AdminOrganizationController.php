@@ -15,12 +15,11 @@ class AdminOrganizationController extends BaseController
     {
         $data = Input::all();
         $user = app()->master_user;
+        $user->name = $data['name'];
         $user->support_email = $data['support_email'];
-        $working_days = '';
-        foreach ($data['working_days'] as $value) {
-            $working_days .= $value;
-        }
         $locale = [
+            'company_registration' => $data['company_registration'],
+            'company_address' => $data['company_address'],
             'decimal_places' => $data['decimal_places'],
             'decimal_separator' => $data['decimal_separator'],
             'thousand_separator' => $data['thousand_separator'],
