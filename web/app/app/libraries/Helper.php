@@ -68,37 +68,21 @@ class Helper
 
     public static function resizeImage($folder, $ext, $name, $width)
     {
-        ini_set("memory_limit", "1024M");
-        set_time_limit(0);
-
-        $original = $folder . '/original.' . $ext;
-        $image = new \Eventviva\ImageResize($original);
-        $height = ($image->getSourceHeight() / $image->getSourceWidth()) * $width;
-        $width2 = $width / 2;
-        $height2 = ($image->getSourceHeight() / $image->getSourceWidth()) * $width2;
-        $image->resizeToBestFit($width, $height);
-        $image->save($folder . '/' . $name . '.' . $ext);
+        $source = $folder . '/original.' . $ext;
+        $dest = $folder . '/' . $name . '.' . $ext;
+        self::resizeImage2($source, $dest, $width);
     }
 
     public static function resizeImage2($source, $dest, $width)
     {
         ini_set("memory_limit", "1024M");
         set_time_limit(0);
-
-        $thumb = new Imagick($source);
-
-        $height = ($thumb->getImageHeight() / $thumb->getImageWidth()) * $width;
-
-        $thumb->thumbnailImage($width, $height, true);
-        $thumb->setImageDepth(8);
-        $thumb->setCompression(Imagick::COMPRESSION_JPEG);
-        $thumb->setCompressionQuality(60);
-        $thumb->setImageUnits(72);
-        $thumb->stripImage();
-        $thumb->writeImage($dest);
-
-        $thumb->destroy();
-
+        $image = new \Eventviva\ImageResize($source);
+        $height = ($image->getSourceHeight() / $image->getSourceWidth()) * $width;
+        $width2 = $width / 2;
+        $height2 = ($image->getSourceHeight() / $image->getSourceWidth()) * $width2;
+        $image->resizeToBestFit($width, $height);
+        $image->save($dest);
     }
 
     public static function Timeago($date)
@@ -191,5 +175,12 @@ class Helper
     public static function mysql_to_short_date($date)
     {
         return date(app()->user_locale->php_short_date, strtotime($date));
+    }
+
+    public static function mysqls_to_short_dates($dates)
+    {
+        return array_map(function ($date) {
+            return self::mysql_to_short_date($date);
+        }, $dates);
     }
 }
