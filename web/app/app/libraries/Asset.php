@@ -1,20 +1,29 @@
 <?php
 
-class Asset {
+class Asset
+{
     private static $queued = [
         'css' => [],
         'js' => [],
     ];
 
-    public static function push($type, $path) {
+    public static function push($type, $path)
+    {
         array_push(self::$queued[$type], $path);
     }
 
-    public static function unshift($type, $path) {
+    public static function unshift($type, $path)
+    {
         array_unshift(self::$queued[$type], $path);
     }
 
-    public static function tags($type) {
+    public static function pull($type, $path)
+    {
+        self::$queued[$type] = array_diff(self::$queued[$type], [$path]);
+    }
+
+    public static function tags($type)
+    {
         $returnString = '';
         foreach (self::$queued[$type] as $path) {
             if (!App::environment('local')) {
