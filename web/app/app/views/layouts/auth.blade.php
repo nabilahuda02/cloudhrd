@@ -25,11 +25,11 @@
         </div>
     </div>
     <div class="container">
-        <div class="row login-logo-bottom">
-            <div class="col logo">
-                <small class="clearfix" style="color: #aeaeae">Powered by</small>
+        <div class="row login-logo-bottom text-center">
+            <a href="http://www.cloudhrd.com" class="col logo">
+                <div class="text-center text-muted">Powered by</div>
                 <img src="/images/logo.png" alt="CloudHRD">
-            </div>
+            </a>
         </div>
     </div>
     {{ Asset::tags('js') }}
