@@ -1,5 +1,5 @@
 {{Asset::push('js','app/admin_profile')}}
-<div id="profile_contacts">
+<div id="profile_contacts" class="hidden">
     <br>
     <h4>
     Contact Detail
@@ -22,7 +22,7 @@
     <hr>
     <br>
 </div>
-<div id="profile_educations">
+<div id="profile_educations" class="hidden">
     <br>
     <h4>
     Education Detail
@@ -57,7 +57,7 @@
     <hr>
     <br>
 </div>
-<div id="profile_emergency">
+<div id="profile_emergency" class="hidden">
     <br>
     <h4>
     Emergency Contacts
@@ -85,7 +85,7 @@
     <hr>
     <br>
 </div>
-<div id="profile_employment">
+<div id="profile_employment" class="hidden">
     <br>
     <h4>
     Employment History
@@ -120,7 +120,7 @@
     <hr>
     <br>
 </div>
-<div id="profile_family">
+<div id="profile_family" class="hidden">
     <br>
     <h4>
     Family Members

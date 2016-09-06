@@ -33,7 +33,7 @@
                 </div>
                 {{ Former::close() }}
                 <div class="clearfix"></div>
-                <div class="form-group">
+                <div class="form-group hidden">
                     <h3>Attached Documents</h3>
                     <hr>
                     <ul class="media-list">
@@ -49,7 +49,7 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="form-group">
+                <div class="form-group hidden">
                     <label for="dates" class="control-label">Upload Documents</label>
                     <div>
                         <div class="dropzone" id="upload" data-path="users/profile/{{$currentuser->id}}"></div>
