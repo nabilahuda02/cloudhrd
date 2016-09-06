@@ -66,10 +66,17 @@ gulp.task('js', function(){
         ;
 });
 
+gulp.task('reload', function(){
+    return gulp.src(__dirname + '/public/index.php')
+        .pipe(livereload())
+        ;
+});
+
 gulp.task('watch', function() {
     livereload.listen();
     gulp.watch(__dirname + '/app/assets/javascripts/**/*.js', ['js']);
     gulp.watch(__dirname + '/app/assets/stylesheets/*.less', ['css']);
+    gulp.watch(__dirname + '/app/views/**/*.blade.php', ['reload']);
 });
 
 gulp.task('default', ['watch']);

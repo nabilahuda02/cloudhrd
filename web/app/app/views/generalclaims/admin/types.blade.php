@@ -15,14 +15,19 @@
                     -> placeholder('Travel Expenses')
                     -> required() }}
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     {{ Former::number('unit_price')
                     -> step(1 / pow(10, app()->user_locale->decimal_places))
                     -> label('Unit Price') }}
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     {{ Former::text('unit')
                     -> label('Unit') }}
+                </div>
+                <div class="col-md-2">
+                    <label for="has_gst">Has GST</label><br>
+                    <input type="hidden" name="has_gst" value="0">
+                    <input id="has_gst" type="checkbox" name="has_gst" value="1">
                 </div>
                 <div class="clearfix"></div>
                 <br>

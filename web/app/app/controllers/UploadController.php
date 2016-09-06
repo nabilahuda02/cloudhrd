@@ -3,6 +3,43 @@
 class UploadController extends BaseController
 {
 
+    public function postGeneralClaimsEntry($mask)
+    {
+        $data = Input::all();
+        $file = Input::file('file');
+        $file_name = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        if (!in_array($extension, ['png', 'jpg'])) {
+            $thumb_filename = 'thumb__' . $file_name . '.png';
+        } else {
+            $thumb_filename = 'thumb__' . $file_name;
+        }
+
+        $entriesFolder = public_path() . '/uploads/general-claims/' . $mask . '/';
+        if (!is_dir($entriesFolder)) {
+            mkdir($entriesFolder, 0777, true);
+        }
+
+        $data = [
+            'mask' => $mask,
+            'file_name' => $file_name,
+            'size' => $file->getSize(),
+            'imageable_type' => 'GeneralClaim__Entry',
+            'file_url' => '/uploads/general-claims/' . $mask . '/' . $file_name,
+            'file_path' => $entriesFolder . $file_name,
+            'thumb_url' => '/uploads/general-claims/' . $mask . '/' . $thumb_filename,
+            'thumb_path' => $entriesFolder . $thumb_filename,
+        ];
+
+        $upload = Upload::create($data);
+
+        $file->move($entriesFolder, $file_name);
+
+        Helper::thumb($upload);
+
+        return $upload;
+    }
+
     public function postDo($model, $path, $itemId)
     {
         $data = Input::all();

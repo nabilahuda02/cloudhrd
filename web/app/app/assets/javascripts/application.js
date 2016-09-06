@@ -1,5 +1,36 @@
 ;(function(){
     angular.module('app', ['angularMoment', 'nl2br'])
+
+    .filter('currency', function(){
+        var decimal_places = app_locale.decimal_places;
+        var decimal_separator = app_locale.decimal_separator;
+        var currency_symbol = app_locale.currency_symbol;
+        var symbol_location = app_locale.symbol_location;
+        var thousand_separator = app_locale.thousand_separator;
+        function number_format(number) {
+            number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+            var n = !isFinite(+number) ? 0 : +number,
+                prec = !isFinite(+decimal_places) ? 0 : Math.abs(decimal_places),
+                sep = (typeof thousand_separator === 'undefined') ? ',' : thousand_separator,
+                dec = (typeof decimal_separator === 'undefined') ? '.' : decimal_separator,
+                s = '',
+                toFixedFix = function(n, prec) {
+                    var k = Math.pow(10, prec);
+                    return '' + (Math.round(n * k) / k).toFixed(prec);
+                };
+                s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+                if (s[0].length > 3) {
+                    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+                }
+                if ((s[1] || '').length < prec) {
+                    s[1] = s[1] || '';
+                    s[1] += new Array(prec - s[1].length + 1).join('0');
+                }
+            return s.join(dec);
+        }
+        return number_format;
+    })
+
 }).call(window);
 
 ;(function(){

@@ -10,13 +10,14 @@
 @task('deploylive', ['on' => 'web'])
     cd /var/www/html/ihr
     ./deploy
+    cd /var/www/html/ihr/web/app
+    php artisan db:sync
 @endtask
 
 @task('branchmaster', ['on' => 'local'])
     git checkout master
     git merge production
     git push
-    curl https://sands.cloudhrd.com/backend/migratedb
     cd /private/var/www/cloudhrd.dev/web/app
 @endtask
 
