@@ -3,8 +3,7 @@
     <h2>Forget Password</h2>
 @stop
 @section('content')
-
-        {{Former::open(action('AuthController@postForgotPassword'))}}
+    {{Former::open(action('AuthController@postForgotPassword'))}}
         <div class="form-group">
             {{ Former::text('email')
                 ->label('Email')
@@ -19,8 +18,7 @@
                 <button type="submit" class="btn btn-primary btn-block login-submit-btn">Send Reset Password Link</button>
             </div>
         </div>
-                {{Former::close()}}
-    <!-- </section> -->
+    {{Former::close()}}
     <div class="login-card-footer">
       <a href="{{action('AuthController@getLogin')}}" class="btn btn-link btn-block">Back To Login</a>
     </div>

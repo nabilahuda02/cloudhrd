@@ -6850,3 +6850,11 @@ body.login .login-logo-bottom .logo {
 body.login .login-logo-bottom .logo img {
   width: 60px;
 }
+body.login .alert {
+  margin-top: 20px;
+  border-radius: 3px;
+}
+body.login .help-block {
+  color: white;
+  font-style: italic;
+}
