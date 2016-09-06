@@ -18,7 +18,7 @@ class GeneralClaim__Entry extends Eloquent
         return $this->hasOne('GeneralClaim__Type', 'id', 'claim_type_id');
     }
 
-    public function tags()
+    public function tag()
     {
         return $this->belongsTo('GeneralClaim__Tag', 'general_claim_tag_id');
     }

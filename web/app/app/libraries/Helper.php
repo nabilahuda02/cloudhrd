@@ -85,6 +85,16 @@ class Helper
         $image->save($dest);
     }
 
+    public static function thumb(Upload $upload)
+    {
+        $extension = File::extension($upload->file_path);
+        if (in_array($extension, ['png', 'jpg'])) {
+            self::resizeImage2($upload->file_path, $upload->thumb_path, 200);
+        } else {
+            File::copy(public_path() . '/images/file.png', $upload->thumb_path);
+        }
+    }
+
     public static function Timeago($date)
     {
         return \Carbon\Carbon::createFromTimeStamp(strtotime($date))->diffForHumans();

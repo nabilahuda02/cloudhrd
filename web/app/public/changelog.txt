@@ -1,0 +1,14 @@
+versions:
+  - version: 1.0.1
+  - date: 2016-09-01
+  - changes:
+    - Fixed a bug on the Public Wall where sometimes newly submitted posts does not appear
+    - Generated payrol that is still in the draft state can now be deleted
+    - Add error message when unit is set to be the parent of itself
+    - Payrol now able to process prorated salary
+    - Tables now saves the state of search, pagination and sorting so when you navigate back to the table page, it will remain the same
+    - Various UI fixed for conformity
+    - Fixed color picker for Medical Types
+    - Fixed color picker for Leave Types
+    - Optimized site loading time
+    - General Claim entries now supports tags
