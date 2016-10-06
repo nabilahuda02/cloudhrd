@@ -102,7 +102,7 @@
             @else
                 <a href="{{action('AdminPayrollController@getUnpublish', $payroll->id)}}" class="btn btn-danger">Unpublish</a>
             @endif
-            <a href="{{action('AdminPayrollController@getDownload', $payroll->id)}}" class="btn btn-default">Download</a>
+            {{-- <a href="{{action('AdminPayrollController@getDownload', $payroll->id)}}" class="btn btn-default">Download</a> --}}
         </div>
     </div>
 </div>
