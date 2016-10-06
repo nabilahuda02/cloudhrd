@@ -20,6 +20,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                @include('html.notifications')
                 {{ Former::vertical_open(action('AdminUserController@update', $currentuser->id))
                     -> id('leaveForm')
                     -> rules(['name' => 'required'])
