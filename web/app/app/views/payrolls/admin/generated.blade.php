@@ -1,7 +1,6 @@
 @extends('layouts.module')
 @section('content')
-<div class="col-md-12">
-    @include('html.notifications')
+<div class="row">
     <div class="col-md-12">
         <div class="page-header">
             @if(Payroll__Main::canGenerate())
@@ -9,6 +8,7 @@
             @endif
             <h3>Generated Payrolls</h3>
         </div>
+        @include('html.notifications')
         <table data-path="payrolls" class="DT table table-bordered table-striped">
             <thead>
                 <tr>
