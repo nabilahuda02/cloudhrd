@@ -332,11 +332,11 @@ class AdminUserController extends \BaseController
             if ($field) {
                 $fields[] = $field;
             }
-
         }
         return Excel::create('User Import Template', function ($excel) use ($fields) {
             $excel->sheet('User', function ($sheet) use ($fields) {
                 $sheet->fromArray($fields);
+                $sheet->setAutoSize(true);
             });
         })->export('xlsx');
     }

@@ -27,6 +27,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                @include('html.notifications')
                 <h3>Available Fields</h3>
                 <table class="table table-bordered table-striped table-hover">
                     <thead>
