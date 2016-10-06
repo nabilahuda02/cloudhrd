@@ -78,6 +78,11 @@ class PayrollsController extends \BaseController
             }
             $startWork = Carbon::parse($user->profile->date_join);
 
+            // do not process payroll if user has not started work on that date
+            if ($endDate->lt($startWork)) {
+                continue;
+            }
+
             // do not process payroll as staff already long passed resigned
             if ($user->profile->resigned_date !== '0000-00-00' && Carbon::parse($user->profile->resigned_date)->lt($startDate)) {
                 continue;
